@@ -7,9 +7,9 @@
 
 namespace Core\Db;
 
-use Core\Base\Component;
+use Core\Base\Plugin;
 
-class DataBase extends Component
+class DataBase extends Plugin
 {
     /**
      * Query Mode Constants

@@ -7,7 +7,22 @@
 
 namespace Core\Base;
 
-class Module
+abstract class Module
 {
+    private $_app;
 
+    public function __construct(Application $app)
+    {
+        $this->_app = $app;
+    }
+
+    /**
+     * Возврашает указатель на класс приложения
+     *
+     * @return Application
+     */
+    protected function app()
+    {
+        return $this->_app;
+    }
 }

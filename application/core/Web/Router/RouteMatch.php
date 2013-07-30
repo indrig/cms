@@ -50,6 +50,10 @@ class RouteMatch
 
     public function merge(RouteMatch $match)
     {
+        $this->_params  = array_merge($this->_params, $match->getParams());
+        $this->_length += $match->getLength();
+
+        $this->_matchedRouteName = $match->getMatchedRouteName();
         return $this;
     }
 
@@ -57,4 +61,5 @@ class RouteMatch
     {
         return $this->_length;
     }
+
 }

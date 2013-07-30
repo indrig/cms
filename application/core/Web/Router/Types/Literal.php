@@ -18,14 +18,14 @@ class Literal implements RouteInterface
      *
      * @var string
      */
-    protected $route;
+    protected $_route;
 
     /**
      * Default values.
      *
      * @var array
      */
-    protected $defaults;
+    protected $_defaults;
 
     /**
      * Создать новый точный маршрут
@@ -35,33 +35,39 @@ class Literal implements RouteInterface
      */
     public function __construct($route, array $defaults = array())
     {
-        $this->route    = $route;
-        $this->defaults = $defaults;
+        $this->_route    = $route;
+        $this->_defaults = $defaults;
     }
 
     public function match(Request $request, $pathOffset = null)
     {
         $path  = $request->getPath();
 
-        //var_dump($path);
+       //var_dump($path);
 
         if ($pathOffset !== null)
         {
 
-            if ($pathOffset >= 0 && strlen($path) >= $pathOffset && !empty($this->route))
+            if ($pathOffset >= 0 && strlen($path) >= $pathOffset && !empty($this->_route))
             {
-                if (strpos($path, $this->route, $pathOffset) === $pathOffset)
-                {//var_dump(new RouteMatch($this->defaults, strlen($this->route)));
-                    return new RouteMatch($this->defaults, strlen($this->route));
+                if($this->_route == '/rss')
+                {
+
+                }
+              //
+              //  echo '<br>';
+                if (strpos($path, $this->_route, $pathOffset) === $pathOffset)
+                {
+                    return new RouteMatch($this->_defaults, strlen($this->_route));
                 }
             }
 
             return null;
         }
 
-        if ($path === $this->route)
+        if ($path === $this->_route)
         {
-            return new RouteMatch($this->defaults, strlen($this->route));
+            return new RouteMatch($this->_defaults, strlen($this->_route));
         }
 
         return null;

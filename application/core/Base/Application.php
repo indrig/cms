@@ -11,9 +11,6 @@ abstract class Application
     protected $_plugin          = array();  //Миссив компонентов
     protected $_pluginConfig    = array();  //Массив настроик компонента
 
-    protected $_module             = array();
-    protected $_moduleConfig       = array();
-
     protected $_config             = array();
 
     public function __construct($config)
@@ -43,6 +40,8 @@ abstract class Application
 
         //Регистрация нужных компонентов
         $this->registerCoreComponents();
+
+        //Получение настроик
     }
 
     /**
@@ -94,7 +93,9 @@ abstract class Application
     protected function registerCoreComponents()
     {
         //База данных
+        $this->setPlugin('cache', array('class' => '\Core\Cache\CacheManager'));
         $this->setPlugin('db', array('class' => '\Core\Db\DataBase'));
+        $this->setPlugin('moduleManager', array('class' => '\Core\Module\ModuleManager'));
     }
 
     /**
@@ -136,7 +137,7 @@ abstract class Application
         }
         elseif(isset($this->_pluginConfig[$id]) && $createIfNull)
         {
-            $config = $this->_pluginsConfig[$id];
+            $config = $this->_pluginConfig[$id];
             if(!isset($config['enabled']) || $config['enabled'] === true)
             {
                 unset($config['enabled']);
@@ -144,7 +145,7 @@ abstract class Application
                 $class_name = $this->_pluginConfig[$id]['class'];
                 if(class_exists($class_name, true))
                 {
-                    $this->_plugin[$id] = new $class_name($this->_pluginConfig[$id]);
+                    $this->_plugin[$id] = new $class_name($this->_pluginConfig[$id], $this);
                     return $this->_plugin[$id];
                 }
             }
@@ -159,5 +160,32 @@ abstract class Application
     public function __get($name)
     {
         return $this->getPlugin($name);
+    }
+
+    /**
+     *
+     * @return \Core\Module\ModuleManager
+     */
+    public function getModuleManager()
+    {
+        return $this->getPlugin('moduleManager');
+    }
+
+    /**
+     *
+     * @return \Core\Db\DataBase
+     */
+    public function getDB()
+    {
+        return $this->getPlugin('db');
+    }
+
+    /**
+     *
+     * @return \Core\Cache\Cache
+     */
+    public function getCache()
+    {
+        return $this->getPlugin('cache');
     }
 }

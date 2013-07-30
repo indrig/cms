@@ -148,7 +148,6 @@ class RouterManager
         /**
          * @var RouteInterface $route
          */
-        //var_dump($this->_routes);
         foreach ($this->_routes as $name => $route)
         {
             if(($match = $route->match($request)) !== null)

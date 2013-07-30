@@ -60,12 +60,16 @@ class Application extends \Core\Base\Application
             )
         );
 
-       // var_dump($router->getRoutes());
+        $match = $router->match($this->getRequest());
+        if($match !== null)
+        {
+            $params = $match->getParams();
 
-        $macth = $router->match($this->getRequest());
-        var_dump($macth);
-       // $route=$this->getUrlManager()->parseUrl($this->getRequest());
-        //var_dump($macth);
+        }
+        else
+        {
+
+        }
     }
 
     /**

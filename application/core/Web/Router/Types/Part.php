@@ -56,7 +56,6 @@ class Part extends RouterManager implements RouteInterface
         $this->_route        = $route;
         $this->_mayTerminate = $mayTerminate;
         $this->_childRoutes  = $childRoutes;
-        //$this->_manager      = $manager;
     }
 
     /**
@@ -106,6 +105,7 @@ class Part extends RouterManager implements RouteInterface
         $match = $this->_route->match($request, $pathOffset);
         if($match !== null)
         {
+
             if ($this->_childRoutes !== null)
             {
                 $this->addRoutes($this->_childRoutes);
@@ -113,16 +113,24 @@ class Part extends RouterManager implements RouteInterface
             }
             $nextOffset = $pathOffset + $match->getLength();
             $pathLength = strlen($request->getPath());
+
+            if ($this->_mayTerminate && $nextOffset === $pathLength) {
+                //$query = $uri->getQuery();
+                //if ('' == trim($query) || !$this->hasQueryChild()) {
+                    return $match;
+                //}
+            }
             /**
              * @var RouteInterface $route
              */
+          //  var_dump($this->_routes);
             foreach ($this->_routes as $name => $route)
             {
-
                 if (($subMatch = $route->match($request, $nextOffset)) instanceof RouteMatch)
                 {
-                    //var_dump('asf');
-                    if ($match->getLength() + $subMatch->getLength() + $pathOffset === $pathLength) {
+                    if ($match->getLength() + $subMatch->getLength() + $pathOffset === $pathLength)
+                    {
+
                         return $match->merge($subMatch)->setMatchedRouteName($name);
                     }
 
