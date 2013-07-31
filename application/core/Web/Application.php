@@ -63,8 +63,14 @@ class Application extends \Core\Base\Application
     {
         parent::registerCoreComponents();
 
+        //
+        $this->setPlugin('translator', array('class' => '\Core\Translator\TranslateManager'));
+
         //Управление маршрутами
         $this->setPlugin('router', array('class' => '\Core\Web\Router\RouterManager'));
+
+        //Управление навигация
+        $this->setPlugin('router', array('class' => '\Core\Web\Navigation\NavigationManager'));
 
         //Запросы
         $this->setPlugin('request', array('class' => '\Core\Web\Request'));
@@ -97,6 +103,15 @@ class Application extends \Core\Base\Application
     {
         return $this->getPlugin('renderer');
     }
+
+    /**
+     * @return \Core\Translator\TranslateManager
+     */
+    public function getTranslator()
+    {
+        return $this->getPlugin('translator');
+    }
+
 
     /**
      * Обработчик исключений

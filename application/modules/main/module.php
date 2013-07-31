@@ -16,7 +16,6 @@ class Module extends \Core\Base\Module
 
         AutoLoader::getInstance()->registerNamespace('Main', __DIR__.'/sources');
     }
-
     /**
      * Созданием маршрутов
      */
