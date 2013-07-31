@@ -24,6 +24,7 @@ abstract class Application
         if(defined('CMS_ENABLE_ERROR_HANDLER') && CMS_ENABLE_ERROR_HANDLER === true)
             set_error_handler(array($this,'handleError'));
 
+        register_shutdown_function(array($this, 'handleShutdown'));
         //Загрузка конфигурации
         if(is_array($config))
         {
@@ -39,8 +40,9 @@ abstract class Application
         }
 
         //Регистрация нужных компонентов
-        $this->registerCoreComponents();
+        $this->registerCorePlugins();
 
+        //Включаем менаджер модулей
         $this->getModuleManager();
         //Получение настроик
     }
@@ -80,18 +82,26 @@ abstract class Application
      */
     public function handleError($code, $message, $file, $line)
     {
-        if($code & error_reporting())
-        {
 
-        }
     }
 
+    public function handleShutdown()
+    {
+
+    }
+
+    /**
+     * Обработка самого проесса
+     */
     protected function processRequest()
     {
 
     }
 
-    protected function registerCoreComponents()
+    /**
+     *
+     */
+    protected function registerCorePlugins()
     {
         //База данных
         $this->setPlugin('cache', array('class' => '\Core\Cache\CacheManager'));
@@ -189,5 +199,10 @@ abstract class Application
     public function getCache()
     {
         return $this->getPlugin('cache');
+    }
+
+    public function finish()
+    {
+        exit;
     }
 }

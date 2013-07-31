@@ -64,6 +64,6 @@ class ViewRenderer implements RendererInterface
 
     public function getTitle()
     {
-        return $this->_title;
+        return $this->app()->getRenderer()->getTitle();
     }
 }

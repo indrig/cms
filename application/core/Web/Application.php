@@ -46,12 +46,20 @@ class Application extends \Core\Base\Application
                         }
                         $this->getRenderer()->render($controllerResult);
                     }
+                }else{
+                    //Нету метода такого в контролре
+                    $this->getRenderer()->renderError(404);
                 }
+            }
+            else
+            {
+                //Конролеер левый, не контроллер он
+                $this->getRenderer()->renderError(404);
             }
         }
         else
         {
-
+            //Нету такого маршрута
             $this->getRenderer()->renderError(404);
         }
     }
@@ -59,9 +67,9 @@ class Application extends \Core\Base\Application
     /**
      * Регистрация необходимых компонентов
      */
-    protected function registerCoreComponents()
+    protected function registerCorePlugins()
     {
-        parent::registerCoreComponents();
+        parent::registerCorePlugins();
 
         //
         $this->setPlugin('translator', array('class' => '\Core\Translator\TranslateManager'));
@@ -70,7 +78,7 @@ class Application extends \Core\Base\Application
         $this->setPlugin('router', array('class' => '\Core\Web\Router\RouterManager'));
 
         //Управление навигация
-        $this->setPlugin('router', array('class' => '\Core\Web\Navigation\NavigationManager'));
+        $this->setPlugin('navigation', array('class' => '\Core\Web\Navigation\NavigationManager'));
 
         //Запросы
         $this->setPlugin('request', array('class' => '\Core\Web\Request'));
@@ -120,8 +128,12 @@ class Application extends \Core\Base\Application
      */
     public function handleException($exception)
     {
-        $model = new View\Model\ViewModel(array('exception' => $exception));
-        $this->getRenderer()->render($model);
+        parent::handleException($exception);
+
+        $this->getRenderer()->renderError('exception', array(
+            'exception'      => $exception,
+        ));
+        $this->finish();
     }
 
     /**
@@ -134,10 +146,16 @@ class Application extends \Core\Base\Application
      */
     public function handleError($code, $message, $file, $line)
     {
-        return true;
-        if($code & error_reporting())
-        {
+        parent::handleError($code, $message, $file, $line);
+        $backtrace = array_reverse(debug_backtrace(false));
 
-        }
+        $this->getRenderer()->renderError('error', array(
+            'code'      => $code,
+            'message'   => $message,
+            'file'      => $file,
+            'line'      => $line,
+            'backtrace' => $backtrace
+        ));
+        $this->finish();
     }
 }

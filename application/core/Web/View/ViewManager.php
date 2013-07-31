@@ -19,6 +19,7 @@ class ViewManager extends Plugin
     private $_folder;
     private $_view_folder;
     private $_template = 'default';
+    private $_title = '';
     public function __construct($config, Application $app)
     {
         parent::__construct($config, $app);
@@ -32,6 +33,7 @@ class ViewManager extends Plugin
     public function setTemplate($name)
     {
         $this->_template = $name;
+        return $this;
     }
 
     /**
@@ -84,5 +86,16 @@ class ViewManager extends Plugin
         $model->setFile($this->_view_folder.'/error/'.$file.'.phtml');
         $renderer = new ViewRenderer($this->app());
         $renderer->render($model);
+    }
+
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->_title = $title;
+        return $this;
     }
 }

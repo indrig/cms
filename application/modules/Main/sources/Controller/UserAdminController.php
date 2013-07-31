@@ -12,6 +12,7 @@ class UserAdminController extends Controller
 {
     public function actionIndex()
     {
+
         echo 'index';
     }
 

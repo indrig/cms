@@ -23,16 +23,17 @@ class ViewModel implements ModelInterface
         else
         {
             if($variables !== null)
-                throw new Exception('Incorect variables type');
+                throw new Exception('Incorrect variables type');
         }
     }
 
     public function render()
     {
         extract($this->_variables);
+        if(!is_string($this->_file) || strlen($this->_file) === 0)
+            throw new Exception('Incorrect view file name, must not empty string');
         try {
             ob_start();
-
             include $this->_file;
             $result = ob_get_clean();
         } catch (\Exception $ex) {
