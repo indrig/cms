@@ -23,6 +23,5 @@ class Cache extends Plugin
 
     private function createCache()
     {
-
     }
 }
