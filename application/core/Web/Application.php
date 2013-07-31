@@ -92,13 +92,6 @@ class Application extends \Core\Base\Application
         $this->setPlugin('template', array('class' => '\Core\Web\Template'));
     }
 
-    /**
-     * @return UrlManager
-     */
-    public function getUrlManager()
-    {
-        return $this->getPlugin('urlManager');
-    }
 
     public function getRequest()
     {

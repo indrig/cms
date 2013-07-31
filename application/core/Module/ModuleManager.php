@@ -17,11 +17,18 @@ class ModuleManager extends Plugin
     private $_folder;
     private $_module = array();
 
-
     public function __construct($config, Application $app)
     {
        parent::__construct($config, $app);
        $this->_folder = IsSet($this->_config['folder']) ? $this->_config['folder'] : realpath(__DIR__.'/../../modules');
+      //
+       if(IsSet($this->_config['modules']) && is_array($this->_config['modules']))
+       {
+           foreach($this->_config['modules'] as $moduleName)
+           {
+               $this->load($moduleName);
+           }
+       }
     }
 
     /**

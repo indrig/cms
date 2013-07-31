@@ -41,6 +41,7 @@ abstract class Application
         //Регистрация нужных компонентов
         $this->registerCoreComponents();
 
+        $this->getModuleManager();
         //Получение настроик
     }
 
@@ -111,7 +112,7 @@ abstract class Application
         }
 
 
-        if(IsSet($this->_plugin['plugins'][$id]))
+        if(IsSet($this->_config['plugins'][$id]))
         {
             $this->_pluginConfig[$id] = array_merge_recursive($this->_config['plugins'][$id], $component);
         }
@@ -168,6 +169,7 @@ abstract class Application
      */
     public function getModuleManager()
     {
+
         return $this->getPlugin('moduleManager');
     }
 

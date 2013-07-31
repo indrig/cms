@@ -5,7 +5,7 @@
  * Time: 11:34
  */
 return array(
-    'components' => array(
+    'plugins' => array(
         'db' => array(
             'driver'    => 'Pdo',
             'username'  => 'root',
@@ -14,6 +14,11 @@ return array(
             'driver_options' => array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ),
+        ),
+        'moduleManager' => array(
+            'modules' => array(
+                'Main'
+            )
         )
     )
 );
