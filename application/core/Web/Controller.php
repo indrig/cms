@@ -1,16 +1,14 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 25.07.13
- * Time: 15:53
- */
-
 namespace Core\Web;
 
-use \A;
 
 abstract class Controller
 {
+    protected $_app;
+    public function __construct(Application $app)
+    {
+        $this->_app = $app;
+    }
     /**
      * Кеширует вывод выполнения
      */
@@ -24,8 +22,11 @@ abstract class Controller
      */
     protected function setTemplate($templateName)
     {
-        A::app()->template->setTemplate($templateName);
+        //A::app()->template->setTemplate($templateName);
     }
 
-
+    protected function app()
+    {
+        return $this->_app;
+    }
 }

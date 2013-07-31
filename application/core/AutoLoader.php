@@ -17,11 +17,14 @@ class AutoLoader
     const PREFIX_SEPARATOR      = '_';
 
     private static $_instance   = null;
-
+    /**
+     * @return AutoLoader
+     */
     public static function getInstance()
     {
-
+        return self::$_instance;
     }
+
 
     public static function init()
     {

@@ -71,19 +71,23 @@ class Part extends RouterManager implements RouteInterface
             throw new Exception(__METHOD__ . ' expects an array of options');
         }
 
-        if (!isset($options['route'])) {
+        if (!isset($options['route']))
+        {
             throw new Exception('Missing "route" in options array');
         }
 
-        if (!isset($options['manager'])) {
+        if (!isset($options['manager']))
+        {
             throw new Exception('Missing "manager" in options array');
         }
 
-        if (!isset($options['may_terminate'])) {
-            $options['may_terminate'] = false;
+        if (!isset($options['may_terminate']))
+        {
+            $options['may_terminate'] = true;
         }
 
-        if (!isset($options['child_routes']) || !$options['child_routes']) {
+        if (!isset($options['child_routes']) || !$options['child_routes'])
+        {
             $options['child_routes'] = null;
         }
 
