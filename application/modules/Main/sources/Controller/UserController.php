@@ -9,4 +9,14 @@ class UserController extends Controller
     {
         echo 'index';
     }
+
+    public function signupIndex()
+    {
+        echo 'index';
+    }
+
+    public function loginIndex()
+    {
+        echo 'index';
+    }
 }

@@ -6,6 +6,8 @@
  */
 namespace Core\Base;
 
+use Core\Event\Event;
+
 abstract class Application
 {
     protected $_plugin          = array();  //Миссив компонентов
@@ -45,6 +47,7 @@ abstract class Application
         //Включаем менаджер модулей
         $this->getModuleManager();
         //Получение настроик
+        $this->event('onApplicationCreated', new Event($this));
     }
 
     /**
@@ -59,7 +62,9 @@ abstract class Application
      */
     public function run()
     {
+        $this->event('onBeginRequest', new Event($this));
         $this->processRequest();
+        $this->event('onEndRequest', new Event($this));
     }
 
     /**
@@ -107,6 +112,7 @@ abstract class Application
         $this->setPlugin('cache', array('class' => '\Core\Cache\CacheManager'));
         $this->setPlugin('db', array('class' => '\Core\Db\DataBase'));
         $this->setPlugin('moduleManager', array('class' => '\Core\Module\ModuleManager'));
+        $this->setPlugin('eventManager', array('class' => '\Core\Event\EventManager'));
     }
 
     /**
@@ -201,8 +207,24 @@ abstract class Application
         return $this->getPlugin('cache');
     }
 
+
+    /**
+     *
+     * @return \Core\Event\EventManager
+     */
+    public function getEventManager()
+    {
+        return $this->getPlugin('eventManager');
+    }
+
     public function finish()
     {
+
         exit;
+    }
+
+    public function event($name, Event $event)
+    {
+        $this->getEventManager()->event($name, $event);
     }
 }

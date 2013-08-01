@@ -60,5 +60,26 @@ class Module extends \Core\Base\Module
                 )
             )
         );
+
+        $router->addRoute('login',
+            array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/login',
+                    'defaults' => array(
+                        'controller' => 'Main\\Controller\\UserController',
+                        'action'     => 'login',
+                    ),
+                )));
+        $router->addRoute('signup',
+            array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/signup',
+                    'defaults' => array(
+                        'controller' => 'Main\\Controller\\UserController',
+                        'action'     => 'signup',
+                    ),
+                )));
     }
 }
