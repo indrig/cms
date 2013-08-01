@@ -6,6 +6,8 @@
  */
 namespace Core\Web;
 
+use Core\Event\Event;
+
 class Application extends \Core\Base\Application
 {
     protected $_controller;
@@ -32,7 +34,10 @@ class Application extends \Core\Base\Application
                 $params['action'];
             if(is_subclass_of($params['controller'], '\Core\Web\Controller'))
             {
+
                 $this->_controller = new $params['controller']($this);
+                $this->event('onControllerCreated', new Event($this, array('controller' => $this->_controller)));
+
                 $methodName = 'action'.$params['action'];
                 if(method_exists($this->_controller, $methodName))
                 {
@@ -88,6 +93,9 @@ class Application extends \Core\Base\Application
 
         //Шаблонизатор
         $this->setPlugin('renderer', array('class' => '\Core\Web\View\ViewManager'));
+
+        //Сессии
+        $this->setPlugin('auth', array('class' => '\Core\Web\AuthManager'));
     }
 
 

@@ -12,7 +12,7 @@ class Module extends \Core\Base\Module
         parent::__construct($app);
 
         $this->createRoutes();
-
+        $app->getDB()->query("SELECT * FROM user");
 
         AutoLoader::getInstance()->registerNamespace('Main', __DIR__.'/sources');
     }

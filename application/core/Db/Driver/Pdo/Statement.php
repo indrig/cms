@@ -99,7 +99,6 @@ class Statement implements StatementInterface
      */
     public function __clone()
     {
-
         $this->_resource = null;
         $this->_isPrepared = false;
     }

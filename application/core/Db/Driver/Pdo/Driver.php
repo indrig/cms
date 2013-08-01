@@ -40,6 +40,8 @@ class Driver implements DriverInterface
 
         $this->_statement_prototype     = new Statement();
         $this->_result_prototype        = new Result();
+
+        //var_dump($this->_statement_prototype );
     }
 
     /**

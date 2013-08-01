@@ -126,6 +126,8 @@ class DataBase extends Plugin
         } else {
             $result = $this->_driver->getConnection()->execute($sql);
         }
+
+        return $result;
     }
 
 
