@@ -29,4 +29,12 @@ abstract class Controller
     {
         return $this->_app;
     }
+
+    /**
+     * @param string $modelName
+     */
+    public function table($modelName = '', $moduleName = null)
+    {
+
+    }
 }

@@ -1,15 +1,12 @@
 <?php
 /**
  * User: Igor Bubnevich aka Indrig
- * Date: 25.07.13
- * Time: 13:32
+ * Date: 02.08.13
+ * Time: 12:06
  */
-
 namespace Core\Db;
 
-use Core\Base\Plugin;
-
-class DataBase extends Plugin
+class Adapter
 {
     /**
      * Query Mode Constants
@@ -21,19 +18,6 @@ class DataBase extends Plugin
      * @var Driver\Pdo\Driver|null
      */
     private $_driver    = null;
-
-    /**
-     * @var Driver\StatementInterface
-     */
-    private $_lastPreparedStatement = null;
-
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        $driver = $this->createDriver();
-        $driver->checkEnvironment();
-        $this->_driver = $driver;
-    }
 
     /**
      *
@@ -88,6 +72,21 @@ class DataBase extends Plugin
         return $this->_driver;
     }
 
+    public function prepareStatementForSqlObject(PreparableSqlInterface $sqlObject, StatementInterface $statement = null)
+    {
+        $statement = ($statement) ?: $this->getDriver()->createStatement();
+
+        if ($this->sqlPlatform) {
+            $this->sqlPlatform->setSubject($sqlObject);
+            $this->sqlPlatform->prepareStatement($this->adapter, $statement);
+        } else {
+            $sqlObject->prepareStatement($this->adapter, $statement);
+        }
+
+        return $statement;
+    }
+
+
     /**
      *
      *
@@ -129,6 +128,4 @@ class DataBase extends Plugin
 
         return $result;
     }
-
-
 }

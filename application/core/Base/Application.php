@@ -110,7 +110,7 @@ abstract class Application
     {
         //База данных
         $this->setPlugin('cache', array('class' => '\Core\Cache\CacheManager'));
-        $this->setPlugin('db', array('class' => '\Core\Db\DataBase'));
+        $this->setPlugin('db', array('class' => '\Core\Db\DataBaseManager'));
         $this->setPlugin('moduleManager', array('class' => '\Core\Module\ModuleManager'));
         $this->setPlugin('eventManager', array('class' => '\Core\Event\EventManager'));
     }

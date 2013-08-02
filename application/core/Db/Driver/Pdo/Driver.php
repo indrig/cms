@@ -38,10 +38,9 @@ class Driver implements DriverInterface
 
         $this->registerConnection($connection);
 
-        $this->_statement_prototype     = new Statement();
-        $this->_result_prototype        = new Result();
+        $this->_statementPrototype     = new Statement();
+        $this->_resultPrototype        = new Result();
 
-        //var_dump($this->_statement_prototype );
     }
 
     /**
@@ -77,7 +76,6 @@ class Driver implements DriverInterface
     {
         $result = clone $this->_resultPrototype;
         $rowCount = null;
-
         $result->initialize($resource, $this->_connection->getLastInsertId(), $rowCount);
         return $result;
     }

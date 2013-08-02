@@ -146,15 +146,12 @@ class Statement implements StatementInterface
             $this->prepare();
         }
 
-
         try {
             $this->_resource->execute();
         } catch (\PDOException $e) {
 
             throw new \Exception('Statement could not be executed', null, $e);
         }
-
-
 
         $result = $this->_driver->createResult($this->_resource, $this);
         return $result;

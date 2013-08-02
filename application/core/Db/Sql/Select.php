@@ -8,7 +8,7 @@ namespace Core\Db\Sql;
 
 use Exception;
 
-class Select
+class Select implements PreparableSqlInterface
 {
     const SELECT                = 'select';
     const QUANTIFIER            = 'quantifier';
@@ -65,6 +65,7 @@ class Select
         $this->_table = $table;
         return $this;
     }
+
     /**
      * @param int $limit
      * @return Select
@@ -100,5 +101,4 @@ class Select
         $this->_offset = $offset;
         return $this;
     }
-
 }

@@ -3,6 +3,7 @@ namespace Main;
 
 use Core\AutoLoader;
 use Core\Base\Application;
+use Main\Model\UserTable;
 
 
 class Module extends \Core\Base\Module
@@ -12,9 +13,17 @@ class Module extends \Core\Base\Module
         parent::__construct($app);
 
         $this->createRoutes();
-        $app->getDB()->query("SELECT * FROM user");
+        $this->registerTables();
+
+        //$app->getDB()->query("SELECT * FROM user");
 
         AutoLoader::getInstance()->registerNamespace('Main', __DIR__.'/sources');
+
+        /**
+         * @var UserTable $userTable
+         */
+        $userTable = $app->getDB()->table('user');
+        var_dump($userTable->test());
     }
     /**
      * Созданием маршрутов
@@ -81,5 +90,16 @@ class Module extends \Core\Base\Module
                         'action'     => 'signup',
                     ),
                 )));
+    }
+
+    /**
+     * Регистрация классов для таблиц
+     */
+    private function registerTables()
+    {
+        $db = $this->app()->getDB();
+
+        $db->registerTable('user', '\\Main\\Model\\UserTable');
+
     }
 }
