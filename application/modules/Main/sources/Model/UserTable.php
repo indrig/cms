@@ -10,37 +10,17 @@
  */
 namespace Main\Model;
 
-use Core\Db\Table\AbstractTable,
+use Core\Db\TableGateway,
     Core\Db\Sql\Sql;
 
-class UserTable extends AbstractTable
+class UserTable extends TableGateway\AbstractTableGateway
 {
     protected $_table = 'user';
-    public function getList()
-    {
 
-    }
-
-    public function get()
-    {
-
-    }
-
-    public function delete()
-    {
-
-    }
-
-    public function save()
-    {
-
-    }
 
     public function test()
     {
-        $sql = new Sql($this->_adapter, 'user');
-        $select = $sql->select();
-        //$sql->ex
-        var_dump($sql);
+        $res = $this->select();
+        var_dump($res);
     }
 }

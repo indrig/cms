@@ -1,46 +1,102 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
- * Date: 25.07.13
- * Time: 12:31
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
+
 namespace Core\Db\Driver\Pdo;
 
-use Core\Db\Driver\DriverInterface;
+use PDOStatement,
+    Exception,
+    Core\Db\Driver\DriverInterface,
+    Core\Db\Driver\Feature\AbstractFeature,
+    Core\Db\Driver\Feature\DriverFeatureInterface,
+    Core\Db\Profiler;
 
-class Driver implements DriverInterface
+class Driver implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
 {
+    /**
+     * @const
+     */
+    const FEATURES_DEFAULT = 'default';
+
     /**
      * @var Connection
      */
-    protected $_connection          = null;
+    protected $connection = null;
 
     /**
      * @var Statement
      */
-    protected $_statementPrototype = null;
+    protected $statementPrototype = null;
 
     /**
      * @var Result
      */
-    protected $_resultPrototype    = null;
+    protected $resultPrototype = null;
 
     /**
-     * Конструктор
-     * @param $connection Параметры соединения
+     * @var array
      */
-    public function __construct($connection)
+    protected $features = array();
+
+
+    /**
+     * @var Profiler\ProfilerInterface
+     */
+    protected $profiler = null;
+
+    /**
+     * @param array|Connection|\PDO $connection
+     * @param null|Statement $statementPrototype
+     * @param null|Result $resultPrototype
+     * @param string $features
+     */
+    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null, $features = self::FEATURES_DEFAULT)
     {
-        if (!$connection instanceof Connection)
-        {
+        if (!$connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
         $this->registerConnection($connection);
+        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
+        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        if (is_array($features)) {
+            foreach ($features as $name => $feature) {
+                $this->addFeature($name, $feature);
+            }
+        } elseif ($features instanceof AbstractFeature) {
+            $this->addFeature($features->getName(), $features);
+        } elseif ($features === self::FEATURES_DEFAULT) {
+            $this->setupDefaultFeatures();
+        }
+    }
 
-        $this->_statementPrototype     = new Statement();
-        $this->_resultPrototype        = new Result();
+    /**
+     * @param Profiler\ProfilerInterface $profiler
+     * @return Driver
+     */
+    public function setProfiler(Profiler\ProfilerInterface $profiler)
+    {
+        $this->profiler = $profiler;
+        if ($this->connection instanceof Profiler\ProfilerAwareInterface) {
+            $this->connection->setProfiler($profiler);
+        }
+        if ($this->statementPrototype instanceof Profiler\ProfilerAwareInterface) {
+            $this->statementPrototype->setProfiler($profiler);
+        }
+        return $this;
+    }
 
+    /**
+     * @return null|Profiler\ProfilerInterface
+     */
+    public function getProfiler()
+    {
+        return $this->profiler;
     }
 
     /**
@@ -51,20 +107,151 @@ class Driver implements DriverInterface
      */
     public function registerConnection(Connection $connection)
     {
-        $this->_connection = $connection;
-        $this->_connection->setDriver($this);
+        $this->connection = $connection;
+        $this->connection->setDriver($this);
         return $this;
     }
 
     /**
-     * Проверка окружения PHP
+     * Register statement prototype
+     *
+     * @param Statement $statementPrototype
+     */
+    public function registerStatementPrototype(Statement $statementPrototype)
+    {
+        $this->statementPrototype = $statementPrototype;
+        $this->statementPrototype->setDriver($this);
+    }
+
+    /**
+     * Register result prototype
+     *
+     * @param Result $resultPrototype
+     */
+    public function registerResultPrototype(Result $resultPrototype)
+    {
+        $this->resultPrototype = $resultPrototype;
+    }
+
+    /**
+     * Add feature
+     *
+     * @param string $name
+     * @param AbstractFeature $feature
+     * @return Driver
+     */
+    public function addFeature($name, $feature)
+    {
+        if ($feature instanceof AbstractFeature) {
+            $name = $feature->getName(); // overwrite the name, just in case
+            $feature->setDriver($this);
+        }
+        $this->features[$name] = $feature;
+        return $this;
+    }
+
+    /**
+     * Setup the default features for Pdo
+     *
+     * @return Driver
+     */
+    public function setupDefaultFeatures()
+    {
+        $driverName = $this->connection->getDriverName();
+        if ($driverName == 'sqlite') {
+            $this->addFeature(null, new Feature\SqliteRowCounter);
+        } elseif ($driverName == 'oci') {
+            $this->addFeature(null, new Feature\OracleRowCounter);
+        }
+        return $this;
+    }
+
+    /**
+     * Get feature
+     *
+     * @param $name
+     * @return AbstractFeature|bool
+     */
+    public function getFeature($name)
+    {
+        if (isset($this->features[$name])) {
+            return $this->features[$name];
+        }
+        return false;
+    }
+
+    /**
+     * Get database platform name
+     *
+     * @param  string $nameFormat
+     * @return string
+     */
+    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    {
+        $name = $this->getConnection()->getDriverName();
+        if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
+            switch ($name) {
+                case 'pgsql':
+                    return 'Postgresql';
+                case 'oci':
+                    return 'Oracle';
+
+                default:
+                    return ucfirst($name);
+            }
+        } else {
+            switch ($name) {
+                case 'sqlite':
+                    return 'SQLite';
+                case 'mysql':
+                    return 'MySQL';
+                case 'pgsql':
+                    return 'PostgreSQL';
+                case 'oci':
+                    return 'Oracle';
+                default:
+                    return ucfirst($name);
+            }
+        }
+    }
+
+    /**
+     * Check environment
      */
     public function checkEnvironment()
     {
-        if (!extension_loaded('PDO'))
-        {
-            throw new \Exception('The PDO extension is required for this adapter but the extension is not loaded');
+        if (!extension_loaded('PDO')) {
+            throw new Exception('The PDO extension is required for this adapter but the extension is not loaded');
         }
+    }
+
+    /**
+     * @return Connection
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * @param string|PDOStatement $sqlOrResource
+     * @return Statement
+     */
+    public function createStatement($sqlOrResource = null)
+    {
+        $statement = clone $this->statementPrototype;
+        if ($sqlOrResource instanceof PDOStatement) {
+            $statement->setResource($sqlOrResource);
+        } else {
+            if (is_string($sqlOrResource)) {
+                $statement->setSql($sqlOrResource);
+            }
+            if (!$this->connection->isConnected()) {
+                $this->connection->connect();
+            }
+            $statement->initialize($this->connection->getResource());
+        }
+        return $statement;
     }
 
     /**
@@ -74,38 +261,55 @@ class Driver implements DriverInterface
      */
     public function createResult($resource, $context = null)
     {
-        $result = clone $this->_resultPrototype;
+        $result = clone $this->resultPrototype;
         $rowCount = null;
-        $result->initialize($resource, $this->_connection->getLastInsertId(), $rowCount);
+
+        // special feature, sqlite PDO counter
+        if ($this->connection->getDriverName() == 'sqlite'
+            && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
+            && $resource->columnCount() > 0) {
+            $rowCount = $sqliteRowCounter->getRowCountClosure($context);
+        }
+
+        // special feature, oracle PDO counter
+        if ($this->connection->getDriverName() == 'oci'
+            && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
+            && $resource->columnCount() > 0) {
+            $rowCount = $oracleRowCounter->getRowCountClosure($context);
+        }
+
+
+        $result->initialize($resource, $this->connection->getLastGeneratedValue(), $rowCount);
         return $result;
     }
 
     /**
-     * @param string|\PDOStatement $sqlOrResource
-     * @return Statement
+     * @return array
      */
-    public function createStatement($sqlOrResource = null)
+    public function getPrepareType()
     {
-        $statement = clone $this->_statementPrototype;
-        if ($sqlOrResource instanceof \PDOStatement) {
-            $statement->setResource($sqlOrResource);
-        } else {
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
-            }
-            if (!$this->_connection->isConnected()) {
-                $this->_connection->connect();
-            }
-            $statement->initialize($this->_connection->getResource());
-        }
-        return $statement;
+        return self::PARAMETERIZATION_NAMED;
     }
 
     /**
-     * @return Connection
+     * @param string $name
+     * @param string|null $type
+     * @return string
      */
-    public function getConnection()
+    public function formatParameterName($name, $type = null)
     {
-        return $this->_connection;
+        if ($type == null && !is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
+            return ':' . $name;
+        }
+
+        return '?';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastGeneratedValue($name = null)
+    {
+        return $this->connection->getLastGeneratedValue($name);
     }
 }
