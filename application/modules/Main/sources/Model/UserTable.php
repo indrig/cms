@@ -10,17 +10,23 @@
  */
 namespace Main\Model;
 
-use Core\Db\TableGateway,
+use Core\Db\TableGateway\AbstractTableGateway;
+use Core\Db\Adapter,
+
     Core\Db\Sql\Sql;
 
-class UserTable extends TableGateway\AbstractTableGateway
+class UserTable extends AbstractTableGateway
 {
-    protected $_table = 'user';
+    protected $table = 'user';
 
+    public function __construct(Adapter $adapter)
+    {
+        $this->adapter 	= $adapter;
+    }
 
     public function test()
     {
         $res = $this->select();
-        var_dump($res);
+    var_dump($res->current());
     }
 }

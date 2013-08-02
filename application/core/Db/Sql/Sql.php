@@ -34,7 +34,7 @@ class Sql
     }
 
     /**
-     * @return null|\Zend\Db\Adapter\AdapterInterface
+     * @return null|\Core\Db\AdapterInterface
      */
     public function getAdapter()
     {
@@ -51,7 +51,7 @@ class Sql
         if (is_string($table) || is_array($table) || $table instanceof TableIdentifier) {
             $this->table = $table;
         } else {
-            throw new Exception\InvalidArgumentException('Table must be a string, array or instance of TableIdentifier.');
+            throw new Exception('Table must be a string, array or instance of TableIdentifier.');
         }
         return $this;
     }
@@ -69,7 +69,7 @@ class Sql
     public function select($table = null)
     {
         if ($this->table !== null && $table !== null) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'This Sql object is intended to work with only the table "%s" provided at construction time.',
                 $this->table
             ));
@@ -80,7 +80,7 @@ class Sql
     public function insert($table = null)
     {
         if ($this->table !== null && $table !== null) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'This Sql object is intended to work with only the table "%s" provided at construction time.',
                 $this->table
             ));
@@ -91,7 +91,7 @@ class Sql
     public function update($table = null)
     {
         if ($this->table !== null && $table !== null) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'This Sql object is intended to work with only the table "%s" provided at construction time.',
                 $this->table
             ));
@@ -102,7 +102,7 @@ class Sql
     public function delete($table = null)
     {
         if ($this->table !== null && $table !== null) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'This Sql object is intended to work with only the table "%s" provided at construction time.',
                 $this->table
             ));

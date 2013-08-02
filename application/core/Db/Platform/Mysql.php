@@ -9,8 +9,9 @@
 
 namespace Core\Db\Platform;
 
-use Core\Db\Driver\DriverInterface;
-use Core\Db\Driver;
+use Exception,
+    Core\Db\Driver\DriverInterface,
+    Core\Db\Driver;
 
 class Mysql implements PlatformInterface
 {
@@ -25,15 +26,15 @@ class Mysql implements PlatformInterface
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Mysqli\Mysqli|\Zend\Db\Adapter\Driver\Pdo\Pdo||\mysqli|\PDO $driver
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @param \Core\Db\Driver\Mysqli\Mysqli|\Core\Db\Driver\Pdo\Pdo||\mysqli|\PDO $driver
+     * @throws Exception
      * @return $this
      */
     public function setDriver($driver)
     {
         // handle Zend\Db drivers
-        if ($driver instanceof Mysqli\Mysqli
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Mysql')
+        if ($driver instanceof \Core\Db\Driver\Mysqli\Driver
+            || ($driver instanceof \Core\Db\Driver\Pdo\Driver && $driver->getDatabasePlatformName() == 'Mysql')
             || ($driver instanceof \mysqli)
             || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
         ) {
@@ -41,7 +42,7 @@ class Mysql implements PlatformInterface
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Mysqli or Mysql PDO Zend\Db\Adapter\Driver, Mysqli instance or MySQL PDO instance');
+        throw new Exception('$driver must be a Mysqli or Mysql PDO Core\Db\Driver, Mysqli instance or MySQL PDO instance');
     }
 
     /**
