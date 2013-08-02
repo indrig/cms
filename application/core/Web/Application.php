@@ -17,6 +17,9 @@ class Application extends \Core\Base\Application
     public function __construct($config)
     {
         parent::__construct($config);
+
+        //Авторизирует и все такое
+        $this->getAuth()->start();
     }
 
     /**
@@ -39,6 +42,7 @@ class Application extends \Core\Base\Application
                 $this->event('onControllerCreated', new Event($this, array('controller' => $this->_controller)));
 
                 $methodName = 'action'.$params['action'];
+                var_dump($methodName);
                 if(method_exists($this->_controller, $methodName))
                 {
                     $controllerResult = call_user_func_array(array($this->_controller, $methodName), array());
@@ -95,9 +99,8 @@ class Application extends \Core\Base\Application
         $this->setPlugin('renderer', array('class' => '\Core\Web\View\ViewManager'));
 
         //Сессии
-        $this->setPlugin('auth', array('class' => '\Core\Web\AuthManager'));
+        $this->setPlugin('auth', array('class' => '\Core\Web\Auth\AuthManager'));
     }
-
 
     public function getRequest()
     {
@@ -128,7 +131,13 @@ class Application extends \Core\Base\Application
         return $this->getPlugin('translator');
     }
 
-
+    /**
+     * @return \Core\Web\Auth\AuthManager;
+     */
+    public function getAuth()
+    {
+        return $this->getPlugin('auth');
+    }
     /**
      * Обработчик исключений
      *
