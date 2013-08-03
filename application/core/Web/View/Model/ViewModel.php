@@ -10,15 +10,25 @@ use Exception;
 
 class ViewModel implements ModelInterface
 {
-    protected $_variables   = array();
-    protected $_children    = array();
-    protected $_file;
+    protected $variables   = array();
+    protected $children    = array();
+    protected $file;
 
     public function __construct($variables = null, $options = null)
     {
+        $this->setVariables($variables);
+    }
+
+    public function setVariable($variable, $value)
+    {
+        $this->variables[$variable] = $value;
+    }
+
+    public function setVariables($variables)
+    {
         if(is_array($variables))
         {
-           $this->_variables = $variables;
+            $this->variables = $variables;
         }
         else
         {
@@ -29,12 +39,12 @@ class ViewModel implements ModelInterface
 
     public function render()
     {
-        extract($this->_variables);
-        if(!is_string($this->_file) || strlen($this->_file) === 0)
+        extract($this->variables);
+        if(!is_string($this->file) || strlen($this->file) === 0)
             throw new Exception('Incorrect view file name, must not empty string');
         try {
             ob_start();
-            include $this->_file;
+            include $this->file;
             $result = ob_get_clean();
         } catch (\Exception $ex) {
             ob_end_clean();
@@ -46,6 +56,6 @@ class ViewModel implements ModelInterface
 
     public function setFile($file)
     {
-        $this->_file = $file;
+        $this->file = $file;
     }
 }

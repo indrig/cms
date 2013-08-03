@@ -191,7 +191,7 @@ abstract class Application
 
     /**
      *
-     * @return \Core\Db\DataBase
+     * @return \Core\Db\DataBaseManager
      */
     public function getDB()
     {
