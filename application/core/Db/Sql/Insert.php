@@ -258,13 +258,13 @@ class Insert extends AbstractSql implements SqlInterface, PreparableSqlInterface
      * Proxies to values and columns
      *
      * @param  string $name
-     * @throws Exception\InvalidArgumentException
+     * @throws Exception
      * @return void
      */
     public function __unset($name)
     {
         if (($position = array_search($name, $this->columns)) === false) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new Exception('The key ' . $name . ' was not found in this objects column list');
         }
 
         unset($this->columns[$position]);
@@ -290,13 +290,13 @@ class Insert extends AbstractSql implements SqlInterface, PreparableSqlInterface
      * Retrieves value by column name
      *
      * @param  string $name
-     * @throws Exception\InvalidArgumentException
+     * @throws Exception
      * @return mixed
      */
     public function __get($name)
     {
         if (($position = array_search($name, $this->columns)) === false) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new Exception('The key ' . $name . ' was not found in this objects column list');
         }
         return $this->values[$position];
     }

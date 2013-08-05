@@ -1,9 +1,9 @@
 <?php
 namespace Main;
 
-use Core\AutoLoader;
-use Core\Base\Application;
-use Main\Model\UserTable;
+use Core\AutoLoader,
+    Core\Web\Application,
+    Main\Model\UserTable;
 
 
 class Module extends \Core\Base\Module
@@ -15,15 +15,12 @@ class Module extends \Core\Base\Module
         $this->createRoutes();
         $this->registerTables();
 
-        //$app->getDB()->query("SELECT * FROM user");
-
+        //Регистрируем автозагрузку для модуля
         AutoLoader::getInstance()->registerNamespace('Main', __DIR__.'/sources');
 
-        /**
-         * @var UserTable $userTable
-         */
-        $userTable = $app->getDB()->table('user');
-        var_dump($userTable->test());
+        //Устанавливам адаптор для аторзации
+        $app->getAuth()->setupAuth(new Auth\Adapter($app));
+
     }
     /**
      * Созданием маршрутов
@@ -100,6 +97,5 @@ class Module extends \Core\Base\Module
         $db = $this->app()->getDB();
 
         $db->registerTable('user', '\\Main\\Model\\UserTable');
-
     }
 }

@@ -2,6 +2,7 @@
 namespace Main\Controller;
 
 use Core\Web\Controller;
+use Core\Web\View\Model\ViewModel;
 
 class UserController extends Controller
 {
@@ -10,13 +11,19 @@ class UserController extends Controller
         echo 'index';
     }
 
-    public function signupIndex()
+    public function actionSignUp()
     {
-        echo 'index';
+        $view = new ViewModel();
+        $view->setFile(__DIR__.'/../../view/user/signup.phtml');
+
+        return $view;
     }
 
-    public function loginIndex()
+    public function actionLogin()
     {
-        echo 'index';
+        $view = new ViewModel();
+        $view->setFile(__DIR__.'/../../view/user/login.phtml');
+
+        return $view;
     }
 }
