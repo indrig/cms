@@ -6,6 +6,9 @@ abstract class AbstractElement
     protected $name;
     protected $options;
     protected $parent;
+    protected $value;
+    protected $label;
+    protected $attributes = array();
 
     public function __construct($name = null, $options = array(), $parent = null)
     {
@@ -32,9 +35,12 @@ abstract class AbstractElement
         return $this;
     }
 
+    /**
+     * @return string Имя элемента
+     */
     public function getName()
     {
-        $this->name;
+        return $this->name;
     }
 
     public function setParent($parent)
@@ -61,5 +67,57 @@ abstract class AbstractElement
     public function __toString()
     {
         return $this->render();
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the element value
+     *
+     * @param  mixed $value
+     * @return AbstractElement
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * Retrieve the element value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set the label used for this element
+     *
+     * @param $label
+     * @return AbstractElement
+     */
+    public function setLabel($label)
+    {
+        if (is_string($label)) {
+            $this->label = $label;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the label used for this element
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 }

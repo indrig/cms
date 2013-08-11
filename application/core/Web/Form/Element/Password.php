@@ -3,11 +3,11 @@ namespace Core\Web\Form\Element;
 
 use Core\Web\Form\View;
 
-class Text extends Input
+class Password extends Input
 {
     public function render()
     {
-        $view = new View\Text();
+        $view = new View\Password();
         return $view->render($this);
     }
 }

@@ -24,7 +24,7 @@ class Form extends AbstractElement
      */
     protected $data;
 
-    protected $orientation = self::ORIENTATION_HORIZONTAL;
+    protected $orientation = self::ORIENTATION_VERTICAL;
 
     public function __construct($name = null, $options = array(), $parent = null)
     {
@@ -66,8 +66,36 @@ class Form extends AbstractElement
         return $view->render($this);
     }
 
-    public function add($name, $options)
+    /**
+     * @return array
+     */
+    public function getElements()
     {
+        return $this->elements;
+    }
 
+    public function __call($name, $arguments)
+    {
+        if(substr($name, 0, 3) === 'add')
+        {
+            if(!ctype_alnum($name))
+            {
+                throw new Exception('Incorrect element name');
+            }
+            $class = '\\Core\\Web\\Form\\Element\\'.substr($name, 3);
+            if(!class_exists($class))
+            {
+                throw new Exception('Incorrect element name');
+            }
+
+            if(sizeof($arguments) === 0)
+            {
+                throw new Exception('Incorrect element name');
+            }
+            $this->elements[] = new $class($arguments[0], isset($arguments[1]) ? $arguments[1] : null, $this);
+            return $this;
+            //
+        }
+        return null;
     }
 }
