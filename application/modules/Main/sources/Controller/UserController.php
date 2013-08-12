@@ -1,8 +1,9 @@
 <?php
 namespace Main\Controller;
 
-use Core\Web\Controller;
-use Core\Web\View\Model\ViewModel;
+use Core\Web\Controller,
+    Core\Web\View\Model\ViewModel,
+    Main\Form;
 
 class UserController extends Controller
 {
@@ -21,7 +22,10 @@ class UserController extends Controller
 
     public function actionLogin()
     {
+        $form = new Form\UserLogin();
+
         $view = new ViewModel();
+        $view->setVariable('form', $form);
         $view->setFile(__DIR__.'/../../view/user/login.phtml');
 
         return $view;
