@@ -42,7 +42,7 @@ class Application extends \Core\Base\Application
                 $this->event('onControllerCreated', new Event($this, array('controller' => $this->_controller)));
 
                 $methodName = 'action'.$params['action'];
-                var_dump($methodName);
+
                 if(method_exists($this->_controller, $methodName))
                 {
                     $controllerResult = call_user_func_array(array($this->_controller, $methodName), array());

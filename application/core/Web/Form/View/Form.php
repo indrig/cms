@@ -5,37 +5,55 @@ use Core\Web\Form\AbstractElement;
 
 class Form extends AbstractView
 {
+
     /**
-     * @param \Core\Web\Form\Form $form
      * @return string
      */
-    public function render($form)
+    public function render(\Core\Web\Form\Form $form)
     {
         $form_content = '';
+
         $elements = $form->getElements();
         /**
          * @var AbstractElement $element;
          */
+
+        if($form->getOrientation() === \Core\Web\Form\Form::ORIENTATION_VERTICAL)
+        {
+            $form->addClass('form-horizontal');
+        }
+        else
+        {
+            $form->addClass('form-inline');
+        }
         foreach($elements as $element)
         {
             if($form->getOrientation() === \Core\Web\Form\Form::ORIENTATION_VERTICAL)
             {
-                $form_content .= '<div class="form-group">'.$element->render().'</div>';
+                $form_content .= $element->renderRow();
+            }
+            else
+            {
+                $form_content .= $element->render();
             }
         }
         return $this->openTag($form).$form_content.$this->closeTag();
     }
 
-    public function openTag($form)
+    public function openTag(\Core\Web\Form\Form $form)
     {
         $attributes = array(
             'action' => '',
             'method' => 'get',
         );
 
-        $tag = sprintf('<form %s>', $this->createAttributesString($attributes));
+        $formAttributes = $form->getAttributes();
+        if (!array_key_exists('id', $formAttributes) && array_key_exists('name', $formAttributes)) {
+            $formAttributes['id'] = $formAttributes['name'];
+        }
+        $attributes = array_merge($attributes, $formAttributes);
 
-        return $tag;
+        return sprintf('<form %s>', $this->createAttributesString($attributes));
     }
 
     public function closeTag()

@@ -4,14 +4,26 @@ namespace Core\Web\Form\Element;
 use Core\Web\Form\AbstractElement,
     Core\Web\Form\View;
 
-abstract class Input extends AbstractElement
+class Inline extends AbstractElement
 {
+    protected $elements;
+
+    public function addElement(AbstractElement $element)
+    {
+        $this->elements[] = $element;
+    }
+
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
     public function getView()
     {
         if($this->view === null)
         {
-            $class = str_replace('Element', 'View', get_called_class());
-            $this->view = call_user_func(array($class, 'instance'));
+
+            $this->view = View\Inline::instance();
         }
         return $this->view;
     }

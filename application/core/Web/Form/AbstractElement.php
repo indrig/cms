@@ -7,6 +7,10 @@ abstract class AbstractElement
     protected $options;
     protected $parent;
     protected $value;
+    /**
+     * @var \Core\Web\Form\AbstractElement
+     */
+    protected $view;
     protected $label;
     protected $attributes = array();
 
@@ -20,6 +24,11 @@ abstract class AbstractElement
         if (!empty($options))
         {
             $this->setOptions($options);
+        }
+
+        if(isset($options['attributes']) && is_array($options['attributes']))
+        {
+            $this->setAttributes($options['attributes']);
         }
 
         if (null !== $parent)
@@ -58,11 +67,15 @@ abstract class AbstractElement
     public function setOptions(array $options)
     {
         $this->options = $options;
-
+        if(isset($options['label']))
+        {
+            $this->setLabel($options['label']);
+        }
         return $this;
     }
 
     abstract public function render();
+    abstract public function renderRow();
 
     public function __toString()
     {
@@ -74,6 +87,25 @@ abstract class AbstractElement
         return $this->attributes;
     }
 
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+    }
+
+    public function hasAttribute($name)
+    {
+        return isset($this->attributes[$name]);
+    }
+
+    public function setAttribute($name, $value)
+    {
+        $this->attributes[$name] = $value;
+    }
+
+    public function getAttribute($name)
+    {
+        return $this->attributes[$name];
+    }
     /**
      * Set the element value
      *
@@ -104,7 +136,8 @@ abstract class AbstractElement
      */
     public function setLabel($label)
     {
-        if (is_string($label)) {
+        if (is_string($label))
+        {
             $this->label = $label;
         }
 
@@ -119,5 +152,16 @@ abstract class AbstractElement
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function addClass($class)
+    {
+        $attribute = '';
+        if($this->hasAttribute('class'))
+        {
+            $attribute = $this->getAttribute('class').' ';
+        }
+
+        $this->setAttribute('class', $attribute.$class);
     }
 }

@@ -62,10 +62,13 @@ class Form extends AbstractElement
 
     public function render()
     {
-        $view = new View\Form();
-        return $view->render($this);
+        return View\Form::instance()->render($this);
     }
 
+    public function renderRow()
+    {
+        return $this->render();
+    }
     /**
      * @return array
      */
@@ -85,17 +88,34 @@ class Form extends AbstractElement
             $class = '\\Core\\Web\\Form\\Element\\'.substr($name, 3);
             if(!class_exists($class))
             {
-                throw new Exception('Incorrect element name');
+                throw new Exception('Method ' . $name . ' not exists');
             }
 
-            if(sizeof($arguments) === 0)
+            return ($this->elements[] = new $class(isset($arguments[0]) ? $arguments[0] : null, isset($arguments[1]) ? $arguments[1] : null, $this));
+        }
+        elseif(substr($name, 0, 6) === 'create')
+        {
+            if(!ctype_alnum($name))
             {
                 throw new Exception('Incorrect element name');
             }
-            $this->elements[] = new $class($arguments[0], isset($arguments[1]) ? $arguments[1] : null, $this);
-            return $this;
-            //
+            $class = '\\Core\\Web\\Form\\Element\\'.substr($name, 6);
+            if(!class_exists($class))
+            {
+                throw new Exception('Method ' . $name . ' not exists');
+            }
+
+            return (new $class($arguments[0], isset($arguments[1]) ? $arguments[1] : null, $this));
         }
-        return null;
+
+        throw new Exception('Method ' . $name . ' not exists');
+    }
+
+    /**
+     *
+     */
+    public function validate()
+    {
+
     }
 }

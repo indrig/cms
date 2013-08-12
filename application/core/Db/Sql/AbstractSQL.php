@@ -9,7 +9,8 @@
 
 namespace Core\Db\Sql;
 
-use Core\Db\Driver\DriverInterface,
+use Exception,
+    Core\Db\Driver\DriverInterface,
     Core\Db\ParameterContainer,
     Core\Db\Platform\PlatformInterface,
     Core\Db\StatementContainer;

@@ -8,10 +8,16 @@
  */
 namespace Core\Web\Form\View;
 
-use Core\Web\Form\AbstractElement;
+use Exception,
+    Core\Web\Form\AbstractElement;
 
 abstract class AbstractView
 {
+    protected static $views = array();
+    /**
+    * @var \Core\Web\Form\AbstractElement
+    */
+    protected $element;
     /**
     * Standard boolean attributes, with expected values for enabling/disabling
     *
@@ -28,8 +34,6 @@ abstract class AbstractView
         'selected'     => array('on' => 'selected',  'off' => ''),
     );
 
-
-
     /**
      * Create a string of all attribute/value pairs
      *
@@ -41,11 +45,31 @@ abstract class AbstractView
     public function createAttributesString(array $attributes)
     {
         $strings    = array();
+
         foreach ($attributes as $key => $value)
         {
-            //if($booleanAttributes isset($key))
+            $key = strtolower($key);
+
+            //Булевые атрибуты
+            if(IsSet($this->booleanAttributes[$key]))
+            {
+                $value = empty($value) ? $this->booleanAttributes[$key]['off'] : $this->booleanAttributes[$key]['on'];
+            }
             $strings[] = sprintf('%s="%s"', $key, $value);
         }
         return implode(' ', $strings);
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    public static function instance()
+    {
+        $name = get_called_class();
+        if(IsSet(self::$views[$name]))
+            return self::$views[$name];
+
+        return (self::$views[$name] = new $name());
     }
 }

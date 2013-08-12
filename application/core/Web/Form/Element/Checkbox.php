@@ -4,14 +4,16 @@ namespace Core\Web\Form\Element;
 use Core\Web\Form\AbstractElement,
     Core\Web\Form\View;
 
-abstract class Input extends AbstractElement
+class Checkbox extends AbstractElement
 {
+    protected $attributes = array(
+        'type'  => 'checkbox'
+    );
     public function getView()
     {
         if($this->view === null)
         {
-            $class = str_replace('Element', 'View', get_called_class());
-            $this->view = call_user_func(array($class, 'instance'));
+            $this->view = View\Checkbox::instance();
         }
         return $this->view;
     }

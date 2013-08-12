@@ -7,12 +7,7 @@ class Input extends AbstractView
 {
     protected $type;
 
-    /**
-     * @param \Core\Web\Form\AbstractElement $element
-     * @return string
-     * @throws \Exception
-     */
-    public function render($element)
+    public function render(\Core\Web\Form\Element\Input $element)
     {
         $name = $element->getName();
         if ($name === null || $name === '') {
@@ -26,11 +21,37 @@ class Input extends AbstractView
         $attributes['name']  = $name;
         $attributes['type']  = $this->type;
         $attributes['value'] = $element->getValue();
-        $attributes['class'] = 'form-control'.(isset($attributes['class']) ? $attributes['class'] : '');
-
+        $element->addClass('form-control');
         return sprintf(
             '<input %s />',
             $this->createAttributesString($attributes)
         );
+    }
+
+    public function renderRow(\Core\Web\Form\Element\Input $element)
+    {
+        $element->addClass('form-control');
+        $row = '<div class="form-group">';
+        if(!$element->hasAttribute('id'))
+        {
+            $element->setAttribute('id', 'input_'.$element->getName());
+        }
+        /**
+        * @var Label $label
+        */
+        $label = Label::instance();
+        $row .= $label->render(
+            array(
+                'class' => 'col-lg-3 control-label',
+                'for'   => $element->getAttribute('id')
+            ),
+            $element->getLabel()
+        );
+        $row .= '<div class="col-lg-9">';
+        $row .= $this->render($element);
+        $row .= '</div>';
+        $row .= '</div>';
+
+        return $row;
     }
 }
