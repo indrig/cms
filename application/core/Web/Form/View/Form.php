@@ -26,6 +26,13 @@ class Form extends AbstractView
         {
             $form->addClass('form-inline');
         }
+        if($form->isAlert())
+        {
+            $alertStyle = $form->getAlertStyle();
+            $form_content .= '<div class="alert">';
+            $form_content .= $form->getAlert();
+            $form_content .= '</div>';
+        }
         foreach($elements as $element)
         {
             if($form->getOrientation() === \Core\Web\Form\Form::ORIENTATION_VERTICAL)

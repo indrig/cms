@@ -102,6 +102,9 @@ class Application extends \Core\Base\Application
         $this->setPlugin('auth', array('class' => '\Core\Web\Auth\AuthManager'));
     }
 
+    /**
+     * @return \Core\Web\Request
+     */
     public function getRequest()
     {
         return $this->getPlugin('request');

@@ -22,7 +22,13 @@ class UserController extends Controller
 
     public function actionLogin()
     {
+        $request = $this->app()->getRequest();
+
         $form = new Form\UserLogin();
+        if($request->isPost())
+        {
+            $form->setAlert('test', 'danger');
+        }
 
         $view = new ViewModel();
         $view->setVariable('form', $form);

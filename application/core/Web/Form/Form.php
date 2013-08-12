@@ -26,6 +26,9 @@ class Form extends AbstractElement
 
     protected $orientation = self::ORIENTATION_VERTICAL;
 
+    protected $alert;
+    protected $alert_style;
+
     public function __construct($name = null, $options = array(), $parent = null)
     {
         parent::__construct($name, $options, $parent);
@@ -117,5 +120,38 @@ class Form extends AbstractElement
     public function validate()
     {
 
+    }
+
+    public function setAlert($message, $style = null)
+    {
+        $this->alert = $message;
+
+        if($style !== null)
+        {
+            $this->setAlertStyle($style);
+        }
+    }
+
+    public function setAlertStyle($style = null)
+    {
+        if(in_array($style, array(null, 'danger', 'success', 'info')))
+        {
+            $this->alert_style = $style;
+        }
+    }
+
+    public function getAlert()
+    {
+        return $this->alert;
+    }
+
+    public function isAlert()
+    {
+        return is_string($this->alert);
+    }
+
+    public function getAlertStyle()
+    {
+        return $this->alert_style;
     }
 }
