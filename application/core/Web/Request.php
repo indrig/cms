@@ -56,9 +56,12 @@ class Request extends Plugin
         return $this->query;
     }
 
-    public function getPost()
+    public function getPost($name = null)
     {
-        return $_POST;
+        if($name === null)
+            return $_POST;
+
+        return isset($_POST[$name]) ? $_POST[$name] : null;
     }
 
     /**

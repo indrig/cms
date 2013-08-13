@@ -11,11 +11,20 @@ namespace Core\Translator;
 use Core\Base\Plugin;
 class TranslateManager extends Plugin
 {
-    protected $_messages = array();
-    protected $_files = array();
-    protected $_locate;
+    protected $messages = array();
+    protected $files = array();
+    protected $locate;
 
     public function translate($message)
+    {
+        return isset($this->messages[$message]) ? $this->messages[$message] : $message;
+    }
+
+    /**
+     * Добавления файла перевода
+     * @param $filename
+     */
+    public function addTranslationFile($filename)
     {
 
     }

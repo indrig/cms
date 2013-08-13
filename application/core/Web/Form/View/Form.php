@@ -29,7 +29,7 @@ class Form extends AbstractView
         if($form->isAlert())
         {
             $alertStyle = $form->getAlertStyle();
-            $form_content .= '<div class="alert">';
+            $form_content .= '<div class="alert'.(is_string($alertStyle) ? ' '.$alertStyle : '').'">';
             $form_content .= $form->getAlert();
             $form_content .= '</div>';
         }

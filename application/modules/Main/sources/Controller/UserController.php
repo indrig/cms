@@ -24,10 +24,22 @@ class UserController extends Controller
     {
         $request = $this->app()->getRequest();
 
+        /**
+         * @var $userTable \Main\Model\UserTable
+         */
+        $userTable = $this->table('user');
+
         $form = new Form\UserLogin();
         if($request->isPost())
         {
-            $form->setAlert('test', 'danger');
+            $login = $request->getPost('login');
+
+            if(($user = $userTable->getByLogin($login)) !== false)
+            {
+                //Логин не найден
+            }
+
+            $form->setAlert('<strong>'.$this->translate('Login failed.').'</strong><br />'.$this->translate('Please make sure that you\'ve entered your login and password correctly.'), 'danger');
         }
 
         $view = new ViewModel();

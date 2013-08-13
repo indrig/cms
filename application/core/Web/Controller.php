@@ -32,9 +32,15 @@ abstract class Controller
 
     /**
      * @param string $modelName
+     * @return \Core\Db\TableGateway\AbstractTableGateway
      */
-    public function table($modelName = '', $moduleName = null)
+    public function table($name)
     {
+        return $this->app()->getDB()->table($name);
+    }
 
+    public function translate($message)
+    {
+        return $this->app()->getTranslator()->translate($message);
     }
 }

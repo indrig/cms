@@ -10,10 +10,10 @@
  */
 namespace Main\Model;
 
-use Core\Db\TableGateway\AbstractTableGateway;
-use Core\Db\Adapter,
+use Core\Db\TableGateway\AbstractTableGateway,
+    Core\Db\Adapter,
 
-    Core\Db\Sql\Sql;
+    Main\Model\Entity\User;
 
 class UserTable extends AbstractTableGateway
 {
@@ -21,12 +21,27 @@ class UserTable extends AbstractTableGateway
 
     public function __construct(Adapter $adapter)
     {
+
         $this->adapter 	= $adapter;
+
+        //$this->resultSetPrototype = new User();
     }
 
     public function test()
     {
         $res = $this->select();
     var_dump($res->current());
+    }
+
+    public function getByLogin($login)
+    {
+        $res = $this->select(array('login' => $login));
+        $res->setArrayObjectPrototype(new User());
+        if(($arUser = $res->current()) !== false)
+        {
+            return $arUser;
+
+        }
+        return false;
     }
 }
