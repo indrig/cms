@@ -19,21 +19,21 @@ class Part extends RouterManager implements RouteInterface
      *
      * @var RouteInterface
      */
-    protected $_route;
+    protected $route;
 
     /**
      * Whether the route may terminate.
      *
      * @var bool
      */
-    protected $_mayTerminate;
+    protected $mayTerminate;
 
     /**
      * Child routes.
      *
      * @var mixed
      */
-    protected $_childRoutes;
+    protected $childRoutes;
 
    // protected $_manager;
 
@@ -53,9 +53,9 @@ class Part extends RouterManager implements RouteInterface
         }
 
 
-        $this->_route        = $route;
-        $this->_mayTerminate = $mayTerminate;
-        $this->_childRoutes  = $childRoutes;
+        $this->route        = $route;
+        $this->mayTerminate = $mayTerminate;
+        $this->childRoutes  = $childRoutes;
     }
 
     /**
@@ -106,19 +106,19 @@ class Part extends RouterManager implements RouteInterface
             $pathOffset = 0;
         }
 
-        $match = $this->_route->match($request, $pathOffset);
+        $match = $this->route->match($request, $pathOffset);
         if($match !== null)
         {
 
-            if ($this->_childRoutes !== null)
+            if ($this->childRoutes !== null)
             {
-                $this->addRoutes($this->_childRoutes);
+                $this->addRoutes($this->childRoutes);
                 $this->_childRoutes = null;
             }
             $nextOffset = $pathOffset + $match->getLength();
             $pathLength = strlen($request->getPath());
 
-            if ($this->_mayTerminate && $nextOffset === $pathLength) {
+            if ($this->mayTerminate && $nextOffset === $pathLength) {
                 //$query = $uri->getQuery();
                 //if ('' == trim($query) || !$this->hasQueryChild()) {
                     return $match;
@@ -128,7 +128,7 @@ class Part extends RouterManager implements RouteInterface
              * @var RouteInterface $route
              */
           //  var_dump($this->_routes);
-            foreach ($this->_routes as $name => $route)
+            foreach ($this->routes as $name => $route)
             {
                 if (($subMatch = $route->match($request, $nextOffset)) instanceof RouteMatch)
                 {

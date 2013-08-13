@@ -12,24 +12,23 @@ use Core\Web\Request;
 
 class RouterManager
 {
-    protected $_routes;
-    protected $_typePrototype   = array();
-    protected $_typeClass  = array();
+    protected $routes;
+    protected $typePrototype   = array();
+    protected $typeClass  = array();
     public function __construct()
     {
-        $this->_routes = new PriorityList();
+        $this->routes = new PriorityList();
 
         //Иницилизация списка шаблонов
         foreach (
             array(
-                'literal'  => __NAMESPACE__ . '\Types\Literal',
-                'segment'  => __NAMESPACE__ . '\Types\Segment',
-                'part'  => __NAMESPACE__ . '\Types\Part',
+                'literal'   => __NAMESPACE__ . '\Types\Literal',
+                'segment'   => __NAMESPACE__ . '\Types\Segment',
+                'part'      => __NAMESPACE__ . '\Types\Part',
             ) as $name => $class
         )
         {
-            $this->_typeClass[$name] = $class;
-            //$routes->setInvokableClass($name, $class);
+            $this->typeClass[$name] = $class;
         };
     }
 
@@ -77,14 +76,14 @@ class RouterManager
             $priority = $route->priority;
         }
 
-        $this->_routes->insert($name, $route, $priority);
+        $this->routes->insert($name, $route, $priority);
 
         return $this;
     }
 
     public function getRoutes()
     {
-        return $this->_routes;
+        return $this->routes;
     }
 
     /**
@@ -112,13 +111,13 @@ class RouterManager
             $specs['options'] = array();
         }
 
-        if(!IsSet($this->_typeClass[$specs['type']]))
-        {var_dump($specs);
+        if(!IsSet($this->typeClass[$specs['type']]))
+        {
             throw new Exception('Incorrect "type" option');
         }
 
 
-        $route = call_user_func_array(array($this->_typeClass[$specs['type']], 'factory'), array($specs['options']));
+        $route = call_user_func_array(array($this->typeClass[$specs['type']], 'factory'), array($specs['options']));
 
         if (isset($specs['priority']))
         {
@@ -132,7 +131,7 @@ class RouterManager
                 'may_terminate' => (isset($specs['may_terminate']) && $specs['may_terminate']),
                 'child_routes'  => $specs['child_routes'],
             );
-            $route = call_user_func_array(array('\Core\Web\Router\Types\Part', 'factory'), array($options));
+            $route = call_user_func_array(array('\\Core\\Web\\Router\\Types\\Part', 'factory'), array($options));
 
         }
         return $route;
@@ -145,10 +144,11 @@ class RouterManager
      */
     public function match(Request $request)
     {
+
         /**
          * @var RouteInterface $route
          */
-        foreach ($this->_routes as $name => $route)
+        foreach ($this->routes as $name => $route)
         {
             if(($match = $route->match($request)) !== null)
             {

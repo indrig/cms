@@ -3,7 +3,7 @@ namespace Core;
 
 class Application
 {
-    private static $_instance;
+    private static $instance;
     /**
      * Создает новое Web приложение
      * @param $config   - файл конфигурации
@@ -27,9 +27,9 @@ class Application
      */
     public static function setApplication(Base\Application $app)
     {
-        if(self::$_instance === null || $app === null)
+        if(self::$instance === null || $app === null)
         {
-            self::$_instance = $app;
+            self::$instance = $app;
             return false;
         }
 
@@ -41,6 +41,6 @@ class Application
      */
     public static function app()
     {
-        return self::$_instance;
+        return self::$instance;
     }
 }

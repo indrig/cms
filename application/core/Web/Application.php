@@ -10,7 +10,10 @@ use Core\Event\Event;
 
 class Application extends \Core\Base\Application
 {
-    protected $_controller;
+    /**
+     * @var \Core\Web\Controller
+     */
+    protected $controller;
     /**
      * @param $config   файл конфигурации
      */
@@ -35,23 +38,40 @@ class Application extends \Core\Base\Application
             $params = $match->getParams();
             if(!IsSet($params['action']))
                 $params['action'];
-            if(is_subclass_of($params['controller'], '\Core\Web\Controller'))
+            if(is_subclass_of($params['controller'], '\\Core\\Web\\Controller'))
             {
-
-                $this->_controller = new $params['controller']($this);
-                $this->event('onControllerCreated', new Event($this, array('controller' => $this->_controller)));
-
+                $this->controller = new $params['controller']($this);
+                $this->event('onControllerCreated', new Event($this, array('controller' => $this->controller)));
                 $methodName = 'action'.$params['action'];
 
-                if(method_exists($this->_controller, $methodName))
+                if(method_exists($this->controller, $methodName))
                 {
-                    $controllerResult = call_user_func_array(array($this->_controller, $methodName), array());
+                    $controllerResult = call_user_func_array(array($this->controller, $methodName), array());
                     if($controllerResult !== false)
                     {
                         //Используем по умолчанию HTML вывод
                         if(is_array($controllerResult) || $controllerResult === null)
                         {
                             $controllerResult = new View\Model\ViewModel($controllerResult);
+
+                            //Определяем файл для фронтенда по умолчанию
+                            if(($viewPath = $this->getModuleManager()->pathForModule($this->controller->getModuleName()).'/view') !== false && ($r_separator_pos = strrpos($params['controller'], '\\')) !== false)
+                            {
+
+                                $controllerClassStr = strtolower(substr($params['controller'], $r_separator_pos+1));
+                                if(substr($controllerClassStr, -10) === 'controller')
+                                {
+                                    $controllerClassStr = substr($controllerClassStr, 0, -10);
+                                }
+                                $viewFile = $viewPath.'/'.$controllerClassStr.'/'.$params['action'].'.phtml';
+                                if(file_exists($viewFile))
+                                {
+                                    $controllerResult->setFile($viewFile);
+                                }
+                            }
+
+
+
                         }
                         $this->getRenderer()->render($controllerResult);
                     }

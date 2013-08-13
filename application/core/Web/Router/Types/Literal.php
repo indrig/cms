@@ -18,14 +18,14 @@ class Literal implements RouteInterface
      *
      * @var string
      */
-    protected $_route;
+    protected $route;
 
     /**
      * Default values.
      *
      * @var array
      */
-    protected $_defaults;
+    protected $defaults;
 
     /**
      * Создать новый точный маршрут
@@ -35,8 +35,8 @@ class Literal implements RouteInterface
      */
     public function __construct($route, array $defaults = array())
     {
-        $this->_route    = $route;
-        $this->_defaults = $defaults;
+        $this->route    = $route;
+        $this->defaults = $defaults;
     }
 
     public function match(Request $request, $pathOffset = null)
@@ -48,26 +48,23 @@ class Literal implements RouteInterface
         if ($pathOffset !== null)
         {
 
-            if ($pathOffset >= 0 && strlen($path) >= $pathOffset && !empty($this->_route))
+            if ($pathOffset >= 0 && strlen($path) >= $pathOffset && !empty($this->route))
             {
-                if($this->_route == '/rss')
-                {
 
-                }
               //
               //  echo '<br>';
-                if (strpos($path, $this->_route, $pathOffset) === $pathOffset)
+                if (strpos($path, $this->route, $pathOffset) === $pathOffset)
                 {
-                    return new RouteMatch($this->_defaults, strlen($this->_route));
+                    return new RouteMatch($this->defaults, strlen($this->route));
                 }
             }
 
             return null;
         }
 
-        if ($path === $this->_route)
+        if ($path === $this->route)
         {
-            return new RouteMatch($this->_defaults, strlen($this->_route));
+            return new RouteMatch($this->defaults, strlen($this->route));
         }
 
         return null;

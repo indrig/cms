@@ -9,13 +9,13 @@ namespace Core\Web\Router;
 
 class RouteMatch
 {
-    protected $_params = array();
-    protected $_matchedRouteName;
-    protected $_length;
+    protected $params = array();
+    protected $matchedRouteName;
+    protected $length;
     public function __construct(array $params, $length)
     {
-        $this->_params  = $params;
-        $this->_length  = $length;
+        $this->params  = $params;
+        $this->length  = $length;
     }
 
     /**
@@ -24,7 +24,7 @@ class RouteMatch
      */
     public function setMatchedRouteName($name)
     {
-        $this->_matchedRouteName = $name;
+        $this->matchedRouteName = $name;
         return $this;
     }
 
@@ -35,7 +35,7 @@ class RouteMatch
      */
     public function getMatchedRouteName()
     {
-        return $this->_matchedRouteName;
+        return $this->matchedRouteName;
     }
 
     /**
@@ -45,21 +45,21 @@ class RouteMatch
      */
     public function getParams()
     {
-        return $this->_params;
+        return $this->params;
     }
 
     public function merge(RouteMatch $match)
     {
-        $this->_params  = array_merge($this->_params, $match->getParams());
-        $this->_length += $match->getLength();
+        $this->params  = array_merge($this->params, $match->getParams());
+        $this->length += $match->getLength();
 
-        $this->_matchedRouteName = $match->getMatchedRouteName();
+        $this->matchedRouteName = $match->getMatchedRouteName();
         return $this;
     }
 
     public function getLength()
     {
-        return $this->_length;
+        return $this->length;
     }
 
 }

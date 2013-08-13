@@ -9,17 +9,17 @@ use Core\Base\Application;
 
 abstract class Plugin
 {
-    protected  $_config;
-    private  $_app;
+    protected  $config;
+    private  $app;
 
     public function __construct($config, Application $app = null)
     {
-        $this->_config = $config;
-        $this->_app     = $app;
+        $this->config = $config;
+        $this->app     = $app;
     }
 
     protected function app()
     {
-        return $this->_app;
+        return $this->app;
     }
 }

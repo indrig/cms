@@ -6,6 +6,7 @@
  */
 namespace Core\Web\View\Model;
 
+use Core\Application;
 use Exception;
 
 class ViewModel implements ModelInterface
@@ -13,10 +14,15 @@ class ViewModel implements ModelInterface
     protected $variables   = array();
     protected $children    = array();
     protected $file;
+    protected $translator;
 
     public function __construct($variables = null, $options = null)
     {
-        $this->setVariables($variables);
+        if($variables !== null)
+        {
+            $this->setVariables($variables);
+        }
+        $this->translator = Application::app()->getTranslator();
     }
 
     public function setVariable($variable, $value)
@@ -57,5 +63,10 @@ class ViewModel implements ModelInterface
     public function setFile($file)
     {
         $this->file = $file;
+    }
+
+    public function translate($message)
+    {
+        return $this->translator->translate($message);
     }
 }

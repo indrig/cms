@@ -8,15 +8,15 @@
 namespace Core\Db;
 
 use Core\Base\Plugin,
-    Core\Db\Table\AbstractTable,
+    Core\Db\TableGateway\TableGatewayInterface,
     Core\Db\Adapter
     ;
 
 class DataBaseManager extends Plugin
 {
 
-    private $_tables    = array();
-    private $_adapters  = array();
+    private $tables    = array();
+    private $adapters  = array();
 
     public function __construct($config)
     {
@@ -30,7 +30,7 @@ class DataBaseManager extends Plugin
     public function registerTable($name, $class, $adapter = null)
     {
         $name = strtolower($name);
-        $this->_tables[$name] = array(
+        $this->tables[$name] = array(
             'adapter'   => $adapter instanceof DataBaseManager ? $adapter : 'default',
             'class'     => $class,
             'instance'  => null
@@ -39,13 +39,13 @@ class DataBaseManager extends Plugin
 
     public function table($name)
     {
-        if(!isset($this->_tables[$name]))
+        if(!isset($this->tables[$name]))
             return null;
 
-        $table = &$this->_tables[$name];
+        $table = &$this->tables[$name];
 
-        if($table['instance'] instanceof AbstractTable)
-            return $this->_tables[$name]['instance'];
+        if($table['instance'] instanceof TableGatewayInterface)
+            return $this->tables[$name]['instance'];
 
         return ($table['instance'] = new $table['class']($table['adapter'] instanceof Adapter?:$this->adapter($table['adapter'])));
     }
@@ -55,12 +55,12 @@ class DataBaseManager extends Plugin
      */
     public function adapter($name)
     {
-        if(IsSet($this->_adapters[$name]))
-           return $this->_adapters[$name];
+        if(IsSet($this->adapters[$name]))
+           return $this->adapters[$name];
 
-        if(IsSet($this->_config['adapters'][$name]))
+        if(IsSet($this->config['adapters'][$name]))
         {
-            return ($this->_adapters[$name] = new Adapter($this->_config['adapters'][$name]));
+            return ($this->adapters[$name] = new Adapter($this->config['adapters'][$name]));
         }
 
         return $this;

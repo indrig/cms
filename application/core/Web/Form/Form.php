@@ -154,4 +154,9 @@ class Form extends AbstractElement
     {
         return $this->alert_style;
     }
+
+    public function translate($message)
+    {
+        return \Core\Application::app()->getTranslator()->translate($message);
+    }
 }

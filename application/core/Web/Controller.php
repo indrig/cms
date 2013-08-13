@@ -4,10 +4,24 @@ namespace Core\Web;
 
 abstract class Controller
 {
-    protected $_app;
+    protected $app;
+    protected $moduleName;
+    protected $controllerClassName;
+    /**
+     * @var \Core\Translator\TranslateManager
+     */
+    private $translator;
+    /**
+     * Конструктор класса
+     *
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
-        $this->_app = $app;
+        $this->app                  = $app;
+        $this->translator           = $app->getTranslator();
+        $this->controllerClassName  = get_called_class();
+        $this->moduleName           = substr($this->controllerClassName, 0, strpos($this->controllerClassName, '\\'));
     }
     /**
      * Кеширует вывод выполнения
@@ -22,12 +36,15 @@ abstract class Controller
      */
     protected function setTemplate($templateName)
     {
-        //A::app()->template->setTemplate($templateName);
+        //$this->app()->get->setTemplate($templateName);
     }
 
+    /**
+     * @return Application
+     */
     protected function app()
     {
-        return $this->_app;
+        return $this->app;
     }
 
     /**
@@ -39,8 +56,32 @@ abstract class Controller
         return $this->app()->getDB()->table($name);
     }
 
+    /**
+     * Перевод строки
+     * @param string $message Сообщение для перевода
+     * @return string
+     */
     public function translate($message)
     {
-        return $this->app()->getTranslator()->translate($message);
+        return $this->translator->translate($message);
+    }
+
+    /**
+     * Получение имени модуля
+     *
+     * @return string
+     */
+    public function getModuleName()
+    {
+        return $this->moduleName;
+    }
+
+    /**
+     * @param string $action
+     * @return string
+     */
+    public function getDefaultViewFile($action)
+    {
+
     }
 }

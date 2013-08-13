@@ -14,17 +14,18 @@ use Core\Base\Plugin,
 
 class ModuleManager extends Plugin
 {
-    private $_folder;
-    private $_module = array();
+    private $folder;
+    private $module             = array();
+    private $modulePathsCache        = array();
 
     public function __construct($config, Application $app)
     {
        parent::__construct($config, $app);
-       $this->_folder = IsSet($this->_config['folder']) ? $this->_config['folder'] : realpath(__DIR__.'/../../modules');
+       $this->folder = IsSet($this->config['folder']) ? $this->config['folder'] : realpath(__DIR__.'/../../modules');
       //
-       if(IsSet($this->_config['modules']) && is_array($this->_config['modules']))
+       if(IsSet($this->config['modules']) && is_array($this->config['modules']))
        {
-           foreach($this->_config['modules'] as $moduleName)
+           foreach($this->config['modules'] as $moduleName)
            {
                $this->load($moduleName);
            }
@@ -38,15 +39,16 @@ class ModuleManager extends Plugin
      */
     public function load($name)
     {
-        if(IsSet($this->_module[$name]) || !ctype_alpha($name) || !file_exists($this->_folder.'/'.$name.'/Module.php'))
+        if(IsSet($this->module[$name]) || !ctype_alpha($name) || !file_exists($this->folder.'/'.$name.'/Module.php'))
             return false;
 
         //Подключение файла модуля
-        include $this->_folder.'/'.$name.'/Module.php';
+        include $this->folder.'/'.$name.'/Module.php';
         $class = '\\'.$name.'\\Module';
         if(class_exists($class))
         {
-            $this->_module[$name] = new $class($this->app());
+            $this->module[$name]        = new $class($this->app());
+
         }
         return true;
     }
@@ -58,6 +60,19 @@ class ModuleManager extends Plugin
      */
     public function getFolder()
     {
-        return $this->_folder;
+        return $this->folder;
+    }
+
+    public function pathForModule($name)
+    {
+        if(isset($this->modulePathsCache[$name]))
+            return $this->modulePathsCache[$name];
+
+        if(ctype_alpha($name) && file_exists($this->folder.'/'.$name.'/Module.php'))
+        {
+            return ($this->modulePathsCache[$name] = $this->folder.'/'.$name);
+        }
+
+        return ($this->modulePathsCache[$name] = false);
     }
 }

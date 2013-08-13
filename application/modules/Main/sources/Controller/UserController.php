@@ -14,24 +14,27 @@ class UserController extends Controller
 
     public function actionSignUp()
     {
-        $view = new ViewModel();
-        $view->setFile(__DIR__.'/../../view/user/signup.phtml');
+        $request = $this->app()->getRequest();
 
-        return $view;
+        $form = new Form\UserSignUp();
+        if($request->isPost())
+        {
+
+        }
+        return array('form' => $form);
     }
 
-    public function actionLogin()
+    public function actionSignIn()
     {
         $request = $this->app()->getRequest();
 
-        /**
-         * @var $userTable \Main\Model\UserTable
-         */
-        $userTable = $this->table('user');
-
-        $form = new Form\UserLogin();
+        $form = new Form\UserSignIn();
         if($request->isPost())
         {
+            /**
+            * @var $userTable \Main\Model\UserTable
+            */
+            $userTable = $this->table('user');
             $login = $request->getPost('login');
 
             if(($user = $userTable->getByLogin($login)) !== false)
@@ -41,11 +44,11 @@ class UserController extends Controller
 
             $form->setAlert('<strong>'.$this->translate('Login failed.').'</strong><br />'.$this->translate('Please make sure that you\'ve entered your login and password correctly.'), 'danger');
         }
+        return array('form' => $form);
+    }
 
-        $view = new ViewModel();
-        $view->setVariable('form', $form);
-        $view->setFile(__DIR__.'/../../view/user/login.phtml');
+    public function actionSignOut()
+    {
 
-        return $view;
     }
 }
