@@ -15,7 +15,7 @@ class UserController extends Controller
     public function actionSignUp()
     {
         $request = $this->app()->getRequest();
-
+        var_dump($request->getPreferredLanguages());
         $form = new Form\UserSignUp();
         if($request->isPost())
         {

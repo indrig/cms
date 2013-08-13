@@ -16,15 +16,15 @@ use Exception,
 
 class ViewManager extends Plugin
 {
-    private $_folder;
-    private $_view_folder;
-    private $_template = 'default';
-    private $_title = '';
+    private $folder;
+    private $view_folder;
+    private $template = 'default';
+    private $title = '';
     public function __construct($config, Application $app)
     {
         parent::__construct($config, $app);
-        $this->_folder = IsSet($this->_config['folder']) ? $this->_config['folder'] : realpath(__DIR__.'/../../../templates');
-        $this->_view_folder = IsSet($this->_config['view_folder']) ? $this->_config['view_folder'] : realpath(__DIR__.'/../../../view');
+        $this->folder = IsSet($this->config['folder']) ? $this->config['folder'] : realpath(__DIR__.'/../../../templates');
+        $this->view_folder = IsSet($this->config['view_folder']) ? $this->config['view_folder'] : realpath(__DIR__.'/../../../view');
     }
 
     /**
@@ -32,7 +32,7 @@ class ViewManager extends Plugin
      */
     public function setTemplate($name)
     {
-        $this->_template = $name;
+        $this->template = $name;
         return $this;
     }
 
@@ -41,7 +41,7 @@ class ViewManager extends Plugin
      */
     public function getTemplate()
     {
-        return $this->_template;
+        return $this->template;
     }
 
     /**
@@ -50,7 +50,7 @@ class ViewManager extends Plugin
      */
     public function getTemplateFolder()
     {
-        return $this->_folder.'/'.$this->_template;
+        return $this->folder.'/'.$this->template;
     }
 
     /**
@@ -59,7 +59,7 @@ class ViewManager extends Plugin
      */
     public function getViewFolder()
     {
-        return $this->_view_folder;
+        return $this->view_folder;
     }
 
     /**
@@ -83,19 +83,19 @@ class ViewManager extends Plugin
     public function renderError($file, $variables = null)
     {
         $model = new ViewModel($variables);
-        $model->setFile($this->_view_folder.'/error/'.$file.'.phtml');
+        $model->setFile($this->view_folder.'/error/'.$file.'.phtml');
         $renderer = new ViewRenderer($this->app());
         $renderer->render($model);
     }
 
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     public function setTitle($title)
     {
-        $this->_title = $title;
+        $this->title = $title;
         return $this;
     }
 }

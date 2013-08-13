@@ -69,9 +69,6 @@ class Application extends \Core\Base\Application
                                     $controllerResult->setFile($viewFile);
                                 }
                             }
-
-
-
                         }
                         $this->getRenderer()->render($controllerResult);
                     }

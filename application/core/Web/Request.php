@@ -10,26 +10,17 @@ use Core\Base\Plugin;
 
 class Request extends Plugin
 {
-    const METHOD_OPTIONS = 'OPTIONS';
-    const METHOD_GET     = 'GET';
-    const METHOD_HEAD    = 'HEAD';
-    const METHOD_POST    = 'POST';
-    const METHOD_PUT     = 'PUT';
-    const METHOD_DELETE  = 'DELETE';
-    const METHOD_TRACE   = 'TRACE';
-    const METHOD_CONNECT = 'CONNECT';
-    const METHOD_PATCH   = 'PATCH';
-    const METHOD_PROPFIND= 'PROPFIND';
     /**#@-*/
 
     /**
      * @var string
      */
-    protected $method = self::METHOD_GET;
+    protected $method = 'GET';
 
     private $path;
     private $query;
     private $fragment;
+    private $preferredLanguages;
     public function __construct($config)
     {
         $arUrl = parse_url($_SERVER['REQUEST_URI']);
@@ -56,12 +47,12 @@ class Request extends Plugin
         return $this->query;
     }
 
-    public function getPost($name = null)
+    public function getPost($name = null, $defaultValue = null)
     {
         if($name === null)
             return $_POST;
 
-        return isset($_POST[$name]) ? $_POST[$name] : null;
+        return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
     }
 
     /**
@@ -71,7 +62,7 @@ class Request extends Plugin
      */
     public function isOptions()
     {
-        return ($this->method === self::METHOD_OPTIONS);
+        return ($this->method === 'OPTIONS');
     }
 
     /**
@@ -81,7 +72,7 @@ class Request extends Plugin
      */
     public function isPropFind()
     {
-        return ($this->method === self::METHOD_PROPFIND);
+        return ($this->method === 'PROPFIND');
     }
 
     /**
@@ -91,7 +82,7 @@ class Request extends Plugin
      */
     public function isGet()
     {
-        return ($this->method === self::METHOD_GET);
+        return ($this->method === 'GET');
     }
 
     /**
@@ -101,7 +92,7 @@ class Request extends Plugin
      */
     public function isHead()
     {
-        return ($this->method === self::METHOD_HEAD);
+        return ($this->method === 'HEAD');
     }
 
     /**
@@ -111,7 +102,7 @@ class Request extends Plugin
      */
     public function isPost()
     {
-        return ($this->method === self::METHOD_POST);
+        return ($this->method === 'POST');
     }
 
     /**
@@ -121,7 +112,7 @@ class Request extends Plugin
      */
     public function isPut()
     {
-        return ($this->method === self::METHOD_PUT);
+        return ($this->method === 'PUT');
     }
 
     /**
@@ -131,7 +122,7 @@ class Request extends Plugin
      */
     public function isDelete()
     {
-        return ($this->method === self::METHOD_DELETE);
+        return ($this->method === 'DELETE');
     }
 
     /**
@@ -141,7 +132,7 @@ class Request extends Plugin
      */
     public function isTrace()
     {
-        return ($this->method === self::METHOD_TRACE);
+        return ($this->method === 'TRACE');
     }
 
     /**
@@ -151,7 +142,7 @@ class Request extends Plugin
      */
     public function isConnect()
     {
-        return ($this->method === self::METHOD_CONNECT);
+        return ($this->method === 'CONNECT');
     }
 
     /**
@@ -161,6 +152,37 @@ class Request extends Plugin
      */
     public function isPatch()
     {
-        return ($this->method === self::METHOD_PATCH);
+        return ($this->method === 'PATCH');
+    }
+
+    /**
+     * Получение подеживаемых языков по порядку
+     * @return array
+     */
+    public function getPreferredLanguages()
+    {
+        if($this->preferredLanguages===null)
+        {
+            $sortedLanguages=array();
+            if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))
+            {
+                $languages=array();
+
+                for($i=0;$i<$n;++$i)
+                {
+                    $q=$matches[2][$i];
+                    if($q==='')
+                        $q=1;
+                    if($q)
+                        $languages[]=array((float)$q,$matches[1][$i]);
+                }
+
+                usort($languages, create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
+                foreach($languages as $language)
+                    $sortedLanguages[]=$language[1];
+            }
+            $this->preferredLanguages=$sortedLanguages;
+        }
+        return $this->preferredLanguages;
     }
 }

@@ -47,7 +47,7 @@ class Input extends AbstractView
             ),
             $element->getLabel()
         );
-        $row .= '<div class="col-lg-9">';
+        $row .= '<div class="col-lg-3">';
         $row .= $this->render($element);
         $row .= '</div>';
         $row .= '</div>';
