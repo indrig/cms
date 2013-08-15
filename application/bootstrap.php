@@ -1,22 +1,17 @@
 <?php
-define('IN_CMS', true);
-
 error_reporting(E_ALL | E_NOTICE);
-//Глобпльные настройки
-define('CMS_ENABLE_EXCEPTION_HANDLER',  true);  //Перехватовать CMS исключения
-define('CMS_ENABLE_ERROR_HANDLER',      true);  //Перехватывать CMS ошибки
+chdir(__DIR__);
+include  'library/Zend/Loader/AutoloaderFactory.php';
 
-//Подключение автозагрущика
-include __DIR__.'/core/AutoLoader.php';
-
-//Иницилизация автозагрущика
-\Core\AutoLoader::init();
-
-if(!class_exists('A'))
+if (!class_exists('Zend\Loader\AutoloaderFactory'))
 {
-    class A extends \Core\Application
-    {
-
-    }
+     throw new RuntimeException('Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.');
 }
 
+Zend\Loader\AutoloaderFactory::factory(
+	array(
+		'Zend\Loader\StandardAutoloader' => array(
+                'autoregister_zf' => true
+        )
+    )
+);
