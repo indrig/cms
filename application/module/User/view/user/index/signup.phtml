@@ -3,4 +3,17 @@
  * User: Igor Bubnevich aka Indrig
  * Date: 14.08.13
  * Time: 17:58
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \User\Form\SignUp $form
  */
+
+$form->prepareElements();
+$formLabel = $this->plugin('formLabel');
+echo $this->form()->openTag($form);
+$name = $form->get('login');
+echo $formLabel->openTag() . $name->getOption('label');
+echo $this->formInput($name);
+echo $this->formElementErrors($name);
+echo $formLabel->closeTag();
+echo $this->form()->closeTag();
+?>

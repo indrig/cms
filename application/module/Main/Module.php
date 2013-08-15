@@ -9,8 +9,9 @@
 
 namespace Main;
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
+use Zend\Mvc\ModuleRouteListener,
+    Zend\Mvc\MvcEvent,
+    Zend\Http\AbstractMessage;
 
 class Module
 {
@@ -19,6 +20,21 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+
+        $eventManager->attach(MvcEvent::EVENT_FINISH,
+            function(MvcEvent $e)
+            {
+                $response = $e->getResponse();
+                if ($response instanceof AbstractMessage)
+                {
+
+                    $response->getHeaders()->addHeaders(array(
+                        'X-Powered-By' => 'Nashny CMS',
+                        'Server' => 'Nashny Script'
+                    ));
+                }
+            }, 500);
     }
 
     public function getConfig()

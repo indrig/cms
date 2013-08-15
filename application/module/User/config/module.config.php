@@ -45,7 +45,7 @@ return array(
 						'options' => array(
 							'route'    => '/signup',
 							'defaults' => array(
-								'action'        => 'index',
+								'action'        => 'signup',
 							),
 						),
 					),
