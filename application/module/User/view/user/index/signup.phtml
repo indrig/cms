@@ -6,14 +6,14 @@
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \User\Form\SignUp $form
  */
+$this->headTitle('Sign Up');
 
-$form->prepareElements();
-$formLabel = $this->plugin('formLabel');
-echo $this->form()->openTag($form);
-$name = $form->get('login');
-echo $formLabel->openTag() . $name->getOption('label');
-echo $this->formInput($name);
-echo $this->formElementErrors($name);
-echo $formLabel->closeTag();
-echo $this->form()->closeTag();
 ?>
+<div class="container">
+    <div class="panel">
+        <div class="panel-heading"><h1 class="panel-title"><?=$this->translate('Sign Up')?></h1></div>
+        <div class="panel-body">
+            <?=$this->TBForm($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+        </div>
+    </div>
+</div>

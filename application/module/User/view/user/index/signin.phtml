@@ -2,5 +2,18 @@
 /**
  * User: Igor Bubnevich aka Indrig
  * Date: 14.08.13
- * Time: 17:57
+ * Time: 17:58
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \User\Form\SignUp $form
  */
+$this->headTitle('Sign In');
+
+?>
+<div class="container">
+    <div class="panel">
+        <div class="panel-heading"><h1 class="panel-title"><?=$this->translate('Sign In')?></h1></div>
+        <div class="panel-body">
+            <?=$this->TBForm($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+        </div>
+    </div>
+</div>

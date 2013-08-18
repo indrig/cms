@@ -9,14 +9,14 @@ namespace User\Form;
 use Zend\Form\Form,
     Zend\Form\FormInterface;
 
-class SignUp extends Form
+class SignIn extends Form
 {
     public function __construct()
     {
         parent::__construct(null, array(
 
         ));
-       $this->setWrapElements(true);
+        $this->setWrapElements(true);
     }
 
     public function prepareElement(FormInterface $form)
@@ -31,32 +31,22 @@ class SignUp extends Form
             ),
         ));
         $this->add(array(
-            'type' => 'Zend\Form\Element\Email',
-            'name' => 'email',
-            'options' => array(
-                'label' => 'Email address',
-            )
-        ));
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Email',
-            'name' => 're_email',
-            'options' => array(
-                'label' => 'Re-type email address',
-            )
-        ));
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Password',
+            'type' => 'Password',
             'name' => 'password',
             'options' => array(
                 'label' => 'Password',
             )
         ));
         $this->add(array(
-            'type' => 'Zend\Form\Element\Password',
-            'name' => 're_password',
+            'type' => 'Checkbox',
+            'name' => 'quick_expire',
             'options' => array(
-                'label' => 'Re-type password',
+                'label' => 'Do not remember me',
+                'use_hidden_element' => true,
             )
         ));
+
+
+
     }
 }

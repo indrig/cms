@@ -7,6 +7,7 @@
 namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
+    User\Form\SignIn,
     User\Form\SignUp;
 
 class IndexController extends AbstractActionController
@@ -25,7 +26,8 @@ class IndexController extends AbstractActionController
 
     public function signInAction()
     {
-
+        $form = new SignIn();
+        return array('form' => $form);
     }
 
     public function signUpAction()

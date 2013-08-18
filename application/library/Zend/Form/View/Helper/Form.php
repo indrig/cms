@@ -56,14 +56,16 @@ class Form extends AbstractHelper
      */
     public function render(FormInterface $form)
     {
-        if (method_exists($form, 'prepare')) {
+        if (method_exists($form, 'prepare'))
+        {
             $form->prepare();
         }
 
         $formContent = '';
 
         foreach ($form as $element) {
-            if ($element instanceof FieldsetInterface) {
+            if ($element instanceof FieldsetInterface)
+            {
                 $formContent.= $this->getView()->formCollection($element);
             } else {
                 $formContent.= $this->getView()->formRow($element);
