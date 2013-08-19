@@ -57,8 +57,6 @@ class Form extends ZendViewHelperForm
             }
             else
             {
-
-
                 $formContent.= $this->getView()->TBFormRow($element, null, null, null, $formType);
             }
         }

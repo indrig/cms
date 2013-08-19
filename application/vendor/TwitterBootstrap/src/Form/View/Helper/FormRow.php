@@ -70,9 +70,9 @@ class FormRow extends ZendFormRow
     public function renderHorizontal(ElementInterface $element)
     {
         $escapeHtmlHelper    = $this->getEscapeHtmlHelper();
-        $labelHelper         = $this->getLabelHelper();
+//        $labelHelper         = $this->getLabelHelper();
         $elementHelper       = $this->getElementHelper();
-        $elementErrorsHelper = $this->getElementErrorsHelper();
+        //$elementErrorsHelper = $this->getElementErrorsHelper();
 
         $label           = $element->getLabel();
 
@@ -84,9 +84,6 @@ class FormRow extends ZendFormRow
                 $label = $translator->translate($label, $this->getTranslatorTextDomain());
             }
         }
-
-
-
 
         if ($this->partial)
         {
@@ -103,13 +100,25 @@ class FormRow extends ZendFormRow
 
 
         $hasError = false;
+        $elementErrors = '';
         if ($this->renderErrors)
         {
+
             $hasError           = sizeof($element->getMessages()) > 0;
-            $elementErrors      = $elementErrorsHelper->render($element);
+            if(sizeof($hasError) > 0)
+            {
+                $elementErrors .= '<ul class="help-block">';
+                foreach($element->getMessages() as $message)
+                {
+                    $elementErrors .= '<li>'.$message.'</li>';
+                }
+                $elementErrors .= '</ul>';
+            }
+           // $elementErrors      = $elementErrorsHelper->render($element);
         }
 
         $type = $element->getAttribute('type');
+        $lg = max(1, min(intval($element->getOption('lg') ? : 9), 9));
 
         switch($type)
         {
@@ -118,7 +127,7 @@ class FormRow extends ZendFormRow
                 $this->labelPosition = self::LABEL_APPEND;
                 break;
             default:
-                $elementContainerClass = 'col-lg-10';
+               // $elementContainerClass = 'col-lg-'.$lg;
                 $newElementClass = ($element->hasAttribute('class') ? $element->getAttribute('class').' ' : '').'form-control';
                 $element->setAttribute('class', $newElementClass);
                 break;
@@ -142,11 +151,11 @@ class FormRow extends ZendFormRow
             switch ($this->labelPosition)
             {
                 case self::LABEL_PREPEND:
-                    $markup = '<label class="col-lg-2 control-label" for="'.$labelFor.'">' . $label. '</label><div class="'.$elementContainerClass.'">' . $elementString .'</div>';
+                    $markup = '<label class="col-lg-3 control-label" for="'.$labelFor.'">' . $label. '</label><div class="col-lg-9"><div class="row"><div class="col-lg-'.$lg.'">' . $elementString.'</div></div>'.$elementErrors.'</div>';
                     break;
                 case self::LABEL_APPEND:
                 default:
-                    $markup = '<div class="col-lg-offset-2 col-lg-10"><div class="'.$elementContainerClass.'"><label>'. $elementString . $label .'</label></div></div>';
+                    $markup = '<div class="col-lg-offset-3 col-lg-'.$lg.'"><div class="'.$elementContainerClass.'"><label>'. $elementString . $label .'</label>'.$elementErrors.'</div></div>';
                     break;
             }
 
@@ -154,7 +163,7 @@ class FormRow extends ZendFormRow
         else
         {
             $elementString = $elementHelper->render($element);
-            $markup = '<div class="col-lg-offset-2 col-lg-10">'.$elementString.'</div>';
+            $markup = '<div class="col-lg-offset-3 col-lg-'.$lg.'">'.$elementString.$elementErrors.'</div>';
         }
         return '  <div class="form-group'.($hasError ? ' has-error' : '').'">'.$markup.'</div>';
     }

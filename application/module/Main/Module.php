@@ -21,6 +21,8 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
+        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
 
         $eventManager->attach(MvcEvent::EVENT_FINISH,
             function(MvcEvent $e)
