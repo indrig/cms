@@ -18,10 +18,11 @@ class Module
     public function onBootstrap(MvcEvent $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
+        $serviceManager        = $e->getApplication()->getServiceManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator = $serviceManager->get('translator');
         \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
 
         $eventManager->attach(MvcEvent::EVENT_FINISH,
@@ -37,6 +38,8 @@ class Module
                     ));
                 }
             }, 500);
+        $acl = $serviceManager->get('Acl');
+
     }
 
     public function getConfig()

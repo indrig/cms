@@ -8,9 +8,10 @@ namespace User\Adapter;
 
 use Zend\Authentication\Adapter\AbstractAdapter,
     Zend\Authentication\Result,
-    Zend\Authentication\AuthenticationService;
+    Zend\Authentication\AuthenticationService,
+    Zend\ServiceManager\ServiceLocatorInterface;
 
-class Authentication extends  AbstractAdapter
+class Authentication extends AbstractAdapter
 {
     /**
      * @var \Zend\Authentication\AuthenticationService
@@ -49,10 +50,10 @@ class Authentication extends  AbstractAdapter
         return $this->user && $this->user->role ? $this->user->role : false;
     }
 
-    public function initialize(AuthenticationService $service)
+    public function initialize(ServiceLocatorInterface $sm)
     {
-        $this->service = $service;
-        if(($identity = $service->getIdentity()) !== null)
+        $this->service = $sm->get('AuthenticationService');
+        if(($identity = $this->service->getIdentity()) !== null)
         {
             if(($user = $this->userTable->getByID($identity)) !== false)
             {
@@ -61,9 +62,10 @@ class Authentication extends  AbstractAdapter
             }
             else
             {
-                $service->clearIdentity();
+                $this->service->clearIdentity();
             }
         }
+        return $this;
     }
 
     public function isLogin()

@@ -6,6 +6,8 @@ return array(
 	'controllers' => array(
         'invokables' => array(
             'User\Controller\Index' => 'User\Controller\IndexController',
+            'User\Controller\Admin' => 'User\Controller\AdminController',
+            'User\Controller\Role' => 'User\Controller\RoleController',
         ),
     ),	
     'router' => array(
@@ -21,7 +23,6 @@ return array(
 				),
 				'may_terminate' => true,
 				'child_routes' => array(
-
 					'signin' => array(
 						'type'    => 'Literal',
 						'options' => array(
@@ -57,7 +58,43 @@ return array(
 								'action'        => 'forgottenPassword',
 							)
 						)
-					)
+					),
+                    'admin' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/'.ROUTE_ADMIN,
+                            'defaults' => array(
+                                'controller'    => 'User\Controller\Admin',
+                                'action'        => 'index',
+                            )
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'edit' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/edit[/:id]',
+                                    'constraints' => array(
+                                        'id'     => '[0-9]+',
+                                    ),
+                                    'defaults' => array(
+                                        'action'        => 'edit',
+                                    )
+                                )
+                            ),
+
+                            'role' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/role',
+                                    'defaults' => array(
+                                        'controller'    => 'User\Controller\Role',
+                                        'action'        => 'index',
+                                    )
+                                )
+                            )
+                        )
+                    )
 				)
 			)
 		)

@@ -4,7 +4,7 @@ namespace User;
 use User\Model\UserTable,
     Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
-    Zend\ServiceManager\ServiceManager,
+    Zend\ServiceManager\ServiceLocatorInterface,
     Indrig\AbstractModule;
 
 class Module extends AbstractModule
@@ -18,19 +18,20 @@ class Module extends AbstractModule
         $this->registerTables();
 
         $eventManager        = $e->getApplication()->getEventManager();
-        //$moduleRouteListener = new ModuleRouteListener();
-       // $moduleRouteListener->attach($eventManager);
-        //
+
        // exit;
         /**
          * @var \Zend\Authentication\AuthenticationService $Authentication
          */
-        $Authentication = $e->getApplication()->getServiceManager()->get('Zend\Authentication\AuthenticationService');
+
+        $serviceManager = $e->getApplication()->getServiceManager();
+        $serviceManager->get('Authentication')->initialize($serviceManager);
+       // $Authentication = $e->getApplication()->getServiceManager()->get('AuthenticationService');
 
 
         //var_dump($e->getApplication()->getServiceManager()->get('PluginManager'));
 
-        $authAdapter = $Authentication->getAdapter();
+       // $authAdapter = $Authentication->getAdapter();
 
         /*$eventManager->attach(MvcEvent::EVENT_ROUTE, function(MvcEvent $e)
         {
@@ -51,6 +52,7 @@ class Module extends AbstractModule
     public function registerTables()
     {
         $this->registerTable('\User\Model\UserTable', 'user');
+        $this->registerTable('\User\Model\RoleTable', 'role');
     }
 
     public function getAutoloaderConfig()
@@ -69,20 +71,24 @@ class Module extends AbstractModule
 
         return array(
             'aliases' => array(
-				'Authentication' => 'Zend\Authentication\AuthenticationService'
+				'AuthenticationService'     => 'Zend\Authentication\AuthenticationService',
+				'Authentication'            => 'User\Adapter\Authentication',
+				'Acl'                       => 'User\Permissions\Acl'
 			),
             'factories' => array(
-                'User\Adapter\Authentication' => function(ServiceManager $sm)
+                'User\Adapter\Authentication' => function(ServiceLocatorInterface $sm)
                 {
                     return new Adapter\Authentication($sm->get('table_user'));
                 },
-                'Zend\Authentication\AuthenticationService' => function(ServiceManager $sm)
+                'Zend\Authentication\AuthenticationService' => function(ServiceLocatorInterface $sm)
                 {
-                    //$config = $sm->get('Config');
                     $adapter = $sm->get('User\Adapter\Authentication');
                     $authService = new \Zend\Authentication\AuthenticationService(new \Zend\Authentication\Storage\Session(), $adapter);
-                    $adapter->initialize($authService);
                     return $authService;
+                },
+                'User\Permissions\Acl' => function(ServiceLocatorInterface $sm)
+                {
+                    return new Permissions\Acl();
                 }
             )
         );

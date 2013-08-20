@@ -19,9 +19,9 @@ class NavBarFactory implements FactoryInterface
     {
         $services = $serviceLocator->getServiceLocator();
         $helper = new NavBar();
-        if ($services->has('Zend\Authentication\AuthenticationService'))
+        if ($services->has('AuthenticationService'))
         {
-            $helper->setAuthenticationService($services->get('Zend\Authentication\AuthenticationService'));
+            $helper->setAuthenticationService($services->get('AuthenticationService'));
         }
         return $helper;
     }

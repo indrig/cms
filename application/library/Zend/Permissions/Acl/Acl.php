@@ -582,9 +582,12 @@ class Acl implements AclInterface
         unset($resourcesTemp);
 
         // normalize privileges to array
-        if (null === $privileges) {
+        if (null === $privileges)
+        {
             $privileges = array();
-        } elseif (!is_array($privileges)) {
+        }
+        elseif (!is_array($privileges))
+        {
             $privileges = array($privileges);
         }
 

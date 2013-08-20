@@ -5,6 +5,7 @@
  * Time: 14:53
  */
 return array(
+
     'view_helpers' => array(
         'factories' => array(
             'adminNavBar' => 'Admin\View\Helper\Service\NavBarFactory',

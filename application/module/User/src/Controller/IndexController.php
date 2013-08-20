@@ -120,6 +120,7 @@ class IndexController extends AbstractController
                 {
                     //Попытка регистрации нового пользователя
                     $userTable->register($data['login'], $data['password']);
+                    return $this->redirect()->toRoute('user/signin');
                 }
             }
 

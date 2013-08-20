@@ -19,5 +19,19 @@ return array(
             )
         )
     ),
+    'navigation_2' => array(
+        'default' => array(
+
+            array(
+                'label'     => 'User',
+                'route'     => 'user'
+            ),
+            array(
+                'label'     => 'Data',
+                'route'     => 'user/signin'
+            )
+        )
+    ),
+
 
 );
