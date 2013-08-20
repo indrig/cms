@@ -6,7 +6,7 @@
  * Time: 23:27
  * To change this template use File | Settings | File Templates.
  */
-namespace Main\Controller;
+namespace Indrig\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
     Zend\ServiceManager\ServiceLocatorInterface;
@@ -37,5 +37,14 @@ abstract class AbstractController extends AbstractActionController
         $escapeHtml = $this->viewHelperManager->get('escapeHtml'); // $escapeHtml can be called as function because of its __invoke method
         return  $escapeHtml($value);
 
+    }
+
+    /**
+     * @param String $name
+     * @return \Zend\Db\TableGateway\TableGateway
+     */
+    public function table($name)
+    {
+        return $this->getServiceLocator()->get('table_'.$name);
     }
 }

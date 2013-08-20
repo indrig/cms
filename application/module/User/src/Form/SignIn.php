@@ -7,16 +7,20 @@
 namespace User\Form;
 
 use Zend\Form\Form,
-    Zend\Form\FormInterface;
+    Zend\Form\FormInterface,
+    Zend\InputFilter\Factory,
+    Zend\InputFilter\InputFilter;
 
 class SignIn extends Form
 {
+    private $inputFilter;
     public function __construct()
     {
         parent::__construct(null, array(
 
         ));
         $this->setWrapElements(true);
+        $this->prepare();
     }
 
     public function prepareElement(FormInterface $form)
@@ -45,8 +49,52 @@ class SignIn extends Form
                 'use_hidden_element' => true,
             )
         ));
+    }
 
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter)
+        {
 
+            $inputFilter = new InputFilter();
+            $factory     = new Factory();
 
+            //Логин
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'login',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 64,
+                        ),
+                    ),
+                ),
+            )));
+            //Логин
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'password',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
     }
 }

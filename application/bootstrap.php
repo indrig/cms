@@ -11,7 +11,10 @@ if (!class_exists('Zend\Loader\AutoloaderFactory'))
 Zend\Loader\AutoloaderFactory::factory(
 	array(
 		'Zend\Loader\StandardAutoloader' => array(
-                'autoregister_zf' => true
+                'autoregister_zf'   => true,
+                'namespaces'        => array(
+                    'Indrig'        => 'library/Indrig'
+                )
         )
     )
 );

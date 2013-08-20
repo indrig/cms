@@ -13,7 +13,16 @@ $this->headTitle('Sign In');
     <div class="panel">
         <div class="panel-heading"><h1 class="panel-title"><?=$this->translate('Sign In')?></h1></div>
         <div class="panel-body">
-            <?=$this->TBForm($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+            <?=$this->TBForm()->openTag($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+            <?=$this->TBFormCollection($form, true, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <button type="submit" class="btn btn-primary"><?=$this->translate('Sign In');?></button>
+                    <a class="btn btn-link" href="<?=$this->url('user/signup')?>"><?=$this->translate('Sign Up');?></a>
+                </div>
+            </div>
+            <?=$this->TBForm()->closeTag($form)?>
         </div>
     </div>
 </div>

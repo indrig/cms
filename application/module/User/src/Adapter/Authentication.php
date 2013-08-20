@@ -30,21 +30,17 @@ class Authentication extends  AbstractAdapter
     public function __construct($userTable)
     {
         $this->userTable = $userTable;
-
-        /**
-         * @var \User\Model\Entity\User $user
-         */
-        //$user = $this->userTable->getByLogin('test');
-       // var_dump($user->login);
-       // $user->password = 'tatta';
-       // $user->save();
-
     }
 
     public function authenticate()
     {
-        echo('authenticate');
-        return new Result(Result::SUCCESS, 1);
+        $user = $this->userTable->getByLogin($this->getIdentity());
+        if($user && $user->verifyPassword($this->getCredential()))
+        {
+            return new Result(Result::SUCCESS, $user->id);
+        }
+
+        return new Result(Result::FAILURE, null);
     }
 
 
@@ -56,7 +52,6 @@ class Authentication extends  AbstractAdapter
     public function initialize(AuthenticationService $service)
     {
         $this->service = $service;
-      //  $service->clearIdentity();
         if(($identity = $service->getIdentity()) !== null)
         {
             if(($user = $this->userTable->getByID($identity)) !== false)

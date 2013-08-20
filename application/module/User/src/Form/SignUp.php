@@ -8,10 +8,8 @@ namespace User\Form;
 
 use Zend\Form\Form,
     Zend\Form\FormInterface,
-    Zend\InputFilter\Factory,     // <-- Add this import
-    Zend\InputFilter\InputFilter,                 // <-- Add this import
-    Zend\InputFilter\InputFilterAwareInterface,   // <-- Add this import
-    Zend\InputFilter\InputFilterInterface;       // <-- Add this import
+    Zend\InputFilter\Factory,
+    Zend\InputFilter\InputFilter;
 
 
 class SignUp extends Form
@@ -24,6 +22,7 @@ class SignUp extends Form
 
         ));
        $this->setWrapElements(true);
+        $this->prepare();
     }
 
     public function prepareElement(FormInterface $form)
@@ -93,7 +92,7 @@ class SignUp extends Form
                         'options' => array(
                             'encoding' => 'UTF-8',
                             'min'      => 1,
-                            'max'      => 255,
+                            'max'      => 64,
                         ),
                     ),
                 ),
