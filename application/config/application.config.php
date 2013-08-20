@@ -7,7 +7,8 @@ return array(
         'TwitterBootstrap',
         //CMS Modules
         'Main',
-        'User'
+        'User',
+        'Admin'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
@@ -19,7 +20,5 @@ return array(
         'config_glob_paths' => array(
             './config/autoload/{,*}.php',
         ),
-    ),
-
-
+    )
 );

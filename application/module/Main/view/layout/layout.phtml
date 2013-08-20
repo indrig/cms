@@ -4,26 +4,22 @@
  * @var string $content
  * @var \User\Adapter\Authentication $user
  */
-
-echo $this->doctype(); ?>
-
+?>
+<?=$this->doctype()?>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <?php echo $this->headTitle()->setSeparator(' - ')->setAutoEscape(false) ?>
-
-        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+        <meta charset="utf-8" />
+        <?=$this->headTitle()->setSeparator(' - ')->setAutoEscape(false)?>
+        <?=$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0')?>
 
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        <?=$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/assets/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/assets/css/style.css')
                         ->prependStylesheet($this->basePath() . '/assets/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/assets/css/bootstrap.css') ?>
 
         <!-- Scripts -->
-        <?php echo $this->headScript()//->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-                                      ->prependFile($this->basePath() . '/assets/js/bootstrap.min.js')
-                                      ->prependFile($this->basePath() . '/assets/js/jquery.min.js') ?>
+        <?=$this->headScript()->prependFile($this->basePath() . '/assets/js/bootstrap.min.js')->prependFile($this->basePath() . '/assets/js/jquery.min.js') ?>
 
     </head>
     <body>
@@ -71,6 +67,7 @@ echo $this->doctype(); ?>
     <? endif; ?>
 
         <div id="wrap">
+
             <nav class="navbar navbar-inverse" id="navbar-main" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="container">
@@ -86,7 +83,7 @@ echo $this->doctype(); ?>
 
                     <div class="collapse navbar-collapse" id="navbar-main-collapse">
                         <ul class="nav navbar-nav">
-                            <?=$this->Navigation('Navigation')
+                            <?=$this->Navigation()
                                 ->menu()
                                 ->setPartial('partial/navbar')
                                 ->setMinDepth(0)
@@ -109,7 +106,9 @@ echo $this->doctype(); ?>
                         </ul>
                     </div>
                 </div>
+
             </nav>
+            <?=$this->adminNavBar()?>
             <?=$content?>
             <div id="push"></div>
         </div>

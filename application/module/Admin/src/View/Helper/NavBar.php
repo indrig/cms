@@ -1,11 +1,16 @@
 <?php
-namespace User\View\Helper;
+/**
+ * User: Igor Bubnevich aka Indrig
+ * Date: 20.08.13
+ * Time: 14:56
+ */
+namespace Admin\View\Helper;
 
 use Zend\View\Helper\AbstractHelper,
     Zend\Authentication\AuthenticationService,
     Zend\View\Exception;
 
-class User extends AbstractHelper
+class NavBar extends AbstractHelper
 {
     protected $serviceLocator;
 
@@ -20,7 +25,7 @@ class User extends AbstractHelper
      * Set AuthenticationService instance
      *
      * @param AuthenticationService $authenticationService
-     * @return User
+     * @return NavBar
      */
     public function setAuthenticationService(AuthenticationService $authenticationService)
     {
@@ -44,7 +49,25 @@ class User extends AbstractHelper
             throw new Exception\RuntimeException('No AuthenticationService instance provided');
         }
 
-        return $this->authenticationService->getAdapter();
+        $adapter = $this->authenticationService->getAdapter();
+
+        return '<div id="navbar-admin"><div class="container">
+<ul class="nav nav-pills">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">Help</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Dropdown <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </li>
+  </ul></div></div>';
         //return $this->getServiceLocator()->->get('Zend\Authentication\AuthenticationService')->getAdapter();
     }
 }
