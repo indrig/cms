@@ -15,18 +15,36 @@ class IndexController extends AbstractController
 {
     public function indexAction()
     {
+        if($this->Identity() === null)
+        {
+            return $this->redirect()->toRoute('user/signin');
+        }
 
 
     }
 
+    /**
+     * Выход из ситемы
+     * @return \Zend\Http\Response
+     */
     public function signOutAction()
     {
-
-
+        $authentication = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+        $authentication->clearIdentity();
+        return $this->redirect()->toRoute('home');
     }
 
+    /**
+     * Вход в систему
+     * @return array|\Zend\Http\Response
+     */
     public function signInAction()
     {
+        if($this->Identity() !== null)
+        {
+            return $this->redirect()->toRoute('user');
+        }
+
         /**
         * @var \Zend\Http\Request $request
         * @var \User\Model\UserTable $userTable
@@ -60,8 +78,16 @@ class IndexController extends AbstractController
         return array('form' => $form);
     }
 
+    /**
+     * Регистрация нового пользователя
+     * @return array|\Zend\Http\Response
+     */
     public function signUpAction()
     {
+        if($this->Identity() !== null)
+        {
+            return $this->redirect()->toRoute('user');
+        }
 
         $form = new SignUp();
 

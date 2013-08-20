@@ -71,4 +71,9 @@ class Authentication extends  AbstractAdapter
 
         return $this->identity !== null;
     }
+
+    public function screenName()
+    {
+        return $this->user ? $this->user->screenName() : '';
+    }
 }

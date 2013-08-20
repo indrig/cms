@@ -77,4 +77,15 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+    'translator' => array(
+        'locale' => 'ru',
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'PhpArray',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.php',
+            ),
+        ),
+    ),
 );

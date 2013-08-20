@@ -20,4 +20,9 @@ class User extends RowGateway
         $bCrypt = new Bcrypt();
         return $bCrypt->verify($password, $this->password);
     }
+
+    public function screenName()
+    {
+        return $this->login;
+    }
 }

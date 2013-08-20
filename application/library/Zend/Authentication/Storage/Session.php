@@ -62,7 +62,6 @@ class Session implements StorageInterface
         }
         $this->session   = new SessionContainer($this->namespace, $manager);
     }
-
     /**
      * Returns the session namespace
      *

@@ -4,3 +4,15 @@
  * Date: 14.08.13
  * Time: 18:00
  */
+$this->headTitle($this->user()->screenName());
+?>
+<div class="container">
+    <div class="page-header">
+        <h1><?=$this->escapeHTML($this->user()->screenName())?></h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-9"></div>
+    </div>
+</div>

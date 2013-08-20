@@ -3,8 +3,9 @@ return array(
     'navigation'=> array(
         'default' => array(
             array(
-                'label' => 'Home',
-                'route' => 'home',
+                'label'     => 'Home',
+                'route'     => 'home',
+                'visible'   => false
             )
         )
     )
