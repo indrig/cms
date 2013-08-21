@@ -41,7 +41,7 @@ class Table extends AbstractHelper
         }
         $tableContent .= '</tr></thead>';
 
-        return $this->openTag($table) . $tableContent . $this->closeTag();
+        return $this->openTag($table) . $tableContent . $this->closeTag($table);
     }
 
     /**
@@ -50,10 +50,10 @@ class Table extends AbstractHelper
      * @param  null|TableElement $form
      * @return string
      */
-    public function openTag(TableElement $form)
+    public function openTag(TableElement $table)
     {
 
-        return '<table class="table">';
+        return '<table class="table" id="'.$table->getId().'">';
     }
 
     /**
@@ -61,8 +61,16 @@ class Table extends AbstractHelper
      *
      * @return string
      */
-    public function closeTag()
+    public function closeTag(TableElement $table)
     {
-        return '</table>';
+        $content = '</table>';
+        $content .= '<script>';
+        $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').dataTable();} );';
+        $content .= '</script>';
+
+        //Add JS and CSS
+        $this->getView()->headLink()->appendStylesheet($this->getView()->basePath().'/assets/css/jquery.dataTables.css');
+        $this->getView()->headScript()->appendFile($this->getView()->basePath().'/assets/js/jquery.dataTables.js');
+        return $content;
     }
 }
