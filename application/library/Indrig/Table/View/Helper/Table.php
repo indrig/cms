@@ -27,16 +27,19 @@ class Table extends AbstractHelper
             $table->prepare();
         }
 
+        //Include css and js
+
+
         $headerHelper = $this->getView()->TableHeader();
         $tableContent = '';
         $headers = $table->getHeaders();
 
-        $tableContent .= '<tr>';
+        $tableContent .= '<thead><tr>';
         foreach($headers as $header)
         {
             $tableContent .= $headerHelper($header);
         }
-        $tableContent .= '</tr>';
+        $tableContent .= '</tr></thead>';
 
         return $this->openTag($table) . $tableContent . $this->closeTag();
     }
@@ -47,8 +50,9 @@ class Table extends AbstractHelper
      * @param  null|TableElement $form
      * @return string
      */
-    public function openTag(TableElement $form = null)
+    public function openTag(TableElement $form)
     {
+
         return '<table class="table">';
     }
 
