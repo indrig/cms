@@ -7,6 +7,7 @@ class Table extends AbstractElement
     protected $headers = array();
     protected $id;
     protected static $auto_id = 0;
+    protected $adapter  = null;
     /**
      * @param null|string $name
      * @param null|Header|array $headerOrElement
@@ -63,5 +64,21 @@ class Table extends AbstractElement
         }
 
         parent::setOptions($options);
+    }
+
+    public function setAdapter($adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
+    }
+
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    public function getPaginator()
+    {
+        
     }
 }
