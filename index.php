@@ -14,4 +14,4 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
 require 'application/bootstrap.php';
 
 // Run the application!
-Zend\Mvc\Application::init(require 'application/config/application.config.php')->run();
+Application::app()->run();

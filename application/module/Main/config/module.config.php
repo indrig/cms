@@ -63,10 +63,12 @@ return array(
         ),
     ),
     // Placeholder for console routes
-    'console' => array(
+    /*'console' => array(
         'router' => array(
             'routes' => array(
             ),
         ),
     ),
+    */
+
 );

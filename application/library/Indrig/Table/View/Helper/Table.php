@@ -27,7 +27,16 @@ class Table extends AbstractHelper
             $table->prepare();
         }
 
+        $headerHelper = $this->getView()->TableHeader();
         $tableContent = '';
+        $headers = $table->getHeaders();
+
+        $tableContent .= '<tr>';
+        foreach($headers as $header)
+        {
+            $tableContent .= $headerHelper($header);
+        }
+        $tableContent .= '</tr>';
 
         return $this->openTag($table) . $tableContent . $this->closeTag();
     }

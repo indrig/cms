@@ -8,7 +8,8 @@
  */
 namespace User\Controller;
 
-use Indrig\Controller\AbstractController;
+use Indrig\Controller\AbstractController,
+    User\Table\UserList;
 
 class AdminController extends AbstractController
 {
@@ -16,7 +17,8 @@ class AdminController extends AbstractController
     {
         $userTable = $this->table('user');
         $list = $userTable->select();
-        return array('list' => $list);
+        $userList = new UserList();
+        return array('list' => $userList);
     }
 
     public function editAction()

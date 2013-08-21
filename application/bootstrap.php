@@ -18,3 +18,24 @@ Zend\Loader\AutoloaderFactory::factory(
         )
     )
 );
+
+class Application
+{
+    /**
+     * @var Zend\Mvc\Application
+     */
+    private static $instance;
+
+    /**
+     * @return \Zend\Mvc\Application
+     */
+    public static function App()
+    {
+        if(self::$instance)
+            return self::$instance;
+
+        return (self::$instance = Zend\Mvc\Application::init(require 'config/application.config.php'));
+    }
+}
+
+//INIT
