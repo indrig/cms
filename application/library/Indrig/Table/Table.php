@@ -1,13 +1,20 @@
 <?php
 namespace Indrig\Table;
+
 use Indrig\Table\Element\AbstractElement,
-    Indrig\Table\Element\Header;
+    Indrig\Table\Element\Header,
+    Indrig\Table\Adapter\AdapterInterface;
+
 class Table extends AbstractElement
 {
     protected $headers = array();
     protected $id;
     protected static $auto_id = 0;
+    /**
+     * @var \Indrig\Table\Adapter\AdapterInterface
+     */
     protected $adapter  = null;
+    protected $data     = array();
     /**
      * @param null|string $name
      * @param null|Header|array $headerOrElement
@@ -66,19 +73,30 @@ class Table extends AbstractElement
         parent::setOptions($options);
     }
 
-    public function setAdapter($adapter)
+    /**
+     * @param AdapterInterface $adapter
+     * @return $this
+     */
+    public function setAdapter(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
         return $this;
     }
 
+    /**
+     * @return AdapterInterface|null
+     */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
-    public function getPaginator()
+    public function getData()
     {
-        
+        if($this->data)
+            return $this->data;
+
+        return ($this->data = $this->getAdapter()->getData());
     }
+
 }

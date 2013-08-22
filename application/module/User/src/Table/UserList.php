@@ -6,11 +6,17 @@
  */
 namespace User\Table;
 
-use Indrig\Table\Table;
-
+use Indrig\Table\Table,
+    Indrig\Table\Adapter\DbTableGateway;
 class UserList extends Table
 {
-    public function __construct()
+    /**
+     * @var \User\Model\UserTable
+     */
+
+    protected $table;
+
+    public function __construct($table)
     {
         $this->addHeader('id',
             array(
@@ -21,5 +27,8 @@ class UserList extends Table
             array(
                 'label' => 'Login'
             ));
+
+        $this->setAdapter(new DbTableGateway($table));
     }
+
 }

@@ -17,7 +17,7 @@ class AdminController extends AbstractController
     {
         $userTable = $this->table('user');
         $list = $userTable->select();
-        $userList = new UserList();
+        $userList = new UserList($userTable);
         return array('list' => $userList);
     }
 
