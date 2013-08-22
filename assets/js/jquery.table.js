@@ -36,7 +36,7 @@
 	/* Define using browser globals otherwise
 	 * Prevent multiple instantiations if the script is loaded twice
 	 */
-	else if ( jQuery && !jQuery.fn.dataTable )
+	else if ( jQuery && !jQuery.fn.table )
 	{
 		factory( jQuery );
 	}
@@ -75,7 +75,7 @@
 	 *      } );
 	 *    } );
 	 */
-	var DataTable = function( oInit )
+	var table = function( oInit )
 	{
 		
 		
@@ -87,9 +87,9 @@
 		 */
 		function _fnAddColumn( oSettings, nTh )
 		{
-			var oDefaults = DataTable.defaults.columns;
+			var oDefaults = table.defaults.columns;
 			var iCol = oSettings.aoColumns.length;
-			var oCol = $.extend( {}, DataTable.models.oColumn, oDefaults, {
+			var oCol = $.extend( {}, table.models.oColumn, oDefaults, {
 				"sSortingClass": oSettings.oClasses.sSortable,
 				"sSortingClassJUI": oSettings.oClasses.sSortJUI,
 				"nTh": nTh ? nTh : document.createElement('th'),
@@ -102,7 +102,7 @@
 			/* Add a column specific filter */
 			if ( oSettings.aoPreSearchCols[ iCol ] === undefined || oSettings.aoPreSearchCols[ iCol ] === null )
 			{
-				oSettings.aoPreSearchCols[ iCol ] = $.extend( {}, DataTable.models.oSearch );
+				oSettings.aoPreSearchCols[ iCol ] = $.extend( {}, table.models.oSearch );
 			}
 			else
 			{
@@ -314,7 +314,7 @@
 		 */
 		function _fnDetectType( sData )
 		{
-			var aTypes = DataTable.ext.aTypes;
+			var aTypes = table.ext.aTypes;
 			var iLen = aTypes.length;
 			
 			for ( var i=0 ; i<iLen ; i++ )
@@ -470,7 +470,7 @@
 			
 			/* Create the object for storing information about this new row */
 			var iRow = oSettings.aoData.length;
-			var oData = $.extend( true, {}, DataTable.models.oRow );
+			var oData = $.extend( true, {}, table.models.oRow );
 			oData._aData = aDataIn;
 			oSettings.aoData.push( oData );
 		
@@ -550,7 +550,7 @@
 					{
 						iThisIndex = oSettings.aoData.length;
 						nTr._DT_RowIndex = iThisIndex;
-						oSettings.aoData.push( $.extend( true, {}, DataTable.models.oRow, {
+						oSettings.aoData.push( $.extend( true, {}, table.models.oRow, {
 							"nTr": nTr
 						} ) );
 		
@@ -1454,7 +1454,7 @@
 					var nRow = aoData.nTr;
 					
 					/* Remove the old striping classes and then add the new one */
-					if ( iStripes !== 0 )
+					/*if ( iStripes !== 0 )
 					{
 						var sStripe = oSettings.asStripeClasses[ iRowCount % iStripes ];
 						if ( aoData._sRowStripe != sStripe )
@@ -1463,7 +1463,7 @@
 							aoData._sRowStripe = sStripe;
 						}
 					}
-					
+					*/
 					/* Row callback functions - might want to manipulate the row */
 					_fnCallbackFire( oSettings, 'aoRowCallback', null, 
 						[nRow, oSettings.aoData[ oSettings.aiDisplay[j] ]._aData, iRowCount, j] );
@@ -1729,10 +1729,10 @@
 					nTmp = _fnFeatureHtmlPaginate( oSettings );
 					iPushFeature = 1;
 				}
-				else if ( DataTable.ext.aoFeatures.length !== 0 )
+				else if ( table.ext.aoFeatures.length !== 0 )
 				{
 					/* Plug-in features */
-					var aoFeatures = DataTable.ext.aoFeatures;
+					var aoFeatures = table.ext.aoFeatures;
 					for ( var k=0, kLen=aoFeatures.length ; k<kLen ; k++ )
 					{
 						if ( cOption == aoFeatures[k].cFeature )
@@ -2195,7 +2195,7 @@
 		 */
 		function _fnFilterCustom( oSettings )
 		{
-			var afnFilters = DataTable.ext.afnFiltering;
+			var afnFilters = table.ext.afnFiltering;
 			var aiFilterColumns = _fnGetColumns( oSettings, 'bSearchable' );
 		
 			for ( var i=0, iLen=afnFilters.length ; i<iLen ; i++ )
@@ -2277,7 +2277,7 @@
 			}
 			
 			/* Need to take account of custom filtering functions - always filter */
-			if ( DataTable.ext.afnFiltering.length !== 0 )
+			if ( table.ext.afnFiltering.length !== 0 )
 			{
 				iForce = 1;
 			}
@@ -2427,9 +2427,9 @@
 		 */
 		function _fnDataToSearch ( sData, sType )
 		{
-			if ( typeof DataTable.ext.ofnSearch[sType] === "function" )
+			if ( typeof table.ext.ofnSearch[sType] === "function" )
 			{
-				return DataTable.ext.ofnSearch[sType]( sData );
+				return table.ext.ofnSearch[sType]( sData );
 			}
 			else if ( sData === null )
 			{
@@ -2705,7 +2705,7 @@
 		 */
 		function _fnLanguageCompat( oLanguage )
 		{
-			var oDefaults = DataTable.defaults.oLanguage;
+			var oDefaults = table.defaults.oLanguage;
 		
 			/* Backwards compatibility - if there is no sEmptyTable given, then use the same as
 			 * sZeroRecords - assuming that is given.
@@ -2741,7 +2741,7 @@
 			
 			/* This can be overruled by not using the _MENU_ var/macro in the language variable */
 			var sName = 'name="'+oSettings.sTableId+'_length"';
-			var sStdMenu = '<select size="1" '+sName+'>';
+			var sStdMenu = '<select '+sName+' class="form-control">';
 			var i, iLen;
 			var aLengthMenu = oSettings.aLengthMenu;
 			
@@ -2868,8 +2868,8 @@
 			
 			var nPaginate = document.createElement( 'div' );
 			nPaginate.className = oSettings.oClasses.sPaging+oSettings.sPaginationType;
-			
-			DataTable.ext.oPagination[ oSettings.sPaginationType ].fnInit( oSettings, nPaginate, 
+
+            table.ext.oPagination[ oSettings.sPaginationType ].fnInit( oSettings, nPaginate,
 				function( oSettings ) {
 					_fnCalculateEnd( oSettings );
 					_fnDraw( oSettings );
@@ -2881,7 +2881,7 @@
 			{
 				oSettings.aoDrawCallback.push( {
 					"fn": function( oSettings ) {
-						DataTable.ext.oPagination[ oSettings.sPaginationType ].fnUpdate( oSettings, function( oSettings ) {
+                        table.ext.oPagination[ oSettings.sPaginationType ].fnUpdate( oSettings, function( oSettings ) {
 							_fnCalculateEnd( oSettings );
 							_fnDraw( oSettings );
 						} );
@@ -3936,7 +3936,7 @@
 				sDataType, nTh,
 				aaSort = [],
 			 	aiOrig = [],
-				oSort = DataTable.ext.oSort,
+				oSort = table.ext.oSort,
 				aoData = oSettings.aoData,
 				aoColumns = oSettings.aoColumns,
 				oAria = oSettings.oLanguage.oAria;
@@ -3957,9 +3957,9 @@
 					var iColumn = aaSort[i][0];
 					var iVisColumn = _fnColumnIndexToVisible( oSettings, iColumn );
 					sDataType = oSettings.aoColumns[ iColumn ].sSortDataType;
-					if ( DataTable.ext.afnSortData[sDataType] )
+					if ( table.ext.afnSortData[sDataType] )
 					{
-						var aData = DataTable.ext.afnSortData[sDataType].call( 
+						var aData = table.ext.afnSortData[sDataType].call(
 							oSettings.oInstance, oSettings, iColumn, iVisColumn
 						);
 						if ( aData.length === aoData.length )
@@ -4328,21 +4328,18 @@
 				var nTds = _fnGetTdNodes( oSettings );
 				
 				/* Determine what the sorting class for each column should be */
-				var iClass, iTargetCol;
+				var iTargetCol;
 				var asClasses = [];
 				for (i = 0; i < iColumns; i++)
 				{
 					asClasses.push("");
 				}
-				for (i = 0, iClass = 1; i < aaSort.length; i++)
+				for (i = 0; i < aaSort.length; i++)
 				{
 					iTargetCol = parseInt( aaSort[i][0], 10 );
-					asClasses[iTargetCol] = sClass + iClass;
+					asClasses[iTargetCol] = sClass;
 					
-					if ( iClass < 3 )
-					{
-						iClass++;
-					}
+
 				}
 				
 				/* Make changes to the classes for each cell as needed */
@@ -4599,11 +4596,11 @@
 		 */
 		function _fnSettingsFromNode ( nTable )
 		{
-			for ( var i=0 ; i<DataTable.settings.length ; i++ )
+			for ( var i=0 ; i<table.settings.length ; i++ )
 			{
-				if ( DataTable.settings[i].nTable === nTable )
+				if ( table.settings[i].nTable === nTable )
 				{
-					return DataTable.settings[i];
+					return table.settings[i];
 				}
 			}
 			
@@ -4708,7 +4705,7 @@
 			
 			if ( iLevel === 0 )
 			{
-				if ( DataTable.ext.sErrMode == 'alert' )
+				if ( table.ext.sErrMode == 'alert' )
 				{
 					alert( sAlert );
 				}
@@ -4975,7 +4972,7 @@
 		this.$ = function ( sSelector, oOpts )
 		{
 			var i, iLen, a = [], tr;
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var aoData = oSettings.aoData;
 			var aiDisplay = oSettings.aiDisplay;
 			var aiDisplayMaster = oSettings.aiDisplayMaster;
@@ -5175,7 +5172,7 @@
 			var iTest;
 			
 			/* Find settings from table node */
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			
 			/* Check if we want to add multiple rows or not */
 			if ( typeof mData[0] === "object" && mData[0] !== null )
@@ -5232,7 +5229,7 @@
 		 */
 		this.fnAdjustColumnSizing = function ( bRedraw )
 		{
-			var oSettings = _fnSettingsFromNode(this[DataTable.ext.iApiIndex]);
+			var oSettings = _fnSettingsFromNode(this[table.ext.iApiIndex]);
 			_fnAdjustColumnSizing( oSettings );
 			
 			if ( bRedraw === undefined || bRedraw )
@@ -5263,7 +5260,7 @@
 		this.fnClearTable = function( bRedraw )
 		{
 			/* Find settings from table node */
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			_fnClearTable( oSettings );
 			
 			if ( bRedraw === undefined || bRedraw )
@@ -5299,7 +5296,7 @@
 		this.fnClose = function( nTr )
 		{
 			/* Find settings from table node */
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			
 			for ( var i=0 ; i<oSettings.aoOpenRows.length ; i++ )
 			{
@@ -5339,7 +5336,7 @@
 		this.fnDeleteRow = function( mTarget, fnCallBack, bRedraw )
 		{
 			/* Find settings from table node */
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var i, iLen, iAODataIndex;
 			
 			iAODataIndex = (typeof mTarget === 'object') ? 
@@ -5406,7 +5403,7 @@
 		 */
 		this.fnDestroy = function ( bRemove )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var nOrig = oSettings.nTableWrapper.parentNode;
 			var nBody = oSettings.nTBody;
 			var i, iLen;
@@ -5518,11 +5515,11 @@
 			}
 			
 			/* Remove the settings object from the settings array */
-			for ( i=0, iLen=DataTable.settings.length ; i<iLen ; i++ )
+			for ( i=0, iLen=table.settings.length ; i<iLen ; i++ )
 			{
-				if ( DataTable.settings[i] == oSettings )
+				if ( table.settings[i] == oSettings )
 				{
-					DataTable.settings.splice( i, 1 );
+                    table.settings.splice( i, 1 );
 				}
 			}
 			
@@ -5547,7 +5544,7 @@
 		 */
 		this.fnDraw = function( bComplete )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			if ( bComplete === false )
 			{
 				_fnCalculateEnd( oSettings );
@@ -5580,7 +5577,7 @@
 		 */
 		this.fnFilter = function( sInput, iColumn, bRegex, bSmart, bShowGlobal, bCaseInsensitive )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			
 			if ( !oSettings.oFeatures.bFilter )
 			{
@@ -5688,7 +5685,7 @@
 		 */
 		this.fnGetData = function( mRow, iCol )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			
 			if ( mRow !== undefined )
 			{
@@ -5737,7 +5734,7 @@
 		 */
 		this.fnGetNodes = function( iRow )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			
 			if ( iRow !== undefined ) {
 				return (oSettings.aoData[iRow]!==undefined) ?
@@ -5776,7 +5773,7 @@
 		 */
 		this.fnGetPosition = function( nNode )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var sNodeName = nNode.nodeName.toUpperCase();
 			
 			if ( sNodeName == "TR" )
@@ -5817,7 +5814,7 @@
 		 */
 		this.fnIsOpen = function( nTr )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var aoOpenRows = oSettings.aoOpenRows;
 			
 			for ( var i=0 ; i<oSettings.aoOpenRows.length ; i++ )
@@ -5863,7 +5860,7 @@
 		this.fnOpen = function( nTr, mHtml, sClass )
 		{
 			/* Find settings from table node */
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 		
 			/* Check that the row given is in the table */
 			var nTableRows = _fnGetTrNodes( oSettings );
@@ -5923,7 +5920,7 @@
 		 */
 		this.fnPageChange = function ( mAction, bRedraw )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			_fnPageChange( oSettings, mAction );
 			_fnCalculateEnd( oSettings );
 			
@@ -5951,7 +5948,7 @@
 		 */
 		this.fnSetColumnVis = function ( iCol, bShow, bRedraw )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var i, iLen;
 			var aoColumns = oSettings.aoColumns;
 			var aoData = oSettings.aoData;
@@ -6070,7 +6067,7 @@
 		 */
 		this.fnSettings = function()
 		{
-			return _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			return _fnSettingsFromNode( this[table.ext.iApiIndex] );
 		};
 		
 		
@@ -6090,7 +6087,7 @@
 		 */
 		this.fnSort = function( aaSort )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			oSettings.aaSorting = aaSort;
 			_fnSort( oSettings );
 		};
@@ -6113,7 +6110,7 @@
 		 */
 		this.fnSortListener = function( nNode, iColumn, fnCallback )
 		{
-			_fnSortAttachListener( _fnSettingsFromNode( this[DataTable.ext.iApiIndex] ), nNode, iColumn,
+			_fnSortAttachListener( _fnSettingsFromNode( this[table.ext.iApiIndex] ), nNode, iColumn,
 			 	fnCallback );
 		};
 		
@@ -6140,7 +6137,7 @@
 		 */
 		this.fnUpdate = function( mData, mRow, iColumn, bRedraw, bAction )
 		{
-			var oSettings = _fnSettingsFromNode( this[DataTable.ext.iApiIndex] );
+			var oSettings = _fnSettingsFromNode( this[table.ext.iApiIndex] );
 			var i, iLen, sDisplay;
 			var iRow = (typeof mRow === 'object') ? 
 				_fnNodeToDataIndex(oSettings, mRow) : mRow;
@@ -6229,7 +6226,7 @@
 		 *      alert( oTable.fnVersionCheck( '1.9.0' ) );
 		 *    } );
 		 */
-		this.fnVersionCheck = DataTable.ext.fnVersionCheck;
+		this.fnVersionCheck = table.ext.fnVersionCheck;
 		
 		
 		/*
@@ -6247,9 +6244,9 @@
 		function _fnExternApiFunc (sFunc)
 		{
 			return function() {
-				var aArgs = [_fnSettingsFromNode(this[DataTable.ext.iApiIndex])].concat( 
+				var aArgs = [_fnSettingsFromNode(this[table.ext.iApiIndex])].concat(
 					Array.prototype.slice.call(arguments) );
-				return DataTable.ext.oApi[sFunc].apply( this, aArgs );
+				return table.ext.oApi[sFunc].apply( this, aArgs );
 			};
 		}
 		
@@ -6351,9 +6348,9 @@
 			"_fnGetColumns": _fnGetColumns
 		};
 		
-		$.extend( DataTable.ext.oApi, this.oApi );
+		$.extend( table.ext.oApi, this.oApi );
 		
-		for ( var sFunc in DataTable.ext.oApi )
+		for ( var sFunc in table.ext.oApi )
 		{
 			if ( sFunc )
 			{
@@ -6379,23 +6376,23 @@
 			}
 			
 			/* Check to see if we are re-initialising a table */
-			for ( i=0, iLen=DataTable.settings.length ; i<iLen ; i++ )
+			for ( i=0, iLen=table.settings.length ; i<iLen ; i++ )
 			{
 				/* Base check on table node */
-				if ( DataTable.settings[i].nTable == this )
+				if ( table.settings[i].nTable == this )
 				{
 					if ( oInit === undefined || oInit.bRetrieve )
 					{
-						return DataTable.settings[i].oInstance;
+						return table.settings[i].oInstance;
 					}
 					else if ( oInit.bDestroy )
 					{
-						DataTable.settings[i].oInstance.fnDestroy();
+                        table.settings[i].oInstance.fnDestroy();
 						break;
 					}
 					else
 					{
-						_fnLog( DataTable.settings[i], 0, "Cannot reinitialise DataTable.\n\n"+
+						_fnLog( table.settings[i], 0, "Cannot reinitialise DataTable.\n\n"+
 							"To retrieve the DataTables object for this table, pass no arguments or see "+
 							"the docs for bRetrieve and bDestroy" );
 						return;
@@ -6407,9 +6404,9 @@
 				 * instance by simply deleting it. This is under the assumption that the table has been
 				 * destroyed by other methods. Anyone using non-id selectors will need to do this manually
 				 */
-				if ( DataTable.settings[i].sTableId == this.id )
+				if ( table.settings[i].sTableId == this.id )
 				{
-					DataTable.settings.splice( i, 1 );
+                    table.settings.splice( i, 1 );
 					break;
 				}
 			}
@@ -6417,12 +6414,12 @@
 			/* Ensure the table has an ID - required for accessibility */
 			if ( sId === null || sId === "" )
 			{
-				sId = "DataTables_Table_"+(DataTable.ext._oExternConfig.iNextUnique++);
+				sId = "DataTables_Table_"+(table.ext._oExternConfig.iNextUnique++);
 				this.id = sId;
 			}
 			
 			/* Create the settings object for this table and set some of the default parameters */
-			var oSettings = $.extend( true, {}, DataTable.models.oSettings, {
+			var oSettings = $.extend( true, {}, table.models.oSettings, {
 				"nTable":        this,
 				"oApi":          _that.oApi,
 				"oInit":         oInit,
@@ -6430,11 +6427,11 @@
 				"sInstance":     sId,
 				"sTableId":      sId
 			} );
-			DataTable.settings.push( oSettings );
+            table.settings.push( oSettings );
 			
 			// Need to add the instance after the instance after the settings object has been added
 			// to the settings array, so we can self reference the table instance if more than one
-			oSettings.oInstance = (_that.length===1) ? _that : $(this).dataTable();
+			oSettings.oInstance = (_that.length===1) ? _that : $(this).table();
 			
 			/* Setting up the initialisation object */
 			if ( !oInit )
@@ -6448,7 +6445,7 @@
 				_fnLanguageCompat( oInit.oLanguage );
 			}
 			
-			oInit = _fnExtend( $.extend(true, {}, DataTable.defaults), oInit );
+			oInit = _fnExtend( $.extend(true, {}, table.defaults), oInit );
 			
 			// Map the initialisation options onto the settings object
 			_fnMap( oSettings.oFeatures, oInit, "bPaginate" );
@@ -6524,9 +6521,9 @@
 				/* Use the JUI classes object for display. You could clone the oStdClasses object if 
 				 * you want to have multiple tables with multiple independent classes 
 				 */
-				$.extend( oSettings.oClasses, DataTable.ext.oJUIClasses );
+				$.extend( oSettings.oClasses, table.ext.oJUIClasses );
 				
-				if ( oInit.sDom === DataTable.defaults.sDom && DataTable.defaults.sDom === "lfrtip" )
+				if ( oInit.sDom === table.defaults.sDom && table.defaults.sDom === "lfrtip" )
 				{
 					/* Set the DOM to use a layout suitable for jQuery UI's theming */
 					oSettings.sDom = '<"H"lfr>t<"F"ip>';
@@ -6534,9 +6531,9 @@
 			}
 			else
 			{
-				$.extend( oSettings.oClasses, DataTable.ext.oStdClasses );
+				$.extend( oSettings.oClasses, table.ext.oStdClasses );
 			}
-			$(this).addClass( oSettings.oClasses.sTable );
+			//$(this).addClass( oSettings.oClasses.sTable );
 			
 			/* Calculate the scroll bar width and cache it for use later on */
 			if ( oSettings.oScroll.sX !== "" || oSettings.oScroll.sY !== "" )
@@ -6603,7 +6600,7 @@
 					oSettings.oClasses.sStripeEven
 				];
 			}
-			
+
 			/* Remove row stripe classes if they are already on the table row */
 			iLen=oSettings.asStripeClasses.length;
 			oSettings.asDestroyStripes = [];
@@ -6627,7 +6624,7 @@
 					anRows.removeClass( oSettings.asStripeClasses.join(' ') );
 				}
 			}
-			
+
 			/*
 			 * Columns
 			 * See if we should load columns automatically or use defined ones
@@ -6812,7 +6809,7 @@
 	 *  @example
 	 *    alert( $.fn.dataTable.fnVersionCheck( '1.9.0' ) );
 	 */
-	DataTable.fnVersionCheck = function( sVersion )
+    table.fnVersionCheck = function( sVersion )
 	{
 		/* This is cheap, but effective */
 		var fnZPad = function (Zpad, count)
@@ -6822,7 +6819,7 @@
 			}
 			return Zpad;
 		};
-		var aThis = DataTable.ext.sVersion.split('.');
+		var aThis = table.ext.sVersion.split('.');
 		var aThat = sVersion.split('.');
 		var sThis = '', sThat = '';
 		
@@ -6850,9 +6847,9 @@
 	 *      $(ex).dataTable();
 	 *    }
 	 */
-	DataTable.fnIsDataTable = function ( nTable )
+    table.fnIsDataTable = function ( nTable )
 	{
-		var o = DataTable.settings;
+		var o = table.settings;
 	
 		for ( var i=0 ; i<o.length ; i++ )
 		{
@@ -6881,11 +6878,11 @@
 	 *      $(table).dataTable().fnAdjustColumnSizing();
 	 *    }
 	 */
-	DataTable.fnTables = function ( bVisible )
+    table.fnTables = function ( bVisible )
 	{
 		var out = [];
 	
-		jQuery.each( DataTable.settings, function (i, o) {
+		jQuery.each( table.settings, function (i, o) {
 			if ( !bVisible || (bVisible === true && $(o.nTable).is(':visible')) )
 			{
 				out.push( o.nTable );
@@ -6904,7 +6901,7 @@
 	 *  @type string
 	 *  @default Version number
 	 */
-	DataTable.version = "1.9.4";
+    table.version = "1.9.4";
 
 	/**
 	 * Private data store, containing all of the settings objects that are created for the
@@ -6917,7 +6914,7 @@
 	 *  @default []
 	 *  @private
 	 */
-	DataTable.settings = [];
+    table.settings = [];
 
 	/**
 	 * Object models container, for the various models that DataTables has available
@@ -6925,7 +6922,7 @@
 	 * and configuration of the table.
 	 *  @namespace
 	 */
-	DataTable.models = {};
+    table.models = {};
 	
 	
 	/**
@@ -6938,7 +6935,7 @@
 	 * and modified by plug-ins.
 	 *  @namespace
 	 */
-	DataTable.models.ext = {
+    table.models.ext = {
 		/**
 		 * Plug-in filtering functions - this method of filtering is complimentary to the default
 		 * type based filtering, and a lot more comprehensive as it allows you complete control
@@ -7152,7 +7149,7 @@
 		 *      alert( oTable.fnVersionCheck( '1.9.0' ) );
 		 *    } );
 		 */
-		"fnVersionCheck": DataTable.fnVersionCheck,
+		"fnVersionCheck": table.fnVersionCheck,
 	
 	
 		/**
@@ -7432,7 +7429,7 @@
 		 *  @type string
 		 *  @default Version number
 		 */
-		"sVersion": DataTable.version,
+		"sVersion": table.version,
 	
 	
 		/**
@@ -7462,7 +7459,7 @@
 	 * search information for the global filter and individual column filters.
 	 *  @namespace
 	 */
-	DataTable.models.oSearch = {
+    table.models.oSearch = {
 		/**
 		 * Flag to indicate if the filtering should be case insensitive or not
 		 *  @type boolean
@@ -7503,7 +7500,7 @@
 	 * aoData array.
 	 *  @namespace
 	 */
-	DataTable.models.oRow = {
+    table.models.oRow = {
 		/**
 		 * TR element for the row
 		 *  @type node
@@ -7572,7 +7569,7 @@
 	 * be done through the initialisation options.
 	 *  @namespace
 	 */
-	DataTable.models.oColumn = {
+    table.models.oColumn = {
 		/**
 		 * A list of the columns that sorting should occur on when this column
 		 * is sorted. That this property is an array allows multi-column sorting
@@ -7828,7 +7825,7 @@
 	 * time.
 	 *  @namespace
 	 */
-	DataTable.defaults = {
+    table.defaults = {
 		/**
 		 * An array of data to use for the table, passed in at initialisation which 
 		 * will be used in preference to any data which is already in the DOM. This is
@@ -9547,7 +9544,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"oSearch": $.extend( {}, DataTable.models.oSearch ),
+		"oSearch": $.extend( {}, table.models.oSearch ),
 	
 	
 		/**
@@ -9779,7 +9776,7 @@
 	 * Column options that can be given to DataTables at initialisation time.
 	 *  @namespace
 	 */
-	DataTable.defaults.columns = {
+    table.defaults.columns = {
 		/**
 		 * Allows a column's sorting to take multiple columns into account when 
 		 * doing a sort. For example first name / last name columns make sense to 
@@ -10556,7 +10553,7 @@
 	 *    backwards compatibility with older installations. This is something that
 	 *    will be done in 2.0.
 	 */
-	DataTable.models.oSettings = {
+    table.models.oSettings = {
 		/**
 		 * Primary features of DataTables and their enablement state.
 		 *  @namespace
@@ -11424,9 +11421,9 @@
 	 *  @namespace
 	 *  @extends DataTable.models.ext
 	 */
-	DataTable.ext = $.extend( true, {}, DataTable.models.ext );
+	table.ext = $.extend( true, {}, table.models.ext );
 	
-	$.extend( DataTable.ext.oStdClasses, {
+	$.extend( table.ext.oStdClasses, {
 		"sTable": "dataTable",
 	
 		/* Two buttons buttons */
@@ -11468,7 +11465,7 @@
 		"sSortableAsc": "sorting_asc_disabled",
 		"sSortableDesc": "sorting_desc_disabled",
 		"sSortableNone": "sorting_disabled",
-		"sSortColumn": "sorting_", /* Note that an int is postfixed for the sorting order */
+		"sSortColumn": "active", /* Note that an int is postfixed for the sorting order */
 		"sSortJUIAsc": "",
 		"sSortJUIDesc": "",
 		"sSortJUI": "",
@@ -11492,7 +11489,7 @@
 	} );
 	
 	
-	$.extend( DataTable.ext.oJUIClasses, DataTable.ext.oStdClasses, {
+	$.extend( table.ext.oJUIClasses, table.ext.oStdClasses, {
 		/* Two buttons buttons */
 		"sPagePrevEnabled": "fg-button ui-button ui-state-default ui-corner-left",
 		"sPagePrevDisabled": "fg-button ui-button ui-state-default ui-corner-left ui-state-disabled",
@@ -11542,7 +11539,7 @@
 	 * Purpose:  
 	 * Scope:    jQuery.fn.dataTableExt
 	 */
-	$.extend( DataTable.ext.oPagination, {
+	$.extend( table.ext.oPagination, {
 		/*
 		 * Variable: two_button
 		 * Purpose:  Standard two button (forward/back) pagination
@@ -11708,7 +11705,7 @@
 					return;
 				}
 				
-				var iPageCount = DataTable.ext.oPagination.iFullNumbersShowPages;
+				var iPageCount = table.ext.oPagination.iFullNumbersShowPages;
 				var iPageCountHalf = Math.floor(iPageCount / 2);
 				var iPages = Math.ceil((oSettings.fnRecordsDisplay()) / oSettings._iDisplayLength);
 				var iCurrentPage = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
@@ -11800,7 +11797,7 @@
 		}
 	} );
 	
-	$.extend( DataTable.ext.oSort, {
+	$.extend( table.ext.oSort, {
 		/*
 		 * text sorting
 		 */
@@ -11887,7 +11884,7 @@
 	} );
 	
 	
-	$.extend( DataTable.ext.aTypes, [
+	$.extend( table.ext.aTypes, [
 		/*
 		 * Function: -
 		 * Purpose:  Check to see if a string is numeric
@@ -11975,10 +11972,10 @@
 	
 
 	// jQuery aliases
-	$.fn.DataTable = DataTable;
-	$.fn.dataTable = DataTable;
-	$.fn.dataTableSettings = DataTable.settings;
-	$.fn.dataTableExt = DataTable.ext;
+	$.fn.table = table;
+	//$.fn.dataTable = DataTable;
+	$.fn.tableSettings = table.settings;
+	$.fn.tableExt = table.ext;
 
 
 	// Information about events fired by DataTables - for documentation.

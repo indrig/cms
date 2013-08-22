@@ -88,4 +88,14 @@ class DbTableGateway implements AdapterInterface
     {
         $this->paginator = $paginator;
     }
+
+    public function getItemCountPerPage($i)
+    {
+        $this->itemCountPerPage;
+    }
+
+    public function getCurrentPageNumber($i)
+    {
+        return $this->currentPageNumber;
+    }
 }

@@ -7,7 +7,8 @@
 namespace User\Table;
 
 use Indrig\Table\Table,
-    Indrig\Table\Adapter\DbTableGateway;
+    Indrig\Table\Adapter\DbTableGateway,
+    Zend\Http\Request;
 class UserList extends Table
 {
     /**
@@ -16,8 +17,9 @@ class UserList extends Table
 
     protected $table;
 
-    public function __construct($table)
+    public function __construct($table, Request $request)
     {
+        $this->setRequest($request);
         $this->addHeader('id',
             array(
                 'label' => 'ID'

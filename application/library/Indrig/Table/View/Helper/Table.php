@@ -45,7 +45,7 @@ class Table extends AbstractHelper
       //  var_dump($data);
         foreach($data as $v)
         {
-            $tableContent .= '<tr><td>'.$v->id.'</td><td>'.$v->login.'</td></tr>';
+            //$tableContent .= '<tr><td>'.$v->id.'</td><td>'.$v->login.'</td></tr>';
         }
         return $this->openTag($table) . $tableContent . $this->closeTag($table);
     }
@@ -59,7 +59,7 @@ class Table extends AbstractHelper
     public function openTag(TableElement $table)
     {
 
-        return '<table class="table" id="'.$table->getId().'">';
+        return '<table class="table table-striped table-hover table-bordered" id="'.$table->getId().'">';
     }
 
     /**
@@ -71,12 +71,20 @@ class Table extends AbstractHelper
     {
         $content = '</table>';
         $content .= '<script>';
-        $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').dataTable();} );';
+        $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').table(
+        {
+            "bServerSide": true,
+            "bProcessing": true,
+            //"iTotalRecords": 0,
+            "sServerMethod": "POST",
+            "sAjaxSource": "'.$table->getRequest()->getUriString().'"
+        }
+        );} );';
         $content .= '</script>';
 
         //Add JS and CSS
         $this->getView()->headLink()->appendStylesheet($this->getView()->basePath().'/assets/css/jquery.dataTables.css');
-        $this->getView()->headScript()->appendFile($this->getView()->basePath().'/assets/js/jquery.dataTables.js');
+        $this->getView()->headScript()->appendFile($this->getView()->basePath().'/assets/js/jquery.table.js');
         return $content;
     }
 }

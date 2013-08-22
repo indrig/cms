@@ -15,10 +15,35 @@ class AdminController extends AbstractController
 {
     public function indexAction()
     {
-        $userTable = $this->table('user');
-        $list = $userTable->select();
-        $userList = new UserList($userTable);
-        return array('list' => $userList);
+        /**
+         * @var \Zend\Http\Request $request
+         * @var \User\Model\UserTable $table
+         * @var \User\Table\UserList $list
+         */
+        $table = $this->table('user');
+        //$list = $userTable->select();
+        $request = $this->getRequest();
+//var_dump($request->isXmlHttpRequest());
+       // $this->acceptableViewModelSelector()
+        $list = new UserList($table, $request);
+
+        if($list->isCustomRender())
+        {
+
+            for($i = 0; $i < 1000; $i++)
+            {
+                $a[] = array($i, $i);
+            }
+
+            return $this->getResponse()->setContent(json_encode(array(
+                'aaData' => $a,
+                ''
+            )));
+        }
+        else
+        {
+            return array('list' => $list);
+        }
     }
 
     public function editAction()
