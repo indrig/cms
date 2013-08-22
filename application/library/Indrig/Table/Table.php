@@ -67,7 +67,7 @@ class Table extends AbstractElement
     {
         if(!$this->id)
         {
-            $this->id = 'dataTable'.++self::$auto_id;
+            $this->id = 'table'.++self::$auto_id;
         }
         return $this->id;
     }

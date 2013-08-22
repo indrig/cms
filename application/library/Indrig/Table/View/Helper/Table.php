@@ -58,8 +58,12 @@ class Table extends AbstractHelper
      */
     public function openTag(TableElement $table)
     {
-
-        return '<table class="table table-striped table-hover table-bordered" id="'.$table->getId().'">';
+        $id = $table->getId();
+        $content = '<div id="'.$id.'_wrapper">';
+        $content .= '<div class="row">10</div>';
+        $content .= '<table class="table table-striped table-hover table-bordered" id="'.$id.'">';
+        $content .= '';
+        return $content;
     }
 
     /**
@@ -70,6 +74,7 @@ class Table extends AbstractHelper
     public function closeTag(TableElement $table)
     {
         $content = '</table>';
+        $content .= '</div>';
         $content .= '<script>';
         $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').table(
         {

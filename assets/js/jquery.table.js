@@ -1322,12 +1322,12 @@
 				/* Prep the applied array - it needs an element for each row */
 				aApplied.push( [] );
 			}
-		
+            /*
 			for ( i=0, iLen=aoLocal.length ; i<iLen ; i++ )
 			{
 				nLocalTr = aoLocal[i].nTr;
 				
-				/* All cells are going to be replaced, so empty out the row */
+				//All cells are going to be replaced, so empty out the row
 				if ( nLocalTr )
 				{
 					while( (n = nLocalTr.firstChild) )
@@ -1335,21 +1335,19 @@
 						nLocalTr.removeChild( n );
 					}
 				}
-		
+
 				for ( j=0, jLen=aoLocal[i].length ; j<jLen ; j++ )
 				{
 					iRowspan = 1;
 					iColspan = 1;
 		
-					/* Check to see if there is already a cell (row/colspan) covering our target
-					 * insert point. If there is, then there is nothing to do.
-					 */
+
 					if ( aApplied[i][j] === undefined )
 					{
 						nLocalTr.appendChild( aoLocal[i][j].cell );
 						aApplied[i][j] = 1;
 		
-						/* Expand the cell to cover as many rows as needed */
+						// Expand the cell to cover as many rows as needed
 						while ( aoLocal[i+iRowspan] !== undefined &&
 						        aoLocal[i][j].cell == aoLocal[i+iRowspan][j].cell )
 						{
@@ -1357,11 +1355,11 @@
 							iRowspan++;
 						}
 		
-						/* Expand the cell to cover as many columns as needed */
+						// Expand the cell to cover as many columns as needed
 						while ( aoLocal[i][j+iColspan] !== undefined &&
 						        aoLocal[i][j].cell == aoLocal[i][j+iColspan].cell )
 						{
-							/* Must update the applied array over the rows for the columns */
+							// Must update the applied array over the rows for the columns
 							for ( k=0 ; k<iRowspan ; k++ )
 							{
 								aApplied[i+k][j+iColspan] = 1;
@@ -1369,12 +1367,12 @@
 							iColspan++;
 						}
 		
-						/* Do the actual expansion in the DOM */
-						aoLocal[i][j].cell.rowSpan = iRowspan;
-						aoLocal[i][j].cell.colSpan = iColspan;
+						// Do the actual expansion in the DOM
+						//aoLocal[i][j].cell.rowSpan = iRowspan;
+						//aoLocal[i][j].cell.colSpan = iColspan;
 					}
 				}
-			}
+			}*/
 		}
 		
 		
@@ -1623,14 +1621,14 @@
 			/* 
 			 * All DataTables are wrapped in a div
 			 */
-			oSettings.nTableWrapper = $('<div id="'+oSettings.sTableId+'_wrapper" class="'+oSettings.oClasses.sWrapper+'" role="grid"></div>')[0];
+			oSettings.nTableWrapper = $('#'+oSettings.sTableId+'_wrapper')[0];
 			oSettings.nTableReinsertBefore = oSettings.nTable.nextSibling;
 		
 			/* Track where we want to insert the option */
-			var nInsertNode = oSettings.nTableWrapper;
+			//var nInsertNode = oSettings.nTableWrapper;
 			
 			/* Loop over the user set positioning and place the elements as needed */
-			var aDom = oSettings.sDom.split('');
+			/*var aDom = oSettings.sDom.split('');
 			var nTmp, iPushFeature, cOption, nNewNode, cNext, sAttr, j;
 			for ( var i=0 ; i<aDom.length ; i++ )
 			{
@@ -1639,10 +1637,10 @@
 				
 				if ( cOption == '<' )
 				{
-					/* New container div */
+					// New container div
 					nNewNode = $('<div></div>')[0];
 					
-					/* Check to see if we should append an id and/or a class name to the container */
+					// Check to see if we should append an id and/or a class name to the container
 					cNext = aDom[i+1];
 					if ( cNext == "'" || cNext == '"' )
 					{
@@ -1653,8 +1651,7 @@
 							sAttr += aDom[i+j];
 							j++;
 						}
-						
-						/* Replace jQuery UI constants */
+
 						if ( sAttr == "H" )
 						{
 							sAttr = oSettings.oClasses.sJUIHeader;
@@ -1664,9 +1661,7 @@
 							sAttr = oSettings.oClasses.sJUIFooter;
 						}
 						
-						/* The attribute can be in the format of "#id.class", "#id" or "class" This logic
-						 * breaks the string into parts and applies them as needed
-						 */
+
 						if ( sAttr.indexOf('.') != -1 )
 						{
 							var aSplit = sAttr.split('.');
@@ -1682,7 +1677,7 @@
 							nNewNode.className = sAttr;
 						}
 						
-						i += j; /* Move along the position array */
+						i += j;
 					}
 					
 					nInsertNode.appendChild( nNewNode );
@@ -1690,48 +1685,47 @@
 				}
 				else if ( cOption == '>' )
 				{
-					/* End container div */
+
 					nInsertNode = nInsertNode.parentNode;
 				}
 				else if ( cOption == 'l' && oSettings.oFeatures.bPaginate && oSettings.oFeatures.bLengthChange )
 				{
-					/* Length */
+
 					nTmp = _fnFeatureHtmlLength( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( cOption == 'f' && oSettings.oFeatures.bFilter )
 				{
-					/* Filter */
+
 					nTmp = _fnFeatureHtmlFilter( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( cOption == 'r' && oSettings.oFeatures.bProcessing )
 				{
-					/* pRocessing */
+
 					nTmp = _fnFeatureHtmlProcessing( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( cOption == 't' )
 				{
-					/* Table */
+
 					nTmp = _fnFeatureHtmlTable( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( cOption ==  'i' && oSettings.oFeatures.bInfo )
 				{
-					/* Info */
+
 					nTmp = _fnFeatureHtmlInfo( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( cOption == 'p' && oSettings.oFeatures.bPaginate )
 				{
-					/* Pagination */
+
 					nTmp = _fnFeatureHtmlPaginate( oSettings );
 					iPushFeature = 1;
 				}
 				else if ( table.ext.aoFeatures.length !== 0 )
 				{
-					/* Plug-in features */
 					var aoFeatures = table.ext.aoFeatures;
 					for ( var k=0, kLen=aoFeatures.length ; k<kLen ; k++ )
 					{
@@ -1746,8 +1740,7 @@
 						}
 					}
 				}
-				
-				/* Add to the 2D features array */
+
 				if ( iPushFeature == 1 && nTmp !== null )
 				{
 					if ( typeof oSettings.aanFeatures[cOption] !== 'object' )
@@ -1759,8 +1752,9 @@
 				}
 			}
 			
-			/* Built our DOM structure - replace the holding div with what we want */
+
 			nHolding.parentNode.replaceChild( oSettings.nTableWrapper, nHolding );
+    */
 		}
 		
 		
@@ -2022,9 +2016,9 @@
 			{
 				_fnClearTable( oSettings );
 			}
-			oSettings._iRecordsTotal = parseInt(json.iTotalRecords, 10);
-			oSettings._iRecordsDisplay = parseInt(json.iTotalDisplayRecords, 10);
-			
+			oSettings._iRecordsTotal = parseInt(json.count, 10);
+			oSettings._iRecordsDisplay = parseInt(json.limit, 10);
+
 			/* Determine if reordering is required */
 			var sOrdering = _fnColumnOrdering(oSettings);
 			var bReOrder = (json.sColumns !== undefined && sOrdering !== "" && json.sColumns != sOrdering );
@@ -2997,7 +2991,7 @@
 		 */
 		function _fnProcessingDisplay ( oSettings, bShow )
 		{
-			if ( oSettings.oFeatures.bProcessing )
+			/*if ( oSettings.oFeatures.bProcessing )
 			{
 				var an = oSettings.aanFeatures.r;
 				for ( var i=0, iLen=an.length ; i<iLen ; i++ )
@@ -3006,7 +3000,7 @@
 				}
 			}
 		
-			$(oSettings.oInstance).trigger('processing', [oSettings, bShow]);
+			$(oSettings.oInstance).trigger('processing', [oSettings, bShow]);*/
 		}
 		
 		/**
@@ -9575,7 +9569,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"sAjaxDataProp": "aaData",
+		"sAjaxDataProp": "data",
 	
 	
 		/**

@@ -30,14 +30,15 @@ class AdminController extends AbstractController
         if($list->isCustomRender())
         {
 
-            for($i = 0; $i < 1000; $i++)
+            for($i = 0; $i < 20; $i++)
             {
                 $a[] = array($i, $i);
             }
 
             return $this->getResponse()->setContent(json_encode(array(
-                'aaData' => $a,
-                ''
+                'data' => $a,
+                'count' => 112,
+                'limit' => 10
             )));
         }
         else
