@@ -56,8 +56,8 @@ class DbTableGateway implements AdapterInterface
             $this->paginator = new Paginator($adapter);
             //$this->initQuery();
             //$this->initPaginator();
-            $this->paginator->setItemCountPerPage($this->itemCountPerPage);
-            $this->paginator->setCurrentPageNumber($this->currentPageNumber);
+          //  $this->paginator->setItemCountPerPage($this->itemCountPerPage);
+           // $this->paginator->setCurrentPageNumber($this->currentPageNumber);
         }
         return $this->paginator;
     }

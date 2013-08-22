@@ -4,7 +4,8 @@ namespace Indrig\Table;
 use Indrig\Table\Element\AbstractElement,
     Indrig\Table\Element\Header,
     Indrig\Table\Adapter\AdapterInterface,
-    Zend\Http\Request;
+    Zend\Http\Request,
+    Zend\Http\Response;
 
 class Table extends AbstractElement
 {
@@ -180,5 +181,32 @@ class Table extends AbstractElement
     {
         $renderType = $this->getRenderType();
         return $renderType !== null && $renderType !== self::RENDER_HTML;
+    }
+
+    public function customRender(Response $response)
+    {
+        $type = $this->getRenderType();
+        /**
+         * @var \Zend\Paginator\Paginator $data
+         */
+        $data = $this->getData();
+        $a = array();
+
+        $keys = array_keys($this->getHeaders());
+        foreach($data as $v)
+        {
+            $tmp = array();
+            foreach($keys as $key)
+            {
+                $tmp[] = $v->$key;
+            }
+            $a[] = $tmp;
+        }
+        return $response->setContent(json_encode(array(
+            'data'              => $a,
+            'total'             => $data->getTotalItemCount(),
+            'page'              => $data->getCurrentPageNumber(),
+            'per_page'    =>$data->getItemCountPerPage(),
+        )));
     }
 }

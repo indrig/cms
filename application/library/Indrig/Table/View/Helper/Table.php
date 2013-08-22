@@ -78,11 +78,7 @@ class Table extends AbstractHelper
         $content .= '<script>';
         $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').table(
         {
-            "bServerSide": true,
-            "bProcessing": true,
-            //"iTotalRecords": 0,
-            "sServerMethod": "POST",
-            "sAjaxSource": "'.$table->getRequest()->getUriString().'"
+            "dataUrl": "'.$table->getRequest()->getUriString().'"
         }
         );} );';
         $content .= '</script>';
