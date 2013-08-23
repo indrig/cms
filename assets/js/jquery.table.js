@@ -2,6 +2,7 @@
 
     $.fn.table = function(options)
     {
+        var self = this;
         this.total          = options['total'] | 0;
         this.per_page       = options['per_page'] | 10;
         this.page           = options['page'] | 1;
@@ -10,11 +11,11 @@
         //Tags
         this.pagination     = this.parent(1).find('.pagination');
 
-        this.load = function()
+        this.load = function(params)
         {
             var self = this;
             $.ajax({
-                url:  this.dataUrl,
+                url:  this.makeDataUrl(params),
                 dataType: 'json'
             }).done(function(data)
             {
@@ -31,13 +32,14 @@
 
         this.goToPage = function(i)
         {
-
+            this.load({page: i});
         };
 
         this.drawPagination = function()
         {
             var pageCount = Math.ceil(this.total / this.per_page),
-                pageNumber = this.page, lowerBound, upperBound, offset, li;
+                pageNumber = this.page, lowerBound, upperBound, offset, li, i, a;
+            this.pagination.empty();
             if(this.total > this.per_page)
             {
                 if (this.pageRange > pageCount) {
@@ -60,48 +62,67 @@
 
                 //li = $('<li class="disabled"><a href="#">&laquo;</a></li>');
                 //this.pagination.append(li);
-                for(var i = lowerBound; i <= upperBound; i++)
+                for(i = lowerBound; i <= upperBound; i++)
                 {
                     if(i == this.page)
                     {
-                        li = $('<li class="active"><a href="'+this.makePageUrl(i)+'">'+i+'</a></li>');
+                        li = $('<li class="active"></li>');
                     }
                     else
 
                     {
-                        li = $('<li><a href="'+this.makePageUrl(i)+'">'+i+'</a></li>');
+                        li = $('<li></li>');
                     }
-                    this.pagination.append(li);
+                    a = $('<a href="#" data-page="'+i+'">'+i+'</a>').bind('click', this.paginationItemClick);
+                    li.append(a);
+                    this.pagination.append(li)
                 }
-                //li = $('<li class="disabled"><a href="#">&raquo;</a></li>');
-                //this.pagination.append(li);
-
-                //console.dir(this.pagination);
-
             }
         };
 
-        this.makePageUrl = function(page)
+        this.paginationItemClick = function(e)
         {
+            e.preventDefault();
+            var page = $(this).attr('data-page');
+            if(page)
+            {
+                self.goToPage({'page': page});
+            }
+            return false;
+        };
 
+        this.makeDataUrl = function(params)
+        {
+            var url = this.dataUrl;
 
-            return this.dataUrl + '?page='+page;
+            url += (url.indexOf('?')>=0 ? '&' : '?');
+            console.dir(params);
+            if(params)
+            {
+                if(params.page)
+                    url += 'page='+(params.page);
+
+                console.dir(params.page);
+            }
+            console.dir(url);
+            return url;
         };
 
         this.setData = function(data)
         {
-            this.total      = 10001;//data['total'] | this.total;
+            this.total      = data['total'] | this.total;
             this.per_page   = data['per_page'] | this.per_page;
-            this.page       = 40;//data['page'] | this.page;
+            this.page       = data['page'] | this.page;
 
             this.cleanRows();
             this.addRows(data['data']);
             this.drawPagination();
+            //console.log(this.QueryString);
         };
 
         this.cleanRows = function()
         {
-            //this.find('tbody').empty();
+            this.find('tr:not(:first)').remove();
         };
 
         this.addRows = function(rows)
@@ -121,6 +142,8 @@
             }
 
         };
+
+
         this.load();
         return this;
     };

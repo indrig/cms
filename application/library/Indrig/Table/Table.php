@@ -110,8 +110,8 @@ class Table extends AbstractElement
         $request = $this->getRequest();
         if($request)
         {
-            $this->getAdapter()->setCurrentPageNumber(intval($request->getPost('iDisplayStart')));
-            $this->getAdapter()->setItemCountPerPage(intval($request->getPost('iDisplayLength')));
+            $this->getAdapter()->setCurrentPageNumber(intval($request->getPost('page')));
+            $this->getAdapter()->setItemCountPerPage(intval($request->getPost('iDisplayLength')), $this->getAdapter()->getItemCountPerPage());
         }
         return ($this->data = $this->getAdapter()->getData());
     }
