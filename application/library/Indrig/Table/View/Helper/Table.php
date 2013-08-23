@@ -41,6 +41,7 @@ class Table extends AbstractHelper
         }
         $tableContent .= '</tr>';
 
+
         $data = $table->getData();
 
         return $this->openTag($table) . $tableContent . $this->closeTag($table);
@@ -56,7 +57,7 @@ class Table extends AbstractHelper
     {
         $id = $table->getId();
         $content = '<div id="'.$id.'_wrapper">';
-        $content .= '<div class="row">10</div>';
+        $content .= '<div class="row"></div>';
         $content .= '<table class="table table-striped table-hover table-bordered" id="'.$id.'">';
         $content .= '';
         return $content;
@@ -70,6 +71,13 @@ class Table extends AbstractHelper
     public function closeTag(TableElement $table)
     {
         $content = '</table>';
+        $content .= '<div class="row">';
+
+        $content .= '<div class="col-lg-6">';
+        $content .= '<ul class="pagination"></ul>';
+        $content .= '</div>';
+
+        $content .= '</div>';
         $content .= '</div>';
         $content .= '<script>';
         $content .= '$(document).ready(function() {$(\'#'.$table->getId().'\').table(

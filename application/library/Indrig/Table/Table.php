@@ -202,11 +202,13 @@ class Table extends AbstractElement
             }
             $a[] = $tmp;
         }
+
         return $response->setContent(json_encode(array(
             'data'              => $a,
             'total'             => $data->getTotalItemCount(),
             'page'              => $data->getCurrentPageNumber(),
             'per_page'    =>$data->getItemCountPerPage(),
+
         )));
     }
 }
