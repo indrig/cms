@@ -15,8 +15,6 @@ class DbTableGateway implements AdapterInterface
 {
     protected $paginator;
     protected $tableGateway;
-    protected $itemCountPerPage = 10;
-    protected $currentPageNumber = 1;
 
     public function __construct(TableGateway $tableGateway = null, $where = null, $order = null)
     {
@@ -41,7 +39,7 @@ class DbTableGateway implements AdapterInterface
     public function getData()
     {
         $paginator = $this->getPaginator();
-        return $paginator;
+        return $paginator->getCurrentItems();
     }
 
     /**
@@ -56,8 +54,8 @@ class DbTableGateway implements AdapterInterface
             $this->paginator = new Paginator($adapter);
             //$this->initQuery();
             //$this->initPaginator();
-          //  $this->paginator->setItemCountPerPage($this->itemCountPerPage);
-           // $this->paginator->setCurrentPageNumber($this->currentPageNumber);
+         //   $this->paginator->setItemCountPerPage($this->itemCountPerPage);
+         //   $this->paginator->setCurrentPageNumber($this->currentPageNumber);
         }
         return $this->paginator;
     }
@@ -68,7 +66,7 @@ class DbTableGateway implements AdapterInterface
      */
     public function setItemCountPerPage($i)
     {
-        $this->itemCountPerPage = $i;
+        $this->getPaginator()->setItemCountPerPage($i);
         return $this;
     }
 
@@ -78,7 +76,7 @@ class DbTableGateway implements AdapterInterface
      */
     public function setCurrentPageNumber($i)
     {
-        $this->currentPageNumber = $i;
+        $this->getPaginator()->setCurrentPageNumber($i);
         return $this;
     }
     /**
@@ -91,11 +89,16 @@ class DbTableGateway implements AdapterInterface
 
     public function getItemCountPerPage()
     {
-        return $this->itemCountPerPage;
+        return $this->getPaginator()->getItemCountPerPage();
     }
 
     public function getCurrentPageNumber()
     {
-        return $this->currentPageNumber;
+        return $this->getPaginator()->getCurrentPageNumber();
+    }
+
+    public function getTotalItemCount()
+    {
+        return $this->getPaginator()->getTotalItemCount();
     }
 }

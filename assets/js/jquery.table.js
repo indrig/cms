@@ -3,11 +3,11 @@
     $.fn.table = function(options)
     {
         var self = this;
-        this.total          = options['total'] | 0;
-        this.per_page       = options['per_page'] | 10;
-        this.page           = options['page'] | 1;
+        this.total          = options['total'] || 0;
+        this.per_page       = options['per_page'] || 10;
+        this.page           = options['page'] || 1;
         this.dataUrl        = options['dataUrl'];
-        this.pageRange      = options['pageRange'] | 9;
+        this.pageRange      = options['pageRange'] || 9;
         //Tags
         this.pagination     = this.parent(1).find('.pagination');
 
@@ -83,10 +83,11 @@
         this.paginationItemClick = function(e)
         {
             e.preventDefault();
-            var page = $(this).attr('data-page');
+            var page = parseInt($(this).attr('data-page'));
+
             if(page)
             {
-                self.goToPage({'page': page});
+                self.goToPage(page);
             }
             return false;
         };
@@ -96,24 +97,25 @@
             var url = this.dataUrl;
 
             url += (url.indexOf('?')>=0 ? '&' : '?');
-            console.dir(params);
+
             if(params)
             {
                 if(params.page)
                     url += 'page='+(params.page);
 
-                console.dir(params.page);
+                //console.dir(params.page);
             }
-            console.dir(url);
+           // console.dir(url);
             return url;
         };
 
         this.setData = function(data)
         {
-            this.total      = data['total'] | this.total;
-            this.per_page   = data['per_page'] | this.per_page;
-            this.page       = data['page'] | this.page;
+            this.total      = data['total'] || this.total;
+            this.per_page   = data['per_page'] || this.per_page;
+            this.page       = data['page'] || this.page;
 
+            console.log(this.page);
             this.cleanRows();
             this.addRows(data['data']);
             this.drawPagination();

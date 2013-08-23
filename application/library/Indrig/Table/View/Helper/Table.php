@@ -56,7 +56,7 @@ class Table extends AbstractHelper
     public function openTag(TableElement $table)
     {
         $id = $table->getId();
-        $content = '<div id="'.$id.'_wrapper">';
+        $content = '<div id="'.$id.'_wrapper" class="table_wrapper">';
         $content .= '<div class="row"></div>';
         $content .= '<table class="table table-striped table-hover table-bordered" id="'.$id.'">';
         $content .= '';
@@ -77,6 +77,19 @@ class Table extends AbstractHelper
         $content .= '<ul class="pagination"></ul>';
         $content .= '</div>';
 
+        $content .= '<div class="col-lg-4">';
+        $content .= '</div>';
+
+        $content .= '<div class="col-lg-2">';
+        $content .= '<select class="form-control">';
+        $content .= '<option value="10">10</option>';
+        $content .= '<option value="25">25</option>';
+        $content .= '<option value="50">50</option>';
+        $content .= '<option value="100">100</option>';
+        $content .= '<option value="250">250</option>';
+        $content .= '</select>';
+        $content .= '</div>';
+
         $content .= '</div>';
         $content .= '</div>';
         $content .= '<script>';
@@ -88,7 +101,7 @@ class Table extends AbstractHelper
         $content .= '</script>';
 
         //Add JS and CSS
-        $this->getView()->headLink()->appendStylesheet($this->getView()->basePath().'/assets/css/jquery.dataTables.css');
+        $this->getView()->headLink()->appendStylesheet($this->getView()->basePath().'/assets/css/jquery.table.css');
         $this->getView()->headScript()->appendFile($this->getView()->basePath().'/assets/js/jquery.table.js');
         return $content;
     }

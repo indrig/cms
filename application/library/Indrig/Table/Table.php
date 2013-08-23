@@ -110,8 +110,8 @@ class Table extends AbstractElement
         $request = $this->getRequest();
         if($request)
         {
-            $this->getAdapter()->setCurrentPageNumber(intval($request->getPost('page')));
-            $this->getAdapter()->setItemCountPerPage(intval($request->getPost('iDisplayLength')), $this->getAdapter()->getItemCountPerPage());
+            $this->getAdapter()->setCurrentPageNumber(intval($request->getQuery('page')));
+           // $this->getAdapter()->setItemCountPerPage(intval($request->getPost('per_page')), $this->getAdapter()->getItemCountPerPage());
         }
         return ($this->data = $this->getAdapter()->getData());
     }
@@ -205,9 +205,9 @@ class Table extends AbstractElement
 
         return $response->setContent(json_encode(array(
             'data'              => $a,
-            'total'             => $data->getTotalItemCount(),
-            'page'              => $data->getCurrentPageNumber(),
-            'per_page'    =>$data->getItemCountPerPage(),
+            'total'             => $this->getAdapter()->getTotalItemCount(),
+            'page'              => $this->getAdapter()->getCurrentPageNumber(),
+            'per_page'          =>$this->getAdapter()->getItemCountPerPage(),
 
         )));
     }

@@ -13,4 +13,5 @@ interface AdapterInterface
     public function setCurrentPageNumber($i);
     public function getItemCountPerPage();
     public function getCurrentPageNumber();
+    public function getTotalItemCount();
 }
