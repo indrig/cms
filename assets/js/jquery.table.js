@@ -37,17 +37,30 @@
             this.page       = data['page'] | this.page;
 
             this.cleanRows();
-            this.addRows(data);
+            this.addRows(data['data']);
         };
 
         this.cleanRows = function()
         {
-
+            //this.find('tbody').empty();
         };
 
         this.addRows = function(rows)
         {
-            $.find('tr:fest').after('<tr><td>1</td></tr>');
+            //console.dir(rows);
+            var i, j, row, cell, lastRow = this.find('tr:first');
+
+            for(i in rows)
+            {
+                row = $('<tr>');
+                for(j in rows[i])
+                {
+                    cell = $('<td>').html(rows[i][j])
+                    row.append(cell);
+                }
+                lastRow = row.insertAfter(lastRow);
+            }
+
         };
         this.load();
         return this;

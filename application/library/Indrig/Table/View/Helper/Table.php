@@ -34,19 +34,15 @@ class Table extends AbstractHelper
         $tableContent = '';
         $headers = $table->getHeaders();
 
-        $tableContent .= '<thead><tr>';
+        $tableContent .= '<tr>';
         foreach($headers as $header)
         {
             $tableContent .= $headerHelper($header);
         }
-        $tableContent .= '</tr></thead>';
+        $tableContent .= '</tr>';
 
         $data = $table->getData();
-      //  var_dump($data);
-        foreach($data as $v)
-        {
-            //$tableContent .= '<tr><td>'.$v->id.'</td><td>'.$v->login.'</td></tr>';
-        }
+
         return $this->openTag($table) . $tableContent . $this->closeTag($table);
     }
 
