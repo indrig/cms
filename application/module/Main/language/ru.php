@@ -11,6 +11,7 @@
  * EN-Revision: 20377
  */
 return array(
+    'Search' => 'Поиск',
     // Zend_Validate_Alnum
     "Invalid type given, value should be float, string, or integer" => "Недопустимый тип данных, значение должно быть числом с плавающей точкой, строкой или целым числом",
     "'%value%' contains characters which are non alphabetic and no digits" => "'%value%' содержит недопустимые символы. Разрешены только буквенные символы и цифры",

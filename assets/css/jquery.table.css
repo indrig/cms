@@ -1,6 +1,20 @@
-.table_wrapper{
+.table-wrapper{
 
 }
-.table_wrapper .pagination{
+.table-wrapper .pagination{
     margin: 0;
+}
+
+.table-wrapper .per-page{
+    width: auto;
+    float: right;
+}
+
+.table-wrapper .row{
+    margin-bottom: 10px;
+}
+
+
+.table-wrapper .table{
+    margin-bottom: 10px;
 }

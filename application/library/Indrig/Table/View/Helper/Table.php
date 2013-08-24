@@ -56,8 +56,14 @@ class Table extends AbstractHelper
     public function openTag(TableElement $table)
     {
         $id = $table->getId();
-        $content = '<div id="'.$id.'_wrapper" class="table_wrapper">';
-        $content .= '<div class="row"></div>';
+        $content = '<div id="'.$id.'_wrapper" class="table-wrapper">';
+        $content .= '<div class="row">';
+        $content .= '<div class="col-lg-8">';
+        $content .= '</div>';
+        $content .= '<div class="col-lg-4">';
+        $content .= '<input class="form-control" placeholder="'.$this->getTranslator()->translate('Search').'..." name="'.$id.'_search" />';
+        $content .= '</div>';
+        $content .= '</div>';
         $content .= '<table class="table table-striped table-hover table-bordered" id="'.$id.'">';
         $content .= '';
         return $content;
@@ -70,6 +76,8 @@ class Table extends AbstractHelper
      */
     public function closeTag(TableElement $table)
     {
+        $id = $table->getId();
+
         $content = '</table>';
         $content .= '<div class="row">';
 
@@ -81,7 +89,7 @@ class Table extends AbstractHelper
         $content .= '</div>';
 
         $content .= '<div class="col-lg-2">';
-        $content .= '<select class="form-control">';
+        $content .= '<select class="form-control per-page">';
         $content .= '<option value="10">10</option>';
         $content .= '<option value="25">25</option>';
         $content .= '<option value="50">50</option>';
