@@ -18,3 +18,43 @@
 .table-wrapper .table{
     margin-bottom: 10px;
 }
+
+.table .sortable{
+    cursor: pointer;
+}
+
+.table .sortable:hover,
+.table .sortable:focus,
+.table .sortable:active,
+.table .sortable.active{
+    background-color: #ebebeb;
+}
+.table .order{
+    float: right;
+}
+
+.table .desc .order{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid #000000;
+    border-right: 4px solid transparent;
+    border-bottom: 0 dotted;
+    border-left: 4px solid transparent;
+    content: "";
+}
+
+.table .asc .order{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-bottom: 4px solid #000000;
+    border-right: 4px solid transparent;
+    border-top: 0 dotted;
+    border-left: 4px solid transparent;
+    content: "";
+}

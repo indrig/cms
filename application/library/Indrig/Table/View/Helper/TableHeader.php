@@ -32,6 +32,6 @@ class TableHeader extends AbstractHelper
             }
         }
 
-        return '<th>'. $label. '</th>';
+        return '<th'.($header->getSortable() ? ' class="sortable"' : '').'>'. $label. '<span class="order"></span></th>';
     }
 }

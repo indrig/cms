@@ -6,32 +6,12 @@ return array(
                 'label'     => 'Home',
                 'route'     => 'home',
                 'visible'   => false
+            ),
+            array(
+                'label'     => 'Management',
+                'route'     => 'home'
             )
         ),
-        'admin' => array(
-            array(
-                'label'     => 'User',
-                'route'     => 'user'
-            ),
-            array(
-                'label'     => 'Data',
-                'route'     => 'user/signin'
-            )
-        )
+
     ),
-    'navigation_2' => array(
-        'default' => array(
-
-            array(
-                'label'     => 'User',
-                'route'     => 'user'
-            ),
-            array(
-                'label'     => 'Data',
-                'route'     => 'user/signin'
-            )
-        )
-    ),
-
-
 );

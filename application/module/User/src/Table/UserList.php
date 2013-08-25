@@ -22,12 +22,13 @@ class UserList extends Table
         $this->setRequest($request);
         $this->addHeader('id',
             array(
-                'label' => 'ID'
-
+                'label'     => 'ID',
+                'sortable'   => true
             ));
         $this->addHeader('login',
             array(
-                'label' => 'Login'
+                'label'     => 'Login',
+                'sortable'   => true
             ));
 
         $this->setAdapter(new DbTableGateway($table));
