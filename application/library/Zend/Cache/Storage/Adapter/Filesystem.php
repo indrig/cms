@@ -102,6 +102,7 @@ class Filesystem extends AbstractAdapter implements
     {
         $flags = GlobIterator::SKIP_DOTS | GlobIterator::CURRENT_AS_PATHNAME;
         $dir   = $this->getOptions()->getCacheDir();
+
         $clearFolder = null;
         $clearFolder = function ($dir) use (& $clearFolder, $flags) {
             $it = new GlobIterator($dir . DIRECTORY_SEPARATOR . '*', $flags);

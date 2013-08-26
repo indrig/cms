@@ -9,12 +9,12 @@
 
 namespace Main\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Indrig\Controller\AbstractController;
+
 /**
  *  @method \User\Adapter\Authentication user()
  */
-class IndexController extends AbstractActionController
+class IndexController extends AbstractController
 {
 
     public function indexAction()
@@ -22,7 +22,6 @@ class IndexController extends AbstractActionController
         /**
          * @var \Zend\Db\Adapter\Adapter $dbAdapter
          */
-        $dbAdapter = $this->getServiceLocator()->get('database');
-        return new ViewModel();
+
     }
 }

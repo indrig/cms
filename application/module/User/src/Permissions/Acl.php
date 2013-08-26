@@ -24,9 +24,13 @@ class Acl extends ZendAcl
         $this->serviceManager = $sm;
 
         $this->initRole();
+       // $this->initPrivilege();
     }
 
-    public function initRole()
+    /**
+     * Установка ролей
+     */
+    protected function initRole()
     {
         /**
          * @var \User\Model\RoleTable $table
@@ -45,6 +49,38 @@ class Acl extends ZendAcl
         }
     }
 
+    /**
+     * Установка привелегий
+     */
+    protected function initPrivilege()
+    {
+        /**
+         * @var \User\Model\RolePrivilegeTable $table
+         */
+        $table = $this->serviceManager->get('table_role_privilege');
+        $list = $table->all();
+
+        //Формирование списка ролей
+        $privileges = array();
+        foreach($list as $privilege)
+        {
+            if(isset($this->roles[$privilege->role_id]))
+                $privileges[$this->roles[$privilege->role_id]][$privilege->resource][] = $privilege->privilege;
+        }
+
+        //Применение
+        foreach($privileges as $role => $resources)
+        {
+            foreach($resources as $resource => $allowed)
+
+            $this->allow($role, $resource, $allowed);
+        }
+    }
+
+    public function initialize()
+    {
+        $this->initPrivilege();
+    }
     /**
      * @param array $ids
      * @return array|null

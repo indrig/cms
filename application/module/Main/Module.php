@@ -13,7 +13,6 @@ use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
     Indrig\AbstractModule;
-use Zend\Navigation\Page\Mvc;
 
 class Module extends AbstractModule
 {
@@ -21,9 +20,9 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($e);
 
-        $eventManager        = $e->getApplication()->getEventManager();
-        $serviceManager        = $e->getApplication()->getServiceManager();
-        $moduleRouteListener = new ModuleRouteListener();
+        $eventManager           = $e->getApplication()->getEventManager();
+        $serviceManager         = $e->getApplication()->getServiceManager();
+        $moduleRouteListener    = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
         $translator = $serviceManager->get('translator');
@@ -37,12 +36,12 @@ class Module extends AbstractModule
                 {
 
                     $response->getHeaders()->addHeaders(array(
-                        'X-Powered-By' => 'Nashny CMS',
-                        'Server' => 'Nashny Script'
+                        'X-Powered-By'  => 'Nashny CMS',
+                        'Server'        => 'Nashny Script'
                     ));
                 }
             }, 500);
-        $acl = $serviceManager->get('Acl');
+
 
     }
 

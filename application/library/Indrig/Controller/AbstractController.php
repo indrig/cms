@@ -59,4 +59,13 @@ abstract class AbstractController extends AbstractActionController
     {
         return $this->getServiceLocator()->get($name);
     }
+
+    /**
+     * @param null $name
+     * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
+     */
+    public function cache($name = null)
+    {
+        return $this->service('Cache\Default');
+    }
 }

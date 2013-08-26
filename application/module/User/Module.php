@@ -5,6 +5,8 @@ use User\Model\UserTable,
     Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\ServiceManager\ServiceLocatorInterface,
+    Zend\ModuleManager\ModuleEvent,
+    Zend\ModuleManager\ModuleManagerInterface,
     Indrig\AbstractModule;
 
 class Module extends AbstractModule
@@ -17,21 +19,29 @@ class Module extends AbstractModule
         //Init module tables
 
 
-        /**
-         * @var \Zend\Authentication\AuthenticationService $Authentication
-         */
 
         $serviceManager = $e->getApplication()->getServiceManager();
-
         /**
          * @var \User\Adapter\Authentication $Authentication
          */
         $Authentication = $this->service('Authentication');
+
+
+
         $Authentication->initialize();
 
-        /**
-         * @var \User\Permissions\Acl
-         */
+        $e->getApplication()->getEventManager()->attach(
+            MvcEvent::EVENT_DISPATCH,
+            function(MvcEvent $e)
+            {
+                /**
+                 * @var \User\Permissions\Acl $Acl
+                 */
+                $Acl = $e->getApplication()->getServiceManager()->get('Acl');
+                $Acl->initialize();
+            }
+        );
+
        // $Acl = $this->service('Acl');
 
         //Установка ролей для навигации
@@ -43,6 +53,15 @@ class Module extends AbstractModule
         }
 
         $Authentication->hasRole('Admin');
+    }
+
+    public function init(ModuleManagerInterface $moduleManager)
+    {
+        /**
+         * @var \User\Permissions\Acl $Acl
+         */
+
+
     }
 
     public function getConfig()
@@ -70,9 +89,11 @@ class Module extends AbstractModule
 				'AuthenticationService'     => 'Zend\Authentication\AuthenticationService',
 				'Authentication'            => 'User\Adapter\Authentication',
 				'Acl'                       => 'User\Permissions\Acl',
+                //
                 'table_user'                => 'User\Model\UserTable',
                 'table_role'                => 'User\Model\RoleTable',
                 'table_user_role'           => 'User\Model\UserRoleTable',
+                'table_role_privilege'      => 'User\Model\RolePrivilegeTable',
 			),
             'factories' => array(
                 'User\Adapter\Authentication' => function(ServiceLocatorInterface $sm)
@@ -89,17 +110,23 @@ class Module extends AbstractModule
                 {
                     return new Permissions\Acl($sm);
                 },
+                //
+                ///////////////////////////////////////////////////////////////
                 'User\Model\UserTable' => function(ServiceLocatorInterface $sm)
                 {
-                    return new \User\Model\UserTable($sm->get('database'));
+                    return new \User\Model\UserTable($sm->get('Db\Default'));
                 },
                 'User\Model\RoleTable' => function(ServiceLocatorInterface $sm)
                 {
-                    return new \User\Model\RoleTable($sm->get('database'));
+                    return new \User\Model\RoleTable($sm->get('Db\Default'));
                 },
                 'User\Model\UserRoleTable' => function(ServiceLocatorInterface $sm)
                 {
-                    return new \User\Model\UserRoleTable($sm->get('database'));
+                    return new \User\Model\UserRoleTable($sm->get('Db\Default'));
+                },
+                'User\Model\RolePrivilegeTable' => function(ServiceLocatorInterface $sm)
+                {
+                    return new \User\Model\RolePrivilegeTable($sm->get('Db\Default'));
                 }
             )
         );

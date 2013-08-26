@@ -25,6 +25,7 @@ abstract class AbstractModule
      */
     public function __construct()
     {
+        //Установка имени модуля
         $controllerClass = get_class($this);
         $this->moduleName = substr($controllerClass, 0, strpos($controllerClass, '\\'));
     }
@@ -51,7 +52,7 @@ abstract class AbstractModule
      * @param string|null $alias
      * @param string $adapter
      */
-    public function registerTable($class, $alias, $adapter = 'database')
+    public function registerTable($class, $alias, $adapter = 'Db\Default')
     {
         $this->serviceManager->setFactory($class, function(ServiceLocatorInterface $sm) use ($class, $adapter)
         {
@@ -74,6 +75,7 @@ abstract class AbstractModule
 
     /**
      * @param $name
+     * @return mixed
      */
     protected function service($name)
     {
