@@ -7,7 +7,7 @@
 
 namespace User\Model;
 
-use Zend\Db\TableGateway\TableGateway,
+use Indrig\Db\TableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
     Zend\Math\Rand,
@@ -20,6 +20,7 @@ class RoleTable extends TableGateway
         $resultSetPrototype = new ResultSet();
 
         parent::__construct('role', $dbAdapter);
+
         $resultSetPrototype->setArrayObjectPrototype(new Role('id', $this->table, $this->sql));
         $this->resultSetPrototype = $resultSetPrototype;
     }

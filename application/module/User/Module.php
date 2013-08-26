@@ -15,33 +15,34 @@ class Module extends AbstractModule
         parent::onBootstrap($e);
 
         //Init module tables
-        $this->registerTables();
 
-        $eventManager        = $e->getApplication()->getEventManager();
 
-       // exit;
         /**
          * @var \Zend\Authentication\AuthenticationService $Authentication
          */
 
         $serviceManager = $e->getApplication()->getServiceManager();
-        $serviceManager->get('Authentication')->initialize($serviceManager);
-       // $Authentication = $e->getApplication()->getServiceManager()->get('AuthenticationService');
 
+        /**
+         * @var \User\Adapter\Authentication $Authentication
+         */
+        $Authentication = $this->service('Authentication');
+        $Authentication->initialize();
 
-        //var_dump($e->getApplication()->getServiceManager()->get('PluginManager'));
+        /**
+         * @var \User\Permissions\Acl
+         */
+       // $Acl = $this->service('Acl');
 
-       // $authAdapter = $Authentication->getAdapter();
-
-        /*$eventManager->attach(MvcEvent::EVENT_ROUTE, function(MvcEvent $e)
+        //Установка ролей для навигации
+        ///////////////////////////////////////////////////////////////////////
+        \Zend\View\Helper\Navigation\AbstractHelper::setDefaultAcl($this->service('Acl'));
+        if(($role = $Authentication->getRole()) !== false)
         {
-           // $auth = new AuthenticationService();
-           // $is_login = $auth->hasIdentity();
+            \Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole($role);
+        }
 
-            $routeParams = $e->getRouteMatch();
-
-        });*/
-
+        $Authentication->hasRole('Admin');
     }
 
     public function getConfig()
@@ -49,11 +50,7 @@ class Module extends AbstractModule
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function registerTables()
-    {
-        $this->registerTable('\User\Model\UserTable', 'user');
-        $this->registerTable('\User\Model\RoleTable', 'role');
-    }
+
 
     public function getAutoloaderConfig()
     {
@@ -68,27 +65,41 @@ class Module extends AbstractModule
 
     public function getServiceConfig()
     {
-
         return array(
             'aliases' => array(
 				'AuthenticationService'     => 'Zend\Authentication\AuthenticationService',
 				'Authentication'            => 'User\Adapter\Authentication',
-				'Acl'                       => 'User\Permissions\Acl'
+				'Acl'                       => 'User\Permissions\Acl',
+                'table_user'                => 'User\Model\UserTable',
+                'table_role'                => 'User\Model\RoleTable',
+                'table_user_role'           => 'User\Model\UserRoleTable',
 			),
             'factories' => array(
                 'User\Adapter\Authentication' => function(ServiceLocatorInterface $sm)
                 {
-                    return new Adapter\Authentication($sm->get('table_user'));
+                    return new Adapter\Authentication($sm);
                 },
                 'Zend\Authentication\AuthenticationService' => function(ServiceLocatorInterface $sm)
                 {
-                    $adapter = $sm->get('User\Adapter\Authentication');
+                    $adapter = $sm->get('Authentication');
                     $authService = new \Zend\Authentication\AuthenticationService(new \Zend\Authentication\Storage\Session(), $adapter);
                     return $authService;
                 },
                 'User\Permissions\Acl' => function(ServiceLocatorInterface $sm)
                 {
-                    return new Permissions\Acl();
+                    return new Permissions\Acl($sm);
+                },
+                'User\Model\UserTable' => function(ServiceLocatorInterface $sm)
+                {
+                    return new \User\Model\UserTable($sm->get('database'));
+                },
+                'User\Model\RoleTable' => function(ServiceLocatorInterface $sm)
+                {
+                    return new \User\Model\RoleTable($sm->get('database'));
+                },
+                'User\Model\UserRoleTable' => function(ServiceLocatorInterface $sm)
+                {
+                    return new \User\Model\UserRoleTable($sm->get('database'));
                 }
             )
         );

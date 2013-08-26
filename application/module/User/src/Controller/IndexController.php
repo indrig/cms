@@ -50,6 +50,7 @@ class IndexController extends AbstractController
         * @var \User\Model\UserTable $userTable
 
         */
+        $failure = false;
         $form = new SignIn();
 
         $request = $this->getRequest();
@@ -72,10 +73,14 @@ class IndexController extends AbstractController
                 {
                     return $this->redirect()->toRoute('user');
                 }
+                else
+                {
+                    $failure = true;
+                }
 
             }
         }
-        return array('form' => $form);
+        return array('form' => $form, 'failure' => $failure);
     }
 
     /**

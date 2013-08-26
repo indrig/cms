@@ -36,7 +36,12 @@ return array(
             array(
                 'type'     => 'PhpArray',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.php',
+                'pattern'  => '%s/validate_form.php',
+            ),
+            array(
+                'type'     => 'PhpArray',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s/global.php',
             ),
         ),
     ),

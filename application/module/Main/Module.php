@@ -11,12 +11,16 @@ namespace Main;
 
 use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
-    Zend\Http\AbstractMessage;
+    Zend\Http\AbstractMessage,
+    Indrig\AbstractModule;
+use Zend\Navigation\Page\Mvc;
 
-class Module
+class Module extends AbstractModule
 {
     public function onBootstrap(MvcEvent $e)
     {
+        parent::onBootstrap($e);
+
         $eventManager        = $e->getApplication()->getEventManager();
         $serviceManager        = $e->getApplication()->getServiceManager();
         $moduleRouteListener = new ModuleRouteListener();

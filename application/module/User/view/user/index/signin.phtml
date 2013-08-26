@@ -5,6 +5,7 @@
  * Time: 17:58
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \User\Form\SignUp $form
+ * @var bool $failure
  */
 $this->headTitle('Sign In');
 
@@ -13,6 +14,11 @@ $this->headTitle('Sign In');
     <div class="page-header">
         <h1><?=$this->translate('Sign In')?></h1>
     </div>
+    <? if($failure): ?>
+    <div class="alert alert-danger">
+        <strong><?=$this->translate('Error')?>!</strong> <?=$this->translate('Incorrect login or password')?>
+    </div>
+    <? endif; ?>
     <div class="well">
         <?=$this->TBForm()->openTag($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
         <?=$this->TBFormCollection($form, true, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>

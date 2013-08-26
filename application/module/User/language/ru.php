@@ -14,4 +14,5 @@ return array(
     'Sign Up'             => 'Регистрация',
     'Email address'       => 'E-mail адрес',
     'Re-type password'    => 'Повторите пароль',
+    'Incorrect login or password'    => 'Неверный логин или пароль',
 );

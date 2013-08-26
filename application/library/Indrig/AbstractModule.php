@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 20.08.13
- * Time: 10:08
- */
 namespace Indrig;
 
 use Zend\Mvc\MvcEvent,
@@ -15,15 +10,40 @@ abstract class AbstractModule
      * @var MvcEvent|null
      */
     protected $event = null;
+    /**
+     * @var null|string
+     */
+    protected $moduleName = null;
 
     /**
      * @var \Zend\ServiceManager\ServiceManager
      */
     protected $serviceManager = null;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $controllerClass = get_class($this);
+        $this->moduleName = substr($controllerClass, 0, strpos($controllerClass, '\\'));
+    }
+
+    /**
+     * @var \Zend\ServiceManager\ServiceManager
+     */
     public function onBootstrap(MvcEvent $e)
     {
         $this->event = $e;
         $this->serviceManager = $e->getApplication()->getServiceManager();
+
+        /**
+         * Установка прав доступа на модуль
+         * @var \User\Permissions\Acl $Acl
+         */
+        $Acl = $this->service('Acl');
+        $Acl->addResource($this->moduleName);
+
     }
 
     /**
@@ -50,5 +70,13 @@ abstract class AbstractModule
     public function table($name)
     {
         return $this->serviceManager->get('table_'.$name);
+    }
+
+    /**
+     * @param $name
+     */
+    protected function service($name)
+    {
+        return $this->serviceManager->get($name);
     }
 }

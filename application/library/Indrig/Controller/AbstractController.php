@@ -18,12 +18,12 @@ abstract class AbstractController extends AbstractActionController
 
     public function translate($message)
     {
-        return $this->getServiceLocator()->get('translator')->translate($message);
+        return $this->service('translator')->translate($message);
     }
 
     public function translateArgs($message, array $args)
     {
-        $message = $this->getServiceLocator()->get('translator')->translate($message);
+        $message = $this->service('translator')->translate($message);
         foreach($args as $k => $v)
         {
             $message = str_replace('%'.$k.'%', $v, $message);
@@ -33,18 +33,30 @@ abstract class AbstractController extends AbstractActionController
 
     public function escapeHtml($value)
     {
-        $this->viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $this->viewHelperManager = $this->service('ViewHelperManager');
         $escapeHtml = $this->viewHelperManager->get('escapeHtml'); // $escapeHtml can be called as function because of its __invoke method
         return  $escapeHtml($value);
-
     }
 
     /**
+     * Получение интерфейса таблицы
+     *
      * @param String $name
      * @return \Zend\Db\TableGateway\TableGateway
      */
     public function table($name)
     {
-        return $this->getServiceLocator()->get('table_'.$name);
+        return $this->service('table_'.$name);
+    }
+
+    /**
+     * Получение сервиса
+     *
+     * @param $name
+     * @return array|object
+     */
+    public function service($name)
+    {
+        return $this->getServiceLocator()->get($name);
     }
 }
