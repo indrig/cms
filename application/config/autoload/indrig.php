@@ -11,6 +11,12 @@ return array(
             'tablecell'            => 'Indrig\Table\View\Helper\TableCell',
             'tablerow'             => 'Indrig\Table\View\Helper\TableRow',
             'tableheader'          => 'Indrig\Table\View\Helper\TableHeader',
+
+            //Forms
+
+            'tbform'               => 'Indrig\Form\View\Helper\Form',
+            'tbformrow'                => 'Indrig\Form\View\Helper\FormRow',
+            'tbformcollection'     => 'Indrig\Form\View\Helper\FormCollection',
         )
     ),
 );

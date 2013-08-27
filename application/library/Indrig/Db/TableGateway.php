@@ -12,13 +12,18 @@ use Zend\Db\TableGateway\AbstractTableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
     Zend\Db\ResultSet\ResultSetInterface,
+    Zend\Cache\Storage\StorageInterface,
     Zend\Db\Sql\Sql,
     Zend\Db\Sql\TableIdentifier;
+use Zend\Log\Writer\Null;
 
 
 class TableGateway extends AbstractTableGateway
 {
-
+    /**
+     * @var StorageInterface
+     */
+    protected $storageAdapter = null;
     /**
      * Constructor
      *
@@ -29,7 +34,7 @@ class TableGateway extends AbstractTableGateway
      * @param Sql $sql
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct($table, AdapterInterface $adapter)
+    public function __construct($table, AdapterInterface $dbAdapter, StorageInterface $storageAdapter = null)
     {
         // table
         if (!(is_string($table) || $table instanceof TableIdentifier)) {
@@ -38,9 +43,12 @@ class TableGateway extends AbstractTableGateway
         $this->table = $table;
 
         // adapter
-        $this->adapter = $adapter;
+        $this->adapter = $dbAdapter;
+
+        $this->storageAdapter   = $storageAdapter;
 
         $this->sql = new Sql($this->adapter, $this->table);
+
 
         // check sql object bound to same table
         /*
@@ -69,5 +77,31 @@ class TableGateway extends AbstractTableGateway
     public function newRow()
     {
         return clone $this->getResultSetPrototype()->getArrayObjectPrototype();
+    }
+
+    /**
+     * @return StorageInterface
+     */
+    public function getCache()
+    {
+        return $this->storageAdapter;
+    }
+
+    public function cacheSet($key, $value)
+    {
+        $cache = $this->getCache();
+        if($cache)
+            return $cache->setItem($key, $value);
+
+        return false;
+    }
+
+    public function cacheGet($key)
+    {
+        $cache = $this->getCache();
+        if($cache)
+            return $cache->getItem($key);
+
+        return null;
     }
 }

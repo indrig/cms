@@ -8,7 +8,7 @@
  * @var bool $failure
  */
 $this->headTitle('Sign In');
-
+$inputLogin = $form->get('login');
 ?>
 <div class="container">
     <div class="page-header">
@@ -20,8 +20,8 @@ $this->headTitle('Sign In');
     </div>
     <? endif; ?>
     <div class="well">
-        <?=$this->TBForm()->openTag($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
-        <?=$this->TBFormCollection($form, true, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+        <?=$this->tbForm()->openTag($form)?>
+        <?=$this->tbFormCollection($form)?>
 
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-9">
@@ -29,6 +29,6 @@ $this->headTitle('Sign In');
                 <a class="btn btn-link" href="<?=$this->url('user/signup')?>"><?=$this->translate('Sign Up');?></a>
             </div>
         </div>
-        <?=$this->TBForm()->closeTag($form)?>
+        <?=$this->tbForm()->closeTag($form)?>
     </div>
 </div>

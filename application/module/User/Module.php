@@ -18,8 +18,6 @@ class Module extends AbstractModule
 
         //Init module tables
 
-
-
         $serviceManager = $e->getApplication()->getServiceManager();
         /**
          * @var \User\Adapter\Authentication $Authentication
@@ -31,7 +29,7 @@ class Module extends AbstractModule
         $Authentication->initialize();
 
         $e->getApplication()->getEventManager()->attach(
-            MvcEvent::EVENT_DISPATCH,
+            array(MvcEvent::EVENT_DISPATCH, MvcEvent::EVENT_DISPATCH_ERROR),
             function(MvcEvent $e)
             {
                 /**
@@ -39,6 +37,15 @@ class Module extends AbstractModule
                  */
                 $Acl = $e->getApplication()->getServiceManager()->get('Acl');
                 $Acl->initialize();
+
+                //Проверка если дроступ к действию
+                $route = $e->getRouteMatch();
+                if($route !== null)
+                {
+                    //var_dump($route);
+                    //var_dump($Acl->getResources());
+                }
+
             }
         );
 

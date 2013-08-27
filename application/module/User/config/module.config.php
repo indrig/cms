@@ -2,6 +2,19 @@
 namespace CsnUser; // Important for Doctrine othervise can not find the Entities
 
 return array(
+    'navigation' => array(
+        'default' => array(
+            'admin' => array(
+                'pages' => array(
+                    array(
+                        'label'     => 'Users',
+                        'route'     => 'user/admin',
+                        'resource'  => 'Admin'
+                    )
+                )
+            )
+        )
+    ),
 	'static_salt' => 'aFGQ475SDsdfsaf2342',
 	'controllers' => array(
         'invokables' => array(

@@ -1,6 +1,15 @@
 <?php
 
 return array(
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label'     => 'Home',
+                'route'     => 'home',
+                'visible'   => false
+            )
+        )
+    ),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -13,16 +22,6 @@ return array(
                     ),
                 ),
             ),
-        ),
-    ),
-
-    'service_manager' => array(
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-        ),
-        'factories' => array(
-            'navigation'    => 'Zend\Navigation\Service\DefaultNavigationFactory',
-
         ),
     ),
 
@@ -57,7 +56,8 @@ return array(
             'main/index/index'          => __DIR__ . '/../view/main/index/index.phtml',
             'error/404'                 => __DIR__ . '/../view/error/404.phtml',
             'error/index'               => __DIR__ . '/../view/error/index.phtml',
-            'partial/navbar'            => __DIR__ . '/../view/partial/navbar.phtml'
+            'partial/menu'              => __DIR__ . '/../view/partial/menu.phtml',
+            'partial/breadcrumbs'       => __DIR__ . '/../view/partial/breadcrumbs.phtml'
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

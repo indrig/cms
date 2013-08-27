@@ -20,13 +20,15 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($e);
 
+        $this->registerTable('\Main\Model\SettingTable', 'setting');
+
+        //
         $eventManager           = $e->getApplication()->getEventManager();
-        $serviceManager         = $e->getApplication()->getServiceManager();
         $moduleRouteListener    = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $translator = $serviceManager->get('translator');
-        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+        //Применение настроик
+        $this->setupView();
 
         $eventManager->attach(MvcEvent::EVENT_FINISH,
             function(MvcEvent $e)
@@ -34,15 +36,33 @@ class Module extends AbstractModule
                 $response = $e->getResponse();
                 if ($response instanceof AbstractMessage)
                 {
-
                     $response->getHeaders()->addHeaders(array(
                         'X-Powered-By'  => 'Nashny CMS',
                         'Server'        => 'Nashny Script'
                     ));
                 }
             }, 500);
+    }
 
+    /**
+     * Установка настроик
+     */
+    public function setupView()
+    {
+        $translator = $this->service('translator');
+        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
 
+        /**
+         *  @var \Main\Model\SettingTable $setting
+         */
+        $setting = $this->table('setting');
+        $viewHelper = $this->getView();
+
+        //  Установка параметров страницы
+        $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle'));
+        $navigation = $viewHelper->get('navigation');
+        $navigation->menu()->setPartial('partial/menu');
+        $navigation->breadcrumbs()->setPartial('partial/breadcrumbs');
     }
 
     public function getConfig()

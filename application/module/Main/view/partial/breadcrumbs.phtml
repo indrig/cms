@@ -1,0 +1,14 @@
+<ol class="breadcrumb">
+    <?
+    foreach ($this->pages as $page)
+    {
+        if($page->isActive())
+        {
+            echo '<li class="active">'.$this->escapeHtml($this->translate($page->getLabel())).'</li>';
+        }
+        else
+        {
+            echo '<li><a href="'.$page->getHref().'">'.$this->escapeHtml($this->translate($page->getLabel())).'</a></li>';
+        }
+    } ?>
+</ol>

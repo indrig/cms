@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var \Admin\Form\Setting $form
+ */
+?>
+<div class="container">
+    <div class="page-header">
+        <h1><?=$this->translate('Settings')?></h1>
+    </div>
+    <?=$this->navigation('Navigation')->breadcrumbs(); ?>
+
+        <ul id="settingTab" class="nav nav-tabs">
+            <li class="active"><a href="#site" data-toggle="tab"><?=$this->translate('Site')?></a></li>
+            <li><a href="#profile" data-toggle="tab">Profile</a></li>
+
+        </ul>
+    <?=$this->tbForm()->openTag($form)?>
+        <div id="settingTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="site">
+                <?=$this->tbFormRow($form->get('headTitle'))?>
+            </div>
+            <div class="tab-pane fade" id="profile">
+            </div>
+            <div class="btn-toolbar">
+                <button type="submit" class="btn btn-primary"><?=$this->translate('Apply')?></button>
+            </div>
+        </div>
+    <?=$this->tbForm()->closeTag($form)?>
+    </div>
+</div>

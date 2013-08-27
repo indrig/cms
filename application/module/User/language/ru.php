@@ -15,4 +15,5 @@ return array(
     'Email address'       => 'E-mail адрес',
     'Re-type password'    => 'Повторите пароль',
     'Incorrect login or password'    => 'Неверный логин или пароль',
+    'Users' => 'Пользователи'
 );

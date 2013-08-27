@@ -2,5 +2,6 @@
     <div class="page-header">
         <h1><?=$this->translate('Users')?></h1>
     </div>
+    <?=$this->navigation('Navigation')->breadcrumbs(); ?>
     <?=$this->table($list);?>
 </div>

@@ -52,11 +52,11 @@ abstract class AbstractModule
      * @param string|null $alias
      * @param string $adapter
      */
-    public function registerTable($class, $alias, $adapter = 'Db\Default')
+    public function registerTable($class, $alias, $adapter = 'Db\Default', $storageAdapter = 'Cache\Default')
     {
-        $this->serviceManager->setFactory($class, function(ServiceLocatorInterface $sm) use ($class, $adapter)
+        $this->serviceManager->setFactory($class, function(ServiceLocatorInterface $sm) use ($class, $adapter, $storageAdapter)
         {
-            return new $class($sm->get($adapter));
+            return new $class($sm->get($adapter), $sm->get($storageAdapter));
         });
         if(is_string($alias))
         {
@@ -80,5 +80,13 @@ abstract class AbstractModule
     protected function service($name)
     {
         return $this->serviceManager->get($name);
+    }
+
+    /**
+     * @return \Zend\ModuleManager\Feature\ViewHelperProviderInterface
+     */
+    protected function getView()
+    {
+        return $this->service('ViewHelperManager');
     }
 }

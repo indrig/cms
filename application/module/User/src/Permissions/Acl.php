@@ -75,6 +75,7 @@ class Acl extends ZendAcl
 
             $this->allow($role, $resource, $allowed);
         }
+        $this->allow('Admin', 'Admin');
     }
 
     public function initialize()

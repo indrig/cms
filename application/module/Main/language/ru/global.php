@@ -5,6 +5,10 @@
  * Time: 11:54
  */
 return array(
-    'Search' => 'Поиск',
-    'Error'     => 'Ошибка'
+    'Search'        => 'Поиск',
+    'Error'         => 'Ошибка',
+    'Settings'      => 'Настройки',
+    'Management'    => 'Управление',
+    'Apply'    => 'Применить',
+    'Site'    => 'Сайт'
 );

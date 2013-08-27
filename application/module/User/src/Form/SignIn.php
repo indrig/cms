@@ -19,6 +19,7 @@ class SignIn extends Form
         parent::__construct(null, array(
 
         ));
+
         $this->setWrapElements(true);
         $this->prepare();
     }
@@ -32,6 +33,8 @@ class SignIn extends Form
             ),
             'attributes' => array(
                 'type'  => 'text',
+                'class' => 'form-control',
+                'id'    => 'inputLogin'
             ),
         ));
         $this->add(array(

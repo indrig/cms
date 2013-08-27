@@ -6,19 +6,19 @@
  */
 ?>
 <?=$this->doctype()?>
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <?=$this->headTitle()->setSeparator(' - ')->setAutoEscape(false)?>
+
         <?=$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0')?>
 
-        <!-- Le styles -->
         <?=$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/assets/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/assets/css/style.css')
                         ->prependStylesheet($this->basePath() . '/assets/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/assets/css/bootstrap.css') ?>
 
-        <!-- Scripts -->
         <?=$this->headScript()->prependFile($this->basePath() . '/assets/js/bootstrap.min.js')->prependFile($this->basePath() . '/assets/js/jquery.min.js') ?>
 
     </head>
@@ -67,7 +67,6 @@
     <? endif; ?>
 
         <div id="wrap">
-
             <nav class="navbar navbar-inverse" id="navbar-main" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="container">
@@ -78,14 +77,13 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="<?=$this->url('home')?>">SITE HEADER</a>
+                        <a class="navbar-brand" href="<?=$this->url('home')?>"><?=$this->escapeHTML($this->headTitle()->offsetGet(0))?></a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-main-collapse">
                         <ul class="nav navbar-nav">
-                            <?=$this->Navigation()
+                            <?=$this->Navigation('navigation')
                                 ->menu()
-                                ->setPartial('partial/navbar')
                                 ->setMinDepth(0)
                                 ->setMaxDepth(1)
                                 ->render();?>
@@ -108,7 +106,6 @@
                 </div>
 
             </nav>
-            <?=$this->adminNavBar()?>
             <?=$content?>
             <div id="push"></div>
         </div>
