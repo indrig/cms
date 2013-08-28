@@ -1,0 +1,47 @@
+<?php
+/**
+ * @var array $modules
+ */
+$strYes = $this->translate('Yes');
+$strNo = $this->translate('No');
+?>
+<div class="container">
+    <div class="page-header">
+        <h1><?=$this->translate('Roles')?> <small><?=$this->translate('Edit')?></small></h1>
+    </div>
+
+    <?=$this->navigation('Navigation')->breadcrumbs(); ?>
+
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th><?=$this->translate('Name')?></th>
+            <th><?=$this->translate('Active')?></th>
+            <th><?=$this->translate('Installed')?></th>
+            <th><?=$this->translate('Actions')?></th>
+        </tr>
+        <? foreach($modules as $module): ?>
+        <tr<?=($module['installed'] ? ' class="'.($module['active'] ? 'success' : 'warning').'"' : '')?>>
+            <td><?=$module['name']?></td>
+            <td><?=$module['active']? $strYes : $strNo?></td>
+            <td><?=$module['installed']? $strYes : $strNo?></td>
+            <td>
+                <? if($module['system']): ?>
+                    <button class="btn btn-danger" disabled="disabled"><?=$this->translate('Deactivate');?></button>
+                    <button class="btn btn-danger" disabled="disabled"><?=$this->translate('Uninstall');?></button>
+                <? else: ?>
+                    <? if($module['installed']): ?>
+                        <? if($module['active']): ?>
+                            <a href="#" class="btn btn-danger"><?=$this->translate('Deactivate');?></a>
+                        <? else: ?>
+                            <a href="#" class="btn"><?=$this->translate('Activate');?></a>
+                        <? endif; ?>
+                        <a href="#" class="btn btn-danger"><?=$this->translate('Uninstall');?></a>
+                    <? else: ?>
+                        <a href="#" class="btn btn-default"><?=$this->translate('Install');?></a>
+                    <? endif; ?>
+                <? endif; ?>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </table>
+</div>

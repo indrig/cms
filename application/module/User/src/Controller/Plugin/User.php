@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 14.08.13
- * Time: 16:16
- */
 namespace User\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin,

@@ -1,6 +1,4 @@
 <?php
-namespace CsnUser; // Important for Doctrine othervise can not find the Entities
-
 return array(
     'navigation' => array(
         'default' => array(
@@ -9,18 +7,42 @@ return array(
                     array(
                         'label'     => 'Users',
                         'route'     => 'user/admin',
-                        'resource'  => 'Admin'
+                        'resource'  => 'Admin',
+                        'pages'     => array(
+                            array(
+                                'label'     => 'Roles',
+                                'route'     => 'user/admin/role',
+                                'resource'  => 'Admin',
+                                'pages'     => array(
+                                    array(
+                                        'label'     => 'Create',
+                                        'route'     => 'user/admin/role/create',
+                                        'resource'  => 'Admin',
+                                    ),
+                                    array(
+                                        'label'     => 'Edit',
+                                        'route'     => 'user/admin/role/edit',
+                                        'resource'  => 'Admin',
+                                    ),
+                                )
+                            ),
+                            array(
+                                'label'     => 'Settings',
+                                'route'     => 'user/admin/setting',
+                                'resource'  => 'Admin',
+                            ),
+                        )
                     )
                 )
             )
         )
     ),
-	'static_salt' => 'aFGQ475SDsdfsaf2342',
 	'controllers' => array(
         'invokables' => array(
-            'User\Controller\Index' => 'User\Controller\IndexController',
-            'User\Controller\Admin' => 'User\Controller\AdminController',
-            'User\Controller\Role' => 'User\Controller\RoleController',
+            'User\Controller\Index'     => 'User\Controller\IndexController',
+            'User\Controller\Admin'     => 'User\Controller\AdminController',
+            'User\Controller\Role'      => 'User\Controller\RoleController',
+            'User\Controller\Setting'   => 'User\Controller\SettingController',
         ),
     ),	
     'router' => array(
@@ -95,13 +117,55 @@ return array(
                                     )
                                 )
                             ),
-
+                            'create' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/create',
+                                    'defaults' => array(
+                                        'action'        => 'create',
+                                    )
+                                )
+                            ),
                             'role' => array(
                                 'type'    => 'Literal',
                                 'options' => array(
                                     'route'    => '/role',
                                     'defaults' => array(
                                         'controller'    => 'User\Controller\Role',
+                                        'action'        => 'index',
+                                    )
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'create' => array(
+                                        'type'    => 'Literal',
+                                        'options' => array(
+                                            'route'    => '/create',
+                                            'defaults' => array(
+                                                'action'        => 'create',
+                                            )
+                                        )
+                                    ),
+                                    'edit'  => array(
+                                        'type'    => 'Segment',
+                                        'options' => array(
+                                            'route'    => '/edit[/:id]',
+                                            'constraints' => array(
+                                                'id'     => '[0-9]+',
+                                            ),
+                                            'defaults' => array(
+                                                'action'        => 'edit',
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            'setting' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/setting',
+                                    'defaults' => array(
+                                        'controller'    => 'User\Controller\Setting',
                                         'action'        => 'index',
                                     )
                                 )

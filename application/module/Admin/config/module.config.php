@@ -2,7 +2,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Admin\Controller\Setting' => 'Admin\Controller\SettingController'
+            'Admin\Controller\Setting'  => 'Admin\Controller\SettingController',
+            'Admin\Controller\Module'   => 'Admin\Controller\ModuleController'
         ),
     ),
     //Пути
@@ -28,6 +29,16 @@ return array(
                                 'action'        => 'index',
                             )
                         )
+                    ),
+                    'module' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/module',
+                            'defaults' => array(
+                                'controller' => 'Admin\Controller\Module',
+                                'action'        => 'index',
+                            )
+                        )
                     )
                 )
             )
@@ -42,6 +53,11 @@ return array(
                 'route'     => 'admin',
                 'resource'  => 'Admin',
                 'pages' => array(
+                    array(
+                        'label'     => 'Modules',
+                        'route'     => 'admin/module',
+                        'resource'  => 'Admin'
+                    ),
                     array(
                         'label'     => 'Settings',
                         'route'     => 'admin/settings',

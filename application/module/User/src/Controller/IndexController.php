@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 14.08.13
- * Time: 12:33
- */
 namespace User\Controller;
 
 use Indrig\Controller\AbstractController,

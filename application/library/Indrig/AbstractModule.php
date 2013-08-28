@@ -89,4 +89,14 @@ abstract class AbstractModule
     {
         return $this->service('ViewHelperManager');
     }
+
+    public static function getModuleInfo()
+    {
+
+    }
+
+    public static function getModulePrivilege()
+    {
+        return array();
+    }
 }

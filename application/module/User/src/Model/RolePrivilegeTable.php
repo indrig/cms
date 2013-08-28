@@ -1,17 +1,10 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 14.08.13
- * Time: 11:18
- */
-
 namespace User\Model;
 
 use Indrig\Db\TableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
-    Zend\Math\Rand,
-    User\Model\Entity\RolePrivilege;
+    Zend\Math\Rand;
 
 class RolePrivilegeTable extends TableGateway
 {

@@ -1,10 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 14.08.13
- * Time: 11:18
- */
-
 namespace User\Model;
 
 use Zend\Db\TableGateway\TableGateway,

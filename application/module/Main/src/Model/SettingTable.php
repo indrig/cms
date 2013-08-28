@@ -124,11 +124,9 @@ class SettingTable extends TableGateway
             {
                 foreach($moduleSetting as $name => $need)
                 {
-                    //$this->settings[$module][$name]->save();
-                    //$this->update()
+                    $this->insertOrUpdate(array('value' => $this->settings[$module][$name]), array('module' => $module, 'name' => $name));
                 }
             }
-
             $this->settings_need_save = array();
             $this->cacheSet('settings', $this->settings);
             $connection->commit();

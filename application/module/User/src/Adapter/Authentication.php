@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 14.08.13
- * Time: 13:07
- */
 namespace User\Adapter;
 
 use Zend\Authentication\Adapter\AbstractAdapter,

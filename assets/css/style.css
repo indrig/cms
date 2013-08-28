@@ -43,11 +43,19 @@ body {
 .tab-content .tab-pane{
     padding-top: 20px;
 }
-
+.btn-toolbar{
+    padding: 8px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
 .tab-content .btn-toolbar{
     background: #EEEEEE;
-    padding: 10px;
+    border-radius: 0;
 }
+
+
 .bs-docs-carousel{
     margin-top: -20px;
 }

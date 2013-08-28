@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 21.08.13
- * Time: 11:55
- */
 namespace User\Table;
 
 use Indrig\Table\Table,

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Indrig
- * Date: 20.08.13
- * Time: 22:54
- * To change this template use File | Settings | File Templates.
- */
 namespace User\Controller;
 
 use Indrig\Controller\AbstractController,

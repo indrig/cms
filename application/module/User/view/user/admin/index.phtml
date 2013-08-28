@@ -2,6 +2,19 @@
     <div class="page-header">
         <h1><?=$this->translate('Users')?></h1>
     </div>
+
     <?=$this->navigation('Navigation')->breadcrumbs(); ?>
+
+    <div class="btn-toolbar">
+        <div class="row">
+        <div class="col-lg-6">
+            <a href="<?=$this->url('user/admin/create')?>" class="btn btn-primary"><?=$this->translate('Create')?></a>
+        </div>
+        <div class="col-lg-6 text-right">
+            <a href="<?=$this->url('user/admin/role')?>" class="btn btn-default"><?=$this->translate('Roles')?></a>
+            <a href="<?=$this->url('user/admin/setting')?>#" class="btn btn-default"><?=$this->translate('Settings')?></a>
+        </div>
+        </div>
+    </div>
     <?=$this->table($list);?>
 </div>

@@ -14,8 +14,8 @@ use Zend\Db\TableGateway\AbstractTableGateway,
     Zend\Db\ResultSet\ResultSetInterface,
     Zend\Cache\Storage\StorageInterface,
     Zend\Db\Sql\Sql,
-    Zend\Db\Sql\TableIdentifier;
-use Zend\Log\Writer\Null;
+    Zend\Db\Sql\TableIdentifier,
+    Zend\Db\Sql\Expression;
 
 
 class TableGateway extends AbstractTableGateway
@@ -104,4 +104,23 @@ class TableGateway extends AbstractTableGateway
 
         return null;
     }
+
+
+    /**
+     * Update
+     *
+     * @param  array $insert
+     * @param  array $where
+     * @return int
+     */
+    public function insertOrUpdate($set, $where)
+    {
+        if($this->update($set, $where) === 0)
+        {
+            $set = array_merge($set, $where);
+            $this->insert($set);
+        }
+    }
+
+
 }

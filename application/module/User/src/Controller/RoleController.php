@@ -14,4 +14,14 @@ class RoleController extends AbstractController
         $roles = $roleTable->select();
         return array('roles' => $roles);
     }
+
+    public function createAction()
+    {
+
+    }
+
+    public function editAction()
+    {
+
+    }
 }
