@@ -17,7 +17,17 @@ class Acl extends ZendAcl
         $this->serviceManager = $sm;
 
         $this->initRole();
-       // $this->initPrivilege();
+        /**
+         * @var \Zend\ModuleManager\ModuleManager $moduleManager
+         */
+        $moduleManager  = $this->serviceManager->get('moduleManager');
+        $modules = $moduleManager->getModules();
+
+        foreach($modules as $moduleName)
+        {
+            $this->addResource($moduleName);
+        }
+        $this->initPrivilege();
     }
 
     /**
@@ -64,17 +74,15 @@ class Acl extends ZendAcl
         //Применение
         foreach($privileges as $role => $resources)
         {
+
             foreach($resources as $resource => $allowed)
+            {
+                $this->allow($role, $resource, $allowed);
 
-            $this->allow($role, $resource, $allowed);
+            }
         }
-        $this->allow('Admin', 'Admin');
     }
 
-    public function initialize()
-    {
-        $this->initPrivilege();
-    }
     /**
      * @param array $ids
      * @return array|null
@@ -104,5 +112,21 @@ class Acl extends ZendAcl
     {
         $parents = $this->getRoleRegistry()->getParents($user_role);
         return isset($parents[$role]);
+    }
+
+    /**
+     * @param  \Zend\Permissions\Acl\Resource\ResourceInterface|string $resource
+     * @param  \Zend\Permissions\Acl\Role\RoleInterface|string         $role
+     */
+    public function getAllPrivilege($role, $resource)
+    {
+        if(is_string($role))
+            $role = $this->getRole($role);
+
+        if(is_string($resource))
+            $resource = $this->getResource($resource);
+
+
+        return $this->roleDFSAllPrivileges($role, $resource);
     }
 }

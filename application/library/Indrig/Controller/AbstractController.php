@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Indrig
- * Date: 19.08.13
- * Time: 23:27
- * To change this template use File | Settings | File Templates.
- */
 namespace Indrig\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
@@ -13,8 +6,15 @@ use Zend\Mvc\Controller\AbstractActionController,
 
 abstract class AbstractController extends AbstractActionController
 {
-    private $viewHelperManager;
+    protected $viewHelperManager;
+    protected $moduleName;
+    public function __construct()
+    {
 
+        $controllerClass = get_class($this);
+        $this->moduleName = substr($controllerClass, 0, strpos($controllerClass, '\\'));
+
+    }
 
     public function translate($message)
     {
@@ -67,5 +67,17 @@ abstract class AbstractController extends AbstractActionController
     public function cache($name = null)
     {
         return $this->service('Cache\Default');
+    }
+
+    /**
+     * Проверяет если прова на делйствия для данного модуля
+     *
+     * @param $privilege
+     * @return mixed
+     */
+    protected function isAllowed($privilege)
+    {
+
+        return $this->user()->isAllowed($this->moduleName, $privilege);
     }
 }

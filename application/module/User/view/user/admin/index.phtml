@@ -11,8 +11,10 @@
             <a href="<?=$this->url('user/admin/create')?>" class="btn btn-primary"><?=$this->translate('Create')?></a>
         </div>
         <div class="col-lg-6 text-right">
+            <? if($isSetting): ?>
             <a href="<?=$this->url('user/admin/role')?>" class="btn btn-default"><?=$this->translate('Roles')?></a>
             <a href="<?=$this->url('user/admin/setting')?>#" class="btn btn-default"><?=$this->translate('Settings')?></a>
+            <? endif; ?>
         </div>
         </div>
     </div>

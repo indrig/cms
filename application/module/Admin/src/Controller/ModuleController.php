@@ -6,12 +6,22 @@
  */
 namespace Admin\Controller;
 
-use Indrig\Controller\AbstractController,
+use Zend\Mvc\MvcEvent,
+    Indrig\Controller\AbstractController,
     Indrig\SetupInterface,
     Admin\Form\Setting;
 
 class ModuleController extends AbstractController
 {
+    public function onDispatch(MvcEvent $e)
+    {
+        if(!$this->isAllowed('setting'))
+        {
+            return $this->notFoundAction();
+        }
+        return parent::onDispatch($e);
+    }
+
     public function indexAction()
     {
         /**

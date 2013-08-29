@@ -7,29 +7,31 @@ return array(
                     array(
                         'label'     => 'Users',
                         'route'     => 'user/admin',
-                        'resource'  => 'Admin',
+                        'resource'  => 'User',
+                        'privilege' => 'management',
                         'pages'     => array(
                             array(
                                 'label'     => 'Roles',
                                 'route'     => 'user/admin/role',
-                                'resource'  => 'Admin',
+                                'resource'  => 'User',
+                                'privilege' => 'setting',
                                 'pages'     => array(
                                     array(
                                         'label'     => 'Create',
                                         'route'     => 'user/admin/role/create',
-                                        'resource'  => 'Admin',
+
                                     ),
                                     array(
                                         'label'     => 'Edit',
                                         'route'     => 'user/admin/role/edit',
-                                        'resource'  => 'Admin',
                                     ),
                                 )
                             ),
                             array(
                                 'label'     => 'Settings',
                                 'route'     => 'user/admin/setting',
-                                'resource'  => 'Admin',
+                                'resource'  => 'User',
+                                'privilege' => 'setting'
                             ),
                         )
                     )

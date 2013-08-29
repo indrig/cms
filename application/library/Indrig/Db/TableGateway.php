@@ -123,4 +123,19 @@ class TableGateway extends AbstractTableGateway
     }
 
 
+    public function beginTransaction()
+    {
+        $this->getAdapter()->getDriver()->getConnection()->beginTransaction();
+    }
+
+
+    public function commit()
+    {
+        $this->getAdapter()->getDriver()->getConnection()->commit();
+    }
+
+    public function rollback()
+    {
+        $this->getAdapter()->getDriver()->getConnection()->rollback();
+    }
 }

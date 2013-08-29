@@ -158,7 +158,15 @@ class Authentication extends AbstractAdapter
      */
     public function isAllowed($resource = null, $privilege = null)
     {
-        return $this->acl->isAllowed($this->getRole(), $resource = null, $privilege = null);
+
+        try
+        {
+            return $this->acl->isAllowed('Admin', $resource , $privilege);
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
     }
 
     /**

@@ -22,6 +22,7 @@ class Module extends AbstractModule
 
         $this->registerTable('\Main\Model\SettingTable', 'setting');
 
+
         //
         $eventManager           = $e->getApplication()->getEventManager();
         $moduleRouteListener    = new ModuleRouteListener();
@@ -81,5 +82,10 @@ class Module extends AbstractModule
                 )
             )
         );
+    }
+
+    public function getModulePrivilege()
+    {
+        return array('debug');
     }
 }

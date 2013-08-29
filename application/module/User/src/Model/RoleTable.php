@@ -18,4 +18,15 @@ class RoleTable extends TableGateway
         $resultSetPrototype->setArrayObjectPrototype(new Role('id', $this->table, $this->sql));
         $this->resultSetPrototype = $resultSetPrototype;
     }
+
+    /**
+     * @param $id
+     *
+     */
+    public function getByID($id)
+    {
+       return $this->select(array('id' => $id))->current();
+    }
+
+
 }

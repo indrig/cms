@@ -26,4 +26,9 @@ class Module extends AbstractModule
             )
         );
     }
+
+    public function getModulePrivilege()
+    {
+        return array('read', 'management', 'setting');
+    }
 }

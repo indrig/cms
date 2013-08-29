@@ -26,7 +26,7 @@ class AdminController extends AbstractController
         }
         else
         {
-            return array('list' => $list);
+            return array('list' => $list, 'isSetting' => $this->isAllowed('setting'));
         }
     }
 

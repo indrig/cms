@@ -4,4 +4,29 @@
     </div>
 
     <?=$this->navigation('Navigation')->breadcrumbs(); ?>
+    <div class="panel">
+        <form class="form-horizontal" role="form" action="<?=$this->url(null, array('id' => $role->id))?>" method="post">
+            <div class="panel-body">
+
+                <? foreach($result as $moduleName => $module): ?>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label"><?=$moduleName?></label>
+                        <div class="col-lg-9">
+                            <? foreach($module['privilege'] as $privilege): ?>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="<?=strtolower('privilege_'.$moduleName.'_'.$privilege)?>" value="1"<?=(in_array($privilege, $module['role_privilege']) ? ' checked="checked"' : '')?> /> <?=$privilege?></label>
+                                </div>
+                            <? endforeach; ?>
+                        </div>
+                    </div>
+                <? endforeach; ?>
+
+
+            </div>
+            <div class="btn-toolbar">
+                <button type="submit" class="btn btn-primary"><?=$this->translate('Save')?></button>
+            </div>
+        </form>
+    </div>
 </div>

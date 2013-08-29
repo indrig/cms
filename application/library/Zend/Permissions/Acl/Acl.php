@@ -762,8 +762,10 @@ class Acl implements AclInterface
 
             } while (true); // loop terminates at 'allResources' pseudo-parent
         } else {
+
             $this->isAllowedPrivilege = $privilege;
             // query on one privilege
+
             do {
                 // depth-first search on $role if it is not 'allRoles' pseudo-parent
                 if (null !== $role && null !== ($result = $this->roleDFSOnePrivilege($role, $resource, $privilege))) {
@@ -774,6 +776,7 @@ class Acl implements AclInterface
                 if (null !== ($ruleType = $this->getRuleType($resource, null, $privilege))) {
                     return self::TYPE_ALLOW === $ruleType;
                 } elseif (null !== ($ruleTypeAllPrivileges = $this->getRuleType($resource, null, null))) {
+
                     $result = self::TYPE_ALLOW === $ruleTypeAllPrivileges;
                     if ($result || null === $resource) {
                         return $result;

@@ -15,13 +15,6 @@ class UserSetup implements SetupInterface
         );
     }
 
-    /**
-     * @return array
-     */
-    public static function getPrivileges()
-    {
-        return array('management', 'setting');
-    }
 
     /**
      * @return bool

@@ -24,32 +24,9 @@ class Module extends AbstractModule
          */
         $Authentication = $this->service('Authentication');
 
-
-
         $Authentication->initialize();
 
-        $e->getApplication()->getEventManager()->attach(
-            array(MvcEvent::EVENT_DISPATCH, MvcEvent::EVENT_DISPATCH_ERROR),
-            function(MvcEvent $e)
-            {
-                /**
-                 * @var \User\Permissions\Acl $Acl
-                 */
-                $Acl = $e->getApplication()->getServiceManager()->get('Acl');
-                $Acl->initialize();
 
-                //Проверка если дроступ к действию
-                $route = $e->getRouteMatch();
-                if($route !== null)
-                {
-                    //var_dump($route);
-                    //var_dump($Acl->getResources());
-                }
-
-            }
-        );
-
-       // $Acl = $this->service('Acl');
 
         //Установка ролей для навигации
         ///////////////////////////////////////////////////////////////////////
@@ -59,7 +36,7 @@ class Module extends AbstractModule
             \Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole($role);
         }
 
-        $Authentication->hasRole('Admin');
+        //$Authentication->hasRole('Admin');
     }
 
     public function init(ModuleManagerInterface $moduleManager)
@@ -140,6 +117,9 @@ class Module extends AbstractModule
 
     }
 
-
+    public function getModulePrivilege()
+    {
+        return array('management', 'setting');
+    }
 
 }

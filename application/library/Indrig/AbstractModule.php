@@ -38,13 +38,6 @@ abstract class AbstractModule
         $this->event = $e;
         $this->serviceManager = $e->getApplication()->getServiceManager();
 
-        /**
-         * Установка прав доступа на модуль
-         * @var \User\Permissions\Acl $Acl
-         */
-        $Acl = $this->service('Acl');
-        $Acl->addResource($this->moduleName);
-
     }
 
     /**
@@ -90,12 +83,12 @@ abstract class AbstractModule
         return $this->service('ViewHelperManager');
     }
 
-    public static function getModuleInfo()
+    public function getModuleInfo()
     {
 
     }
 
-    public static function getModulePrivilege()
+    public function getModulePrivilege()
     {
         return array();
     }
