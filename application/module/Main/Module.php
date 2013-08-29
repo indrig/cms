@@ -22,7 +22,7 @@ class Module extends AbstractModule
 
         $this->registerTable('\Main\Model\SettingTable', 'setting');
 
-
+        set_error_handler(array($this, 'errorHandle'));
         //
         $eventManager           = $e->getApplication()->getEventManager();
         $moduleRouteListener    = new ModuleRouteListener();
@@ -64,13 +64,53 @@ class Module extends AbstractModule
         $navigation = $viewHelper->get('navigation');
         $navigation->menu()->setPartial('partial/menu');
         $navigation->breadcrumbs()->setPartial('partial/breadcrumbs');
+
+        /**
+         * @var \Zend\Mvc\View\Http\DefaultRenderingStrategy $renderingStrategy
+         */
+        $renderingStrategy = $this->service('DefaultRenderingStrategy');
+        if(file_exists(__DIR__.'/view/layout/layout.phtml'))
+        {
+
+        }
+
+        //var_dump($renderingStrategy->getLayoutTemplate());
+       // $renderingStrategy->setLayoutTemplate(__DIR__.'/view/layout/layout2.phtml');
+      //  var_dump($renderingStrategy->getLayoutTemplate());
+//        $viewManager->getViewModel()->setTemplate();
+
     }
 
+    /**
+     * Обработчик ошибок
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @throws \Exception
+     */
+    public static function errorHandle($errno, $errstr, $errfile, $errline)
+    {
+        throw new \Exception($errstr . " in $errfile:$errline". $errno);
+    }
+
+
+    /**
+     * Получение конфигурации для модуля
+     *
+     * @return array
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
+    /**
+     * Регистрация автозагрущика для модуля
+     *
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(
@@ -84,6 +124,11 @@ class Module extends AbstractModule
         );
     }
 
+    /**
+     * Список прав доступных для модуля
+     *
+     * @return array
+     */
     public function getModulePrivilege()
     {
         return array('debug');

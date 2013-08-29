@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Igor Bubnevich aka Indrig
- * Date: 27.08.13
- * Time: 15:50
- */
 namespace Admin\Form;
 
 use Zend\Form\Form,
