@@ -63,7 +63,6 @@ class Acl extends ZendAcl
         $table = $this->serviceManager->get('table_role_privilege');
         $privileges = $table->getAll();
 
-
         //Применение
         foreach($privileges as $role => $resources)
         {

@@ -93,6 +93,7 @@ class RoleController extends AbstractController
                     $rolePrivilegeTable->setByRollID($role->id, $newPrivileges);
 
                     $rolePrivilegeTable->commit();
+                    $rolePrivilegeTable->cacheClean();
                 }
                 catch (\Exception $e)
                 {
