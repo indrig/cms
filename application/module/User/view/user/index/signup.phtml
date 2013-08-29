@@ -16,8 +16,8 @@ $this->headTitle('Sign Up');
             <strong>Warning!</strong> <?=$alert?>
         </div>
         <? endif; ?>
-        <?=$this->TBForm()->openTag($form, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
-        <?=$this->TBFormCollection($form, true, \TwitterBootstrap\Form\Form::FORM_TYPE_HORIZONTAL)?>
+        <?=$this->TBForm()->openTag($form)?>
+        <?=$this->TBFormCollection($form, true)?>
 
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-9">

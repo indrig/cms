@@ -13,5 +13,13 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
 // Setup autoloading
 require 'application/bootstrap.php';
 
-// Run the application!
-Application::app()->run();
+try
+{
+    // Run the application!
+    Application::app()->run();
+}
+catch (Exception $e)
+{
+
+    include __DIR__.'/application/view/error/internal_error.phtml';
+}

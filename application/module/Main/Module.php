@@ -60,7 +60,7 @@ class Module extends AbstractModule
         $viewHelper = $this->getView();
 
         //  Установка параметров страницы
-        $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle'));
+        $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle', ''));
         $navigation = $viewHelper->get('navigation');
         $navigation->menu()->setPartial('partial/menu');
         $navigation->breadcrumbs()->setPartial('partial/breadcrumbs');
