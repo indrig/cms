@@ -32,14 +32,19 @@ return array(
                         )
                     ),
                     'module' => array(
-                        'type'    => 'Literal',
+                        'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/module',
+                            'route'    => '/module[/:action][/:module]',
+                            'constraints' => array(
+                                'module'    => '[a-zA-Z][a-zA-Z0-9_-]+',
+                                'action'    => '[a-zA-Z][a-zA-Z0-9_-]+',
+                            ),
                             'defaults' => array(
                                 'controller' => 'Admin\Controller\Module',
                                 'action'        => 'index',
                             )
                         )
+
                     )
                 )
             )
@@ -74,6 +79,9 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
 );

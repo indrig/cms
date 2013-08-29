@@ -1,5 +1,6 @@
 <?php
-use Indrig\SetupInterface;
+use Indrig\SetupInterface,
+    Zend\ServiceManager\ServiceLocatorInterface;
 
 
 class MainSetup implements SetupInterface
@@ -19,7 +20,7 @@ class MainSetup implements SetupInterface
     /**
      * @return bool
      */
-    public static function install()
+    public static function install(ServiceLocatorInterface $sm)
     {
         return false;
     }
@@ -27,7 +28,7 @@ class MainSetup implements SetupInterface
     /**
      * @return bool
      */
-    public static function unInstall()
+    public static function unInstall(ServiceLocatorInterface $sm)
     {
         return false;
     }

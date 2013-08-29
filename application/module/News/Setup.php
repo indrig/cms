@@ -1,10 +1,10 @@
 <?php
 use Indrig\SetupInterface,
-    Zend\ServiceManager\ServiceLocatorInterface;
+    Zend\ServiceManager\ServiceLocatorInterface;;
 
 
 
-class SiteMapSetup implements SetupInterface
+class NewsSetup implements SetupInterface
 {
 
     /**
@@ -17,13 +17,6 @@ class SiteMapSetup implements SetupInterface
         );
     }
 
-    /**
-     * @return array
-     */
-    public static function getPrivileges()
-    {
-        return array('read');
-    }
 
     /**
      * @return bool
@@ -42,4 +35,4 @@ class SiteMapSetup implements SetupInterface
     }
 }
 
-return new SiteMapSetup();
+return new NewsSetup();

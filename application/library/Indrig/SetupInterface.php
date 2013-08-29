@@ -1,6 +1,8 @@
 <?php
 namespace Indrig;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 interface SetupInterface
 {
     /**
@@ -11,10 +13,10 @@ interface SetupInterface
     /**
      * @return bool
      */
-    public static function install();
+    public static function install(ServiceLocatorInterface $sm);
 
     /**
      * @return bool
      */
-    public static function unInstall();
+    public static function unInstall(ServiceLocatorInterface $sm);
 }

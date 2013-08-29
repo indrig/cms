@@ -9,6 +9,7 @@ namespace Admin\Controller;
 use Zend\Mvc\MvcEvent,
     Indrig\Controller\AbstractController,
     Indrig\SetupInterface,
+    Zend\View\Model\ViewModel,
     Admin\Form\Setting;
 
 class ModuleController extends AbstractController
@@ -96,5 +97,36 @@ class ModuleController extends AbstractController
         }
 
         return $result;
+    }
+
+    public function installAction()
+    {
+        $moduleName = $this->params('module');
+        /**
+         * @var \Zend\ModuleManager\ModuleManager $moduleManager
+         */
+        $moduleManager = $this->service('ModuleManager');
+
+        $systemModules = $moduleManager->getModules();
+        //Список всех модулей находящихся в системе
+        $availableModules = $this->getAvailableModules();
+
+        if(!isset($availableModules[$moduleName]))
+        {
+            return $this->notFoundAction();
+        }
+
+        /**
+         * @var \Zend\Http\Request $request
+         */
+
+
+        $request = $this->getRequest();
+        $modal = $request->isXmlHttpRequest();
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal($modal);
+        $viewModel->setVariables(array('modal' => $modal, 'name' => $moduleName));
+
+        return $viewModel;
     }
 }

@@ -5,9 +5,26 @@
 $strYes = $this->translate('Yes');
 $strNo = $this->translate('No');
 ?>
+<div class="modal fade" id="modalInstall" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><?=$this->translate('Install');?></h4>
+            </div>
+            <div class="modal-body">
+                <?=$this->translate('Loading').'...';?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->translate('Cancel')?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="page-header">
-        <h1><?=$this->translate('Roles')?> <small><?=$this->translate('Edit')?></small></h1>
+        <h1><?=$this->translate('Modules')?> </h1>
     </div>
 
     <?=$this->navigation('Navigation')->breadcrumbs(); ?>
@@ -37,7 +54,7 @@ $strNo = $this->translate('No');
                         <? endif; ?>
                         <a href="#" class="btn btn-danger"><?=$this->translate('Uninstall');?></a>
                     <? else: ?>
-                        <a href="#" class="btn btn-default"><?=$this->translate('Install');?></a>
+                        <a href="<?=$this->url(null, array('action' => 'install', 'module' => $module['name']))?>" class="btn btn-default" data-toggle="modal" data-target="#modalInstall"><?=$this->translate('Install');?></a>
                     <? endif; ?>
                 <? endif; ?>
             </td>
