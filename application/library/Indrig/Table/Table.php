@@ -111,7 +111,7 @@ class Table extends AbstractElement
         if($request)
         {
             $this->getAdapter()->setCurrentPageNumber(intval($request->getQuery('page')));
-           // $this->getAdapter()->setItemCountPerPage(intval($request->getPost('per_page')), $this->getAdapter()->getItemCountPerPage());
+            $this->getAdapter()->setItemCountPerPage(intval($request->getQuery('per_page', $this->getAdapter()->getItemCountPerPage())));
         }
         return ($this->data = $this->getAdapter()->getData());
     }

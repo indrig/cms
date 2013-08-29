@@ -44,11 +44,11 @@ class Acl extends ZendAcl
         /**
          * @var \Zend\Db\ResultSet\ResultSet
          */
-        $list = $table->all();
-        foreach($list as $role)
+        $list = $table->getAll();
+        foreach($list as $id => $role)
         {
-            $this->roles[$role->id] = $role->name;
-            $this->addRole($role->name);
+            $this->roles[$id] = $role;
+            $this->addRole($role);
         }
     }
 
@@ -61,24 +61,21 @@ class Acl extends ZendAcl
          * @var \User\Model\RolePrivilegeTable $table
          */
         $table = $this->serviceManager->get('table_role_privilege');
-        $list = $table->all();
+        $privileges = $table->getAll();
 
-        //Формирование списка ролей
-        $privileges = array();
-        foreach($list as $privilege)
-        {
-            if(isset($this->roles[$privilege->role_id]))
-                $privileges[$this->roles[$privilege->role_id]][$privilege->resource][] = $privilege->privilege;
-        }
 
         //Применение
         foreach($privileges as $role => $resources)
         {
-
-            foreach($resources as $resource => $allowed)
+            try
             {
-                $this->allow($role, $resource, $allowed);
-
+                foreach($resources as $resource => $allowed)
+                {
+                    $this->allow($this->roles[$role], $resource, $allowed);
+                }
+            }catch (\Exception $e)
+            {
+                //Вобще страно но ресурса такого нет
             }
         }
     }

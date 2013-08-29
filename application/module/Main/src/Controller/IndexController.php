@@ -19,11 +19,6 @@ class IndexController extends AbstractController
 
     public function indexAction()
     {
-        echo $a;
-       // $this->layout()
-        /**
-         * @var \Zend\Db\Adapter\Adapter $dbAdapter
-         */
 
     }
 }

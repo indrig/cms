@@ -105,6 +105,14 @@ class TableGateway extends AbstractTableGateway
         return null;
     }
 
+    public function cacheRemove($key)
+    {
+        $cache = $this->getCache();
+        if($cache)
+            return $cache->removeItem($key);
+
+        return false;
+    }
 
     /**
      * Update

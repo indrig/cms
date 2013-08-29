@@ -102,7 +102,7 @@ class Module extends AbstractModule
                 },
                 'User\Model\RoleTable' => function(ServiceLocatorInterface $sm)
                 {
-                    return new \User\Model\RoleTable($sm->get('Db\Default'));
+                    return new \User\Model\RoleTable($sm->get('Db\Default'), $sm->get('Cache\Default'));
                 },
                 'User\Model\UserRoleTable' => function(ServiceLocatorInterface $sm)
                 {
@@ -110,7 +110,7 @@ class Module extends AbstractModule
                 },
                 'User\Model\RolePrivilegeTable' => function(ServiceLocatorInterface $sm)
                 {
-                    return new \User\Model\RolePrivilegeTable($sm->get('Db\Default'));
+                    return new \User\Model\RolePrivilegeTable($sm->get('Db\Default'), $sm->get('Cache\Default'));
                 }
             )
         );
