@@ -20,6 +20,45 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($e);
 
+        //This locate
+
+        /**
+         * @var \Zend\Http\Request $request
+         */
+        $request = $e->getRequest();
+
+        //  Настрока транслятора
+        ///////////////////////////////////////////////////////////////////////
+        /**
+         * @var \Zend\I18n\Translator\Translator $translator
+         */
+        $translator = $this->service('translator');
+
+        //TODO: Add available languages and set translator from him, use Cookie and Accept-Language
+        if($request instanceof \Zend\Http\Request)
+        {
+            /**
+             * @var \Zend\Http\Header\AcceptLanguage $acceptLanguage
+             */
+            if($acceptLanguage = $request->getHeader('Accept-Language'))
+            {
+                if($prioritizedLanguage = array_shift($acceptLanguage->getPrioritized()))
+                {
+                    /**
+                     * @var \Zend\Http\Header\Accept\FieldValuePart\LanguageFieldValuePart $prioritizedLanguage
+                     */
+                    $translator->setLocale($prioritizedLanguage->getPrimaryTag())->setFallbackLocale('en');
+                }
+
+            }
+
+        }
+
+        if(!$translator->getLocale())
+        {
+            $translator->setLocale('en');
+        }
+
         $this->registerTable('\Main\Model\SettingTable', 'setting');
 
         set_error_handler(array($this, 'errorHandle'));

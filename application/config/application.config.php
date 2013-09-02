@@ -9,8 +9,17 @@ return array(
         'Admin'
     ),
 
+
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => array(
+        'config_cache_enabled' => true,
+        'config_cache_key' => "cms",
+        'module_map_cache_enabled' => true,
+        'module_map_cache_key' => "cms",
+
+        // The path in which to cache merged configuration.
+        'cache_dir' =>  './data/cache',
+
         'module_paths' => array(
             './module',
             './vendor',

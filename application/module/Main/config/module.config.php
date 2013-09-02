@@ -26,7 +26,6 @@ return array(
     ),
 
     'translator' => array(
-        'locale' => 'ru',
         'translation_file_patterns' => array(
             array(
                 'type'     => 'PhpArray',
