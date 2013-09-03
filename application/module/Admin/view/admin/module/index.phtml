@@ -5,23 +5,6 @@
 $strYes = $this->translate('Yes');
 $strNo = $this->translate('No');
 ?>
-<div class="modal fade" id="modalInstall" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><?=$this->translate('Install');?></h4>
-            </div>
-            <div class="modal-body">
-                <?=$this->translate('Loading').'...';?>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->translate('Cancel')?></button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
     <div class="page-header">
         <h1><?=$this->translate('Modules')?> </h1>
@@ -48,13 +31,13 @@ $strNo = $this->translate('No');
                 <? else: ?>
                     <? if($module['installed']): ?>
                         <? if($module['active']): ?>
-                            <a href="#" class="btn btn-danger"><?=$this->translate('Deactivate');?></a>
+                            <a href="<?=$this->url(null, array('action' => 'deactivate', 'module' => $module['name']))?>" class="btn btn-danger"><?=$this->translate('Deactivate');?></a>
                         <? else: ?>
-                            <a href="#" class="btn"><?=$this->translate('Activate');?></a>
+                            <a href="<?=$this->url(null, array('action' => 'activate', 'module' => $module['name']))?>" class="btn"><?=$this->translate('Activate');?></a>
                         <? endif; ?>
-                        <a href="#" class="btn btn-danger"><?=$this->translate('Uninstall');?></a>
+                        <a href="<?=$this->url(null, array('action' => 'uninstall', 'module' => $module['name']))?>" class="btn btn-danger"><?=$this->translate('Uninstall');?></a>
                     <? else: ?>
-                        <a href="<?=$this->url(null, array('action' => 'install', 'module' => $module['name']))?>" class="btn btn-default" data-toggle="modal" data-target="#modalInstall"><?=$this->translate('Install');?></a>
+                        <a href="<?=$this->url(null, array('action' => 'install', 'module' => $module['name']))?>" class="btn btn-default"><?=$this->translate('Install');?></a>
                     <? endif; ?>
                 <? endif; ?>
             </td>

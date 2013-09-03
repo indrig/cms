@@ -20,6 +20,6 @@ try
 }
 catch (Exception $e)
 {
-
+    echo $e;
     include __DIR__.'/application/view/error/internal_error.phtml';
 }

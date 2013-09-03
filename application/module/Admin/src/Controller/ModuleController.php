@@ -8,9 +8,7 @@ namespace Admin\Controller;
 
 use Zend\Mvc\MvcEvent,
     Indrig\Controller\AbstractController,
-    Indrig\SetupInterface,
-    Zend\View\Model\ViewModel,
-    Admin\Form\Setting;
+    Indrig\SetupInterface;
 
 class ModuleController extends AbstractController
 {
@@ -35,7 +33,21 @@ class ModuleController extends AbstractController
         $availableModules = $this->getAvailableModules();
 
         $activeModules      = $systemModules;
-        $installedModules   = $activeModules;
+        $installedModules   = $systemModules;
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable = $this->table('module');
+        $modules = $moduleTable->getAll();
+        foreach($modules as $item)
+        {
+            $installedModules[] = $item['name'];
+            if($item['active'] === true)
+            {
+                $activeModules[]    = $item['name'];
+            }
+        }
 
         $defaultModuleInfo = array(
             'name'          => '',
@@ -101,13 +113,164 @@ class ModuleController extends AbstractController
 
     public function installAction()
     {
+
+        $module = $this->getModuleFromParams();
+        if(!is_array($module))
+        {
+            return $module;
+        }
+
+        $setup      = $module['setup'];
+        $moduleName = $module['name'];
+
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable    = $this->table('module');
+        $modules        = $moduleTable->getAll();
+        if(isset($modules[$moduleName]))
+        {
+            return $this->notFoundAction();
+        }
+
+       // list($moduleName, $setup) = $module;
+        /**
+         * @var \Zend\Http\Request $request
+         */
+        $request =  $this->getRequest();
+        $install = intval($request->getPost('install')) !== 0;
+        $error = false;
+
+        if($install)
+        {
+            //Установка модуля
+            if($setup->install($this->getServiceLocator()))
+            {
+                /**
+                 * @var \Main\Model\ModuleTable $moduleTable
+                 */
+                //Вставка данных в дб
+                $moduleTable = $this->table('module');
+                $moduleTable->addModule($moduleName);
+                $moduleTable->cacheClean();
+
+                return $this->redirect()->toRoute('admin/module');
+            }
+            $error = true;
+        }
+
+        //Настроки для модуля если есть
+        $htmlOptions = '';
+        if(method_exists($setup, 'installHtmlOptions'))
+        {
+            $htmlOptions = $setup->installHtmlOptions($this->getServiceLocator());
+        }
+
+        return array('module' => $moduleName, 'htmlOptions' => $htmlOptions, 'error' => $error);
+    }
+
+    public function unInstallAction()
+    {
+        $module = $this->getModuleFromParams();
+        if(!is_array($module))
+        {
+            return $module;
+        }
+
+        $setup      = $module['setup'];
+        $moduleName = $module['name'];
+
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable    = $this->table('module');
+        $modules        = $moduleTable->getAll();
+        if(!isset($modules[$moduleName]))
+        {
+            return $this->notFoundAction();
+        }
+
+        // list($moduleName, $setup) = $module;
+        /**
+         * @var \Zend\Http\Request $request
+         */
+        $request =  $this->getRequest();
+        $uninstall = intval($request->getPost('uninstall')) !== 0;
+        $error = false;
+
+        if($uninstall)
+        {
+            //Установка модуля
+            if($setup->unInstall($this->getServiceLocator()))
+            {
+                /**
+                 * @var \Main\Model\ModuleTable $moduleTable
+                 */
+                //Вставка данных в дб
+                $moduleTable = $this->table('module');
+                $moduleTable->removeModule($moduleName);
+                $moduleTable->cacheClean();
+
+                return $this->redirect()->toRoute('admin/module');
+            }
+            $error = true;
+        }
+
+        //Настроки для модуля если есть
+        $htmlOptions = '';
+        if(method_exists($setup, 'unInstallHtmlOptions'))
+        {
+            $htmlOptions = $setup->unInstallHtmlOptions($this->getServiceLocator());
+        }
+
+        return array('module' => $moduleName, 'htmlOptions' => $htmlOptions, 'error' => $error);
+    }
+
+    public function activateAction()
+    {
+        $module = $this->getModuleFromParams();
+        if(!is_array($module))
+        {
+            return $module;
+        }
+
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable = $this->table('module');
+        $moduleTable->setModuleActive($module['name'], true);
+        $moduleTable->cacheClean();
+
+        return $this->redirect()->toRoute('admin/module');
+    }
+
+    public function deActivateAction()
+    {
+        $module = $this->getModuleFromParams();
+        if(!is_array($module))
+        {
+            return $module;
+        }
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable = $this->table('module');
+        $moduleTable->setModuleActive($module['name'], false);
+        $moduleTable->cacheClean();
+
+        return $this->redirect()->toRoute('admin/module');
+    }
+
+    public function getModuleFromParams()
+    {
         $moduleName = $this->params('module');
         /**
          * @var \Zend\ModuleManager\ModuleManager $moduleManager
          */
-        $moduleManager = $this->service('ModuleManager');
-
-        $systemModules = $moduleManager->getModules();
         //Список всех модулей находящихся в системе
         $availableModules = $this->getAvailableModules();
 
@@ -116,17 +279,16 @@ class ModuleController extends AbstractController
             return $this->notFoundAction();
         }
 
-        /**
-         * @var \Zend\Http\Request $request
-         */
+        $setup = include $availableModules[$moduleName].'/Setup.php';
 
+        if(!($setup instanceof SetupInterface))
+        {
+            return $this->notFoundAction();
+        }
 
-        $request = $this->getRequest();
-        $modal = $request->isXmlHttpRequest();
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal($modal);
-        $viewModel->setVariables(array('modal' => $modal, 'name' => $moduleName));
-
-        return $viewModel;
+        return array(
+            'name'  => $moduleName,
+            'setup' => $setup
+        );
     }
 }

@@ -10,7 +10,7 @@ class NewsSetup implements SetupInterface
     /**
      * @return array
      */
-    public static function getInfo()
+    public function getInfo()
     {
         return array(
             'name' => 'Site Map'
@@ -21,7 +21,7 @@ class NewsSetup implements SetupInterface
     /**
      * @return bool
      */
-    public static function install(ServiceLocatorInterface $sm)
+    public function install(ServiceLocatorInterface $sm)
     {
         return false;
     }
@@ -29,9 +29,14 @@ class NewsSetup implements SetupInterface
     /**
      * @return bool
      */
-    public static function unInstall(ServiceLocatorInterface $sm)
+    public function unInstall(ServiceLocatorInterface $sm)
     {
         return false;
+    }
+
+    public function installHtmlOptions(ServiceLocatorInterface $sm)
+    {
+        return 'test';
     }
 }
 

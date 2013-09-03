@@ -12,6 +12,7 @@ namespace Main;
 use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
+    Zend\ModuleManager\ModuleEvent,
     Indrig\AbstractModule;
 
 class Module extends AbstractModule
@@ -60,6 +61,7 @@ class Module extends AbstractModule
         }
 
         $this->registerTable('\Main\Model\SettingTable', 'setting');
+        $this->registerTable('\Main\Model\ModuleTable', 'module');
 
         set_error_handler(array($this, 'errorHandle'));
         //
@@ -82,8 +84,48 @@ class Module extends AbstractModule
                     ));
                 }
             }, 500);
+
+        //Загрузка прочих модулей
+        ///////////////////////////////////////////////////////////////////////
+
+        /**
+         * @var \Zend\ModuleManager\ModuleManager $moduleManager
+         */
+        $moduleManager =$this->service('ModuleManager');
+
+       /* $activeModules = $moduleTable->getActive();
+        foreach($activeModules as $moduleName)
+        {
+            $moduleManager->loadModule($moduleName);
+        }*/
+
+        //$moduleManager->getEventManager()->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, array($this, 'onLoadModules'));
+
+        /**
+         * @var \Zend\ModuleManager\ModuleManager $moduleManager
+         */
+        $moduleManager =$this->service('ModuleManager');
+        /**
+         * @var \Main\Model\ModuleTable $moduleTable
+         */
+        //Вставка данных в дб
+        $moduleTable = $this->table('module');
+        $activeModules = $moduleTable->getActive();
+        foreach($activeModules as $moduleName)
+        {
+            $moduleManager->loadModule($moduleName);
+        }
     }
 
+    public function onLoadModules(ModuleEvent $e)
+    {
+
+    }
+
+    public function init()
+    {
+
+    }
     /**
      * Установка настроик
      */
