@@ -35,6 +35,8 @@ class UserTable extends TableGateway
      */
     public function getByID($id)
     {
+
+
         return $this->select(array('id' => $id))->current();
     }
 

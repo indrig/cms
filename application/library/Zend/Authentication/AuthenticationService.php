@@ -117,8 +117,7 @@ class AuthenticationService
             $this->clearIdentity();
         }
 
-        if ($result->isValid())
-        {
+        if ($result->isValid()) {
             $this->getStorage()->write($result->getIdentity());
         }
 

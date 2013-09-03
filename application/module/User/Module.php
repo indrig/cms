@@ -16,17 +16,11 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($e);
 
-        //Init module tables
-
-        $serviceManager = $e->getApplication()->getServiceManager();
         /**
          * @var \User\Adapter\Authentication $Authentication
          */
         $Authentication = $this->service('Authentication');
-
         $Authentication->initialize();
-
-
 
         //Установка ролей для навигации
         ///////////////////////////////////////////////////////////////////////
@@ -36,7 +30,6 @@ class Module extends AbstractModule
             \Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole($role);
         }
 
-        //$Authentication->hasRole('Admin');
     }
 
     public function init(ModuleManagerInterface $moduleManager)

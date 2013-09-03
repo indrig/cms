@@ -251,6 +251,7 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
             }
         }
 
+
         if (!isset($dsn) && isset($pdoDriver)) {
             $dsn = array();
             switch ($pdoDriver) {
@@ -277,7 +278,7 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
             );
         }
 
-        try {
+        try { $t = microtime(true);
             $this->resource = new \PDO($dsn, $username, $password, $options);
             $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
@@ -288,6 +289,8 @@ class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
             }
             throw new Exception\RuntimeException('Connect Error: ' . $e->getMessage(), $code, $e);
         }
+
+
 
         return $this;
     }

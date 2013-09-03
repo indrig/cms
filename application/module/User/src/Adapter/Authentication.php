@@ -100,9 +100,8 @@ class Authentication extends AbstractAdapter
                 /**
                  * @var \User\Model\UserRoleTable $userRoleTable
                  */
-                $userRoleTable = $this->serviceManager->get('table_user_role');
-
-                $roles    = $userRoleTable->getForUserId($user->id);
+                $userRoleTable  = $this->serviceManager->get('table_user_role');
+                $roles          = $userRoleTable->getForUserId($user->id);
 
                 /**
                  * @var \User\Permissions\Acl $Acl
@@ -111,6 +110,8 @@ class Authentication extends AbstractAdapter
 
                 if(($role = $this->getRole()) !== false)
                     $Acl->addRole($role, $Acl->rolesFotUser($roles));
+
+
             }
             else
             {

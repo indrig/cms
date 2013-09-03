@@ -330,9 +330,7 @@ class ViewManager extends AbstractListenerAggregate
         if (isset($this->config['display_not_found_reason'])) {
             $displayNotFoundReason = $this->config['display_not_found_reason'];
         }
-        if (isset($this->config['not_found_template']))
-        {
-           //
+        if (isset($this->config['not_found_template'])) {
             $notFoundTemplate = $this->config['not_found_template'];
         }
 

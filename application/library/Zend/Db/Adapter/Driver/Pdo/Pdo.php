@@ -240,9 +240,11 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
             if (is_string($sqlOrResource)) {
                 $statement->setSql($sqlOrResource);
             }
+
             if (!$this->connection->isConnected()) {
                 $this->connection->connect();
             }
+
             $statement->initialize($this->connection->getResource());
         }
         return $statement;

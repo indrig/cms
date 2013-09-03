@@ -41,8 +41,8 @@ class Module extends AbstractModule
              * @var \Zend\Http\Header\AcceptLanguage $acceptLanguage
              */
             if($acceptLanguage = $request->getHeader('Accept-Language'))
-            {
-                if($prioritizedLanguage = array_shift($acceptLanguage->getPrioritized()))
+            {   $prioritizedLanguages= $acceptLanguage->getPrioritized();
+                if($prioritizedLanguage = array_shift($prioritizedLanguages))
                 {
                     /**
                      * @var \Zend\Http\Header\Accept\FieldValuePart\LanguageFieldValuePart $prioritizedLanguage

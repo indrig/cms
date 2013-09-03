@@ -403,8 +403,7 @@ class FormRow extends AbstractHelper
             return $this->elementErrorsHelper;
         }
 
-        if (method_exists($this->view, 'plugin'))
-        {
+        if (method_exists($this->view, 'plugin')) {
             $this->elementErrorsHelper = $this->view->plugin('form_element_errors');
         }
 

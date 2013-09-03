@@ -571,7 +571,6 @@ abstract class AbstractValidator implements
     protected function translateMessage($messageKey, $message)
     {
         $translator = $this->getTranslator();
-
         if (!$translator) {
             return $message;
         }
@@ -579,7 +578,6 @@ abstract class AbstractValidator implements
         $translated = $translator->translate(
             $messageKey, $this->getTranslatorTextDomain()
         );
-
         if ($translated !== $messageKey) {
             return $translated;
         }

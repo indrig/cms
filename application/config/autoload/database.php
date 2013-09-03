@@ -9,9 +9,10 @@ return array(
                 'driver'            => 'Pdo',
                 'username'          => 'root',
                 'password'          => '',
-                'dsn'               => 'mysql:dbname=cms;host=localhost',
+                'dsn'               => 'mysql:dbname=cms;host=127.0.0.1',
                 'driver_options'    => array(
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    PDO::ATTR_PERSISTENT => true
                 )
             )
         )
