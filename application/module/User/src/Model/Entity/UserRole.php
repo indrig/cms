@@ -1,12 +1,12 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
+ * User: Igor Bubnevich aka Core
  * Date: 26.08.13
  * Time: 12:40
  */
 namespace User\Model\Entity;
 
-use Indrig\Db\RowGateway;
+use Core\Db\RowGateway;
 
 class UserRole extends RowGateway
 {

@@ -16,29 +16,17 @@ $strNo = $this->translate('No');
         <tr>
             <th><?=$this->translate('Name')?></th>
             <th><?=$this->translate('Active')?></th>
-            <th><?=$this->translate('Installed')?></th>
             <th><?=$this->translate('Actions')?></th>
         </tr>
         <? foreach($modules as $module): ?>
-        <tr<?=($module['installed'] ? ' class="'.($module['active'] ? 'success' : 'warning').'"' : '')?>>
+        <tr>
             <td><?=$module['name']?></td>
             <td><?=$module['active']? $strYes : $strNo?></td>
-            <td><?=$module['installed']? $strYes : $strNo?></td>
             <td>
-                <? if($module['system']): ?>
-                    <button class="btn btn-danger" disabled="disabled"><?=$this->translate('Deactivate');?></button>
-                    <button class="btn btn-danger" disabled="disabled"><?=$this->translate('Uninstall');?></button>
+                <? if($module['active']): ?>
+                    <a href="<?=$this->url(null, array('action' => 'deactivate', 'module' => $module['name']))?>" class="btn btn-danger"><?=$this->translate('Deactivate');?></a>
                 <? else: ?>
-                    <? if($module['installed']): ?>
-                        <? if($module['active']): ?>
-                            <a href="<?=$this->url(null, array('action' => 'deactivate', 'module' => $module['name']))?>" class="btn btn-danger"><?=$this->translate('Deactivate');?></a>
-                        <? else: ?>
-                            <a href="<?=$this->url(null, array('action' => 'activate', 'module' => $module['name']))?>" class="btn"><?=$this->translate('Activate');?></a>
-                        <? endif; ?>
-                        <a href="<?=$this->url(null, array('action' => 'uninstall', 'module' => $module['name']))?>" class="btn btn-danger"><?=$this->translate('Uninstall');?></a>
-                    <? else: ?>
-                        <a href="<?=$this->url(null, array('action' => 'install', 'module' => $module['name']))?>" class="btn btn-default"><?=$this->translate('Install');?></a>
-                    <? endif; ?>
+                    <a href="<?=$this->url(null, array('action' => 'activate', 'module' => $module['name']))?>" class="btn"><?=$this->translate('Activate');?></a>
                 <? endif; ?>
             </td>
         </tr>

@@ -13,10 +13,12 @@ use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
     Zend\ModuleManager\ModuleEvent,
-    Indrig\AbstractModule;
+    Core\AbstractModule,
+    Zend\ModuleManager\ModuleManager;
 
 class Module extends AbstractModule
 {
+
     public function onBootstrap(MvcEvent $e)
     {
         parent::onBootstrap($e);
@@ -91,7 +93,7 @@ class Module extends AbstractModule
         /**
          * @var \Zend\ModuleManager\ModuleManager $moduleManager
          */
-        $moduleManager =$this->service('ModuleManager');
+      //  $moduleManager =$this->service('ModuleManager');
 
        /* $activeModules = $moduleTable->getActive();
         foreach($activeModules as $moduleName)
@@ -104,28 +106,19 @@ class Module extends AbstractModule
         /**
          * @var \Zend\ModuleManager\ModuleManager $moduleManager
          */
-        $moduleManager =$this->service('ModuleManager');
+      //  $moduleManager =$this->service('ModuleManager');
         /**
          * @var \Main\Model\ModuleTable $moduleTable
          */
         //Вставка данных в дб
-        $moduleTable = $this->table('module');
+        /*$moduleTable = $this->table('module');
         $activeModules = $moduleTable->getActive();
         foreach($activeModules as $moduleName)
         {
             $moduleManager->loadModule($moduleName);
-        }
+        }*/
     }
 
-    public function onLoadModules(ModuleEvent $e)
-    {
-
-    }
-
-    public function init()
-    {
-
-    }
     /**
      * Установка настроик
      */
@@ -143,7 +136,7 @@ class Module extends AbstractModule
         //  Установка параметров страницы
         $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle', ''));
         $navigation = $viewHelper->get('navigation');
-        $navigation->menu()->setPartial('partial/menu');
+      //  $navigation->menu()->setPartial('partial/menu');
         $navigation->breadcrumbs()->setPartial('partial/breadcrumbs');
 
         /**

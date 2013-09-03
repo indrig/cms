@@ -13,8 +13,4 @@ return array(
             'navigation'    => 'Zend\Navigation\Service\DefaultNavigationFactory',
         )
     ),
-
-    'translator' => array(
-        'locale' => 'ru'
-    )
 );

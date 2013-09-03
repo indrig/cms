@@ -21,30 +21,38 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'settings' => array(
+                    'system' => array(
                         'type'    => 'Literal',
                         'options' => array(
-                            'route'    => '/settings',
+                            'route'    => '/system',
                             'defaults' => array(
-                                'controller' => 'Admin\Controller\Setting',
+                                'controller' => 'Admin\Controller\System',
                                 'action'        => 'index',
                             )
-                        )
-                    ),
-                    'module' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/module[/:action][/:module]',
-                            'constraints' => array(
-                                'module'    => '[a-zA-Z][a-zA-Z0-9_-]+',
-                                'action'    => '[a-zA-Z][a-zA-Z0-9_-]+',
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'settings' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/settings',
+                                    'defaults' => array(
+                                        'controller' => 'Admin\Controller\Setting',
+                                        'action'        => 'index',
+                                    )
+                                )
                             ),
-                            'defaults' => array(
-                                'controller' => 'Admin\Controller\Module',
-                                'action'        => 'index',
+                            'module' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/module',
+                                    'defaults' => array(
+                                        'controller' => 'Admin\Controller\Module',
+                                        'action'        => 'index',
+                                    )
+                                )
                             )
                         )
-
                     )
                 )
             )
@@ -59,19 +67,25 @@ return array(
                 'route'     => 'admin',
                 'resource'  => 'Admin',
                 'privilege' => 'read',
+
                 'pages' => array(
-                    array(
-                        'label'     => 'Modules',
-                        'route'     => 'admin/module',
+                    'system' => array(
+                        'label'     => 'System',
                         'resource'  => 'Admin',
-                        'privilege' => 'setting'
-                    ),
-                    array(
-                        'label'     => 'Settings',
-                        'route'     => 'admin/settings',
-                        'resource'  => 'Admin',
-                        'privilege' => 'setting'
+                        'privilege' => 'setting',
+                        'route'    => 'admin/system',
+                        'pages' => array(
+                            array(
+                                'label'     => 'Modules',
+                                'route'     => 'admin/system/module',
+                            ),
+                            array(
+                                'label'     => 'Settings',
+                                'route'     => 'admin/system/settings',
+                            )
+                        )
                     )
+
                 )
             )
         ),

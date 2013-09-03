@@ -1,7 +1,7 @@
 <?php
 namespace News;
 
-use Indrig\AbstractModule;
+use Core\AbstractModule;
 
 class Module extends AbstractModule
 {

@@ -1,0 +1,17 @@
+<?php
+/**
+ * User: Igor Bubnevich aka Core
+ * Date: 22.08.13
+ * Time: 10:34
+ */
+namespace Core\Table\Adapter;
+
+use Zend\Db\Sql\Select;
+
+class DbSelect implements AdapterInterface
+{
+    public function __construct(Select $select)
+    {
+
+    }
+}

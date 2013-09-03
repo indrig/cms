@@ -2,8 +2,8 @@
 namespace User\Controller;
 
 use Zend\Mvc\MvcEvent,
-    Indrig\Controller\AbstractController,
-    Indrig\AbstractModule;
+    Core\Controller\AbstractController,
+    Core\AbstractModule;
 
 class RoleController extends AbstractController
 {

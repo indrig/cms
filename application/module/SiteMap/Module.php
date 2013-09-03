@@ -1,7 +1,7 @@
 <?php
 namespace SiteMap;
 
-use Indrig\AbstractModule;
+use Core\AbstractModule;
 use Zend\Mvc\MvcEvent;
 
 class Module extends AbstractModule

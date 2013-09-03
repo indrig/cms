@@ -1,18 +1,17 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
+ * User: Igor Bubnevich aka Core
  * Date: 14.08.13
  * Time: 11:18
  */
 
 namespace Main\Model;
 
-use Indrig\Db\TableGateway,
+use Core\Db\TableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
     Zend\Cache\Storage\StorageInterface,
-    Zend\Math\Rand,
-    Main\Model\Entity\Setting;
+    Zend\Math\Rand;
 
 class SettingTable extends TableGateway
 {
@@ -22,12 +21,7 @@ class SettingTable extends TableGateway
 
     public function __construct(AdapterInterface $dbAdapter, StorageInterface $storageAdapter = null)
     {
-        //$resultSetPrototype = new ResultSet();
-
         parent::__construct('setting', $dbAdapter, $storageAdapter);
-
-        //$resultSetPrototype->setArrayObjectPrototype(new Setting(array('module', 'name'), $this->table, $this->sql));
-      //  $this->resultSetPrototype = $resultSetPrototype;
     }
 
     public function load()

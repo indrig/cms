@@ -1,12 +1,12 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
+ * User: Igor Bubnevich aka Core
  * Date: 20.08.13
  * Time: 14:48
  */
 namespace Admin;
 
-use Indrig\AbstractModule;
+use Core\AbstractModule;
 
 class Module extends AbstractModule
 {

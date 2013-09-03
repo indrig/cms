@@ -7,7 +7,7 @@ use User\Model\UserTable,
     Zend\ServiceManager\ServiceLocatorInterface,
     Zend\ModuleManager\ModuleEvent,
     Zend\ModuleManager\ModuleManagerInterface,
-    Indrig\AbstractModule;
+    Core\AbstractModule;
 
 class Module extends AbstractModule
 {

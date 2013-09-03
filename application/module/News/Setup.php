@@ -1,5 +1,5 @@
 <?php
-use Indrig\SetupInterface,
+use Core\SetupInterface,
     Zend\ServiceManager\ServiceLocatorInterface;;
 
 

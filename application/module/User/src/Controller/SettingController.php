@@ -2,7 +2,7 @@
 namespace User\Controller;
 
 use Zend\Mvc\MvcEvent,
-    Indrig\Controller\AbstractController,
+    Core\Controller\AbstractController,
     User\Table\UserList;
 
 class SettingController extends AbstractController

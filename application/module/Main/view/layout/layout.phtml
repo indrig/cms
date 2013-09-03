@@ -81,13 +81,9 @@
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-main-collapse">
-                        <ul class="nav navbar-nav">
-                            <?=$this->Navigation('navigation')
-                                ->menu()
-                                ->setMinDepth(0)
-                                ->setMaxDepth(1)
-                                ->render();?>
-                        </ul>
+
+                        <?=$this->Navigation('navigation')->menu()->renderMenu(null, array('ulClass' => 'nav navbar-nav'));?>
+
 
                         <ul class="nav navbar-nav navbar-right">
                             <? if($this->user()->isLogin()): ?>
@@ -112,7 +108,7 @@
         <div id="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">&copy; <?=date('Y')?> Indrig Soft</div>
+                    <div class="col-md-3">&copy; <?=date('Y')?> Core Soft</div>
                     <div class="col-md-3">
                                            </div>
                     <div class="col-md-3">

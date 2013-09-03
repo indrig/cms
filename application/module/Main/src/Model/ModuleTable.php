@@ -1,13 +1,13 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
+ * User: Igor Bubnevich aka Core
  * Date: 14.08.13
  * Time: 11:18
  */
 
 namespace Main\Model;
 
-use Indrig\Db\TableGateway,
+use Core\Db\TableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
     Zend\Cache\Storage\StorageInterface,
@@ -17,12 +17,7 @@ class ModuleTable extends TableGateway
 {
     public function __construct(AdapterInterface $dbAdapter, StorageInterface $storageAdapter = null)
     {
-        //$resultSetPrototype = new ResultSet();
-
         parent::__construct('module', $dbAdapter, $storageAdapter);
-
-        //$resultSetPrototype->setArrayObjectPrototype(new Setting(array('module', 'name'), $this->table, $this->sql));
-        //  $this->resultSetPrototype = $resultSetPrototype;
     }
 
     public function getAll()

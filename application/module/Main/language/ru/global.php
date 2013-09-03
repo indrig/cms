@@ -1,6 +1,6 @@
 <?php
 /**
- * User: Igor Bubnevich aka Indrig
+ * User: Igor Bubnevich aka Core
  * Date: 26.08.13
  * Time: 11:54
  */
@@ -22,5 +22,6 @@ return array(
     'Uninstall'     => 'Удалить',
     'Install'       => 'Установить',
     'Activate'      => 'Активировать',
-    'Deactivate'    => 'Отключать'
+    'Deactivate'    => 'Отключать',
+    'System'        => 'Система'
 );

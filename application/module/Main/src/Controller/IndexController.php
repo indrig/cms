@@ -9,7 +9,7 @@
 
 namespace Main\Controller;
 
-use Indrig\Controller\AbstractController;
+use Core\Controller\AbstractController;
 
 /**
  *  @method \User\Adapter\Authentication user()

@@ -13,7 +13,7 @@ Zend\Loader\AutoloaderFactory::factory(
 		'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf'   => true,
                 'namespaces'        => array(
-                    'Indrig'        => 'library/Indrig'
+                    'Core'        => 'library/Core'
                 )
         )
     )
@@ -34,8 +34,11 @@ class Application
         if(self::$instance)
             return self::$instance;
 
-        return (self::$instance = Zend\Mvc\Application::init(require 'config/application.config.php'));
+        self::$instance = Zend\Mvc\Application::init(require 'config/application.config.php');
+
+        return self::$instance;
     }
+
 }
 
 //INIT

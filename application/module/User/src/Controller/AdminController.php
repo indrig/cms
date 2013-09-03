@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Indrig\Controller\AbstractController,
+use Core\Controller\AbstractController,
     User\Table\UserList;
 
 class AdminController extends AbstractController

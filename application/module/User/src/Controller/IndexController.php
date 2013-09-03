@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Indrig\Controller\AbstractController,
+use Core\Controller\AbstractController,
     Zend\Authentication\Result,
     User\Form\SignIn,
     User\Form\SignUp;
