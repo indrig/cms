@@ -22,16 +22,7 @@ class SignUp extends Form
 
     public function prepareElement(FormInterface $form)
     {
-        $this->add(array(
-            'name' => 'login',
-            'options' => array(
-                'label' => 'Login',
-                'lg'    => 5
-            ),
-            'attributes' => array(
-                'type'  => 'text',
-            ),
-        ));
+
         $this->add(array(
             'type' => 'Zend\Form\Element\Email',
             'name' => 'email',
@@ -74,24 +65,7 @@ class SignUp extends Form
             $inputFilter = new InputFilter();
             $factory     = new Factory();
 
-            //Логин
-            $inputFilter->add($factory->createInput(array(
-                'name'     => 'login',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 64,
-                        ),
-                    ),
-                ),
-            )));
+
             //Почта
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'email',

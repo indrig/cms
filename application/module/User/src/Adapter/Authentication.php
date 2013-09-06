@@ -48,7 +48,7 @@ class Authentication extends AbstractAdapter
          * @var \User\Model\UserTable $userTable
          */
         $userTable    = $this->serviceManager->get('table_user');
-        $user = $userTable->getByLogin($this->getIdentity());
+        $user = $userTable->getByEmail($this->getIdentity());
 
         if($user && $user->verifyPassword($this->getCredential()))
         {

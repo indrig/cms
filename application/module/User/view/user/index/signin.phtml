@@ -5,7 +5,7 @@
  * @var bool $failure
  */
 $this->headTitle('Sign In');
-$inputLogin = $form->get('login');
+
 ?>
 <div class="container">
     <div class="page-header">
@@ -13,7 +13,7 @@ $inputLogin = $form->get('login');
     </div>
     <? if($failure): ?>
     <div class="alert alert-danger">
-        <strong><?=$this->translate('Error')?>!</strong> <?=$this->translate('Incorrect login or password')?>
+        <strong><?=$this->translate('Error')?>!</strong> <?=$this->translate('Incorrect email or password')?>
     </div>
     <? endif; ?>
     <div class="well">

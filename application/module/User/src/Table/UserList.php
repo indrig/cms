@@ -20,9 +20,9 @@ class UserList extends Table
                 'label'     => 'ID',
                 'sortable'   => true
             ));
-        $this->addHeader('login',
+        $this->addHeader('email',
             array(
-                'label'     => 'Login',
+                'label'     => 'Email address',
                 'sortable'   => true
             ));
 

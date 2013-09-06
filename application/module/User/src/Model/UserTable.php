@@ -24,9 +24,9 @@ class UserTable extends TableGateway
      * @param $login
      * @return Entity\User
      */
-    public function getByLogin($login)
+    public function getByEmail($email)
     {
-        return $this->select(array('login' => $login))->current();
+        return $this->select(array('email' => $email))->current();
     }
 
     /**
@@ -44,9 +44,9 @@ class UserTable extends TableGateway
      * @param $login
      * @return Entity\User
      */
-    public function loginExists($login)
+    public function emailExists($email)
     {
-        return ($this->select(array('login' => $login))->count() > 0);
+        return ($this->select(array('email' => $email))->count() > 0);
     }
 
     /**
@@ -55,7 +55,7 @@ class UserTable extends TableGateway
      * @param string $password
      * @return bool|int
      */
-    public function register($login, $password)
+    public function register($email, $password)
     {
         //Создания пароля
         try
@@ -72,7 +72,7 @@ class UserTable extends TableGateway
         try
         {
             $id = parent::insert(array(
-                'login'     => $login,
+                'email'     => $email,
                 'password'  => $securePassword,
             ));
             $this->getAdapter()->getDriver()->getConnection()->commit();

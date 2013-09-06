@@ -23,6 +23,6 @@ class User extends RowGateway
 
     public function screenName()
     {
-        return $this->login;
+        return $this->email;
     }
 }

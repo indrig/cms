@@ -61,7 +61,7 @@ class IndexController extends AbstractController
                 $authentication = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
 
                 $adapter = $authentication->getAdapter();
-                $adapter->setIdentity($data['login']);
+                $adapter->setIdentity($data['email']);
                 $adapter->setCredential($data['password']);
                 $authenticateResult = $authentication->authenticate();
                 if($authenticateResult->isValid())
@@ -111,15 +111,15 @@ class IndexController extends AbstractController
                 $userTable = $this->table('user');
                 $data = $form->getData();
                 //Проверка логина на уникальность
-                $login = $data['login'];
-                if($userTable->loginExists($login))
+                $email = $data['email'];
+                if($userTable->emailExists($email))
                 {
-                    $alert = $this->translateArgs('Login %login% already exists', array('login' => $this->escapeHTML($data['login'])));
+                    $alert = $this->translateArgs('Email %email% already exists', array('email' => $this->escapeHTML($data['email'])));
                 }
                 else
                 {
                     //Попытка регистрации нового пользователя
-                    $userTable->register($data['login'], $data['password']);
+                    $userTable->register($data['email'], $data['password']);
                     return $this->redirect()->toRoute('user/signin');
                 }
             }

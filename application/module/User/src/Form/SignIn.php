@@ -22,14 +22,14 @@ class SignIn extends Form
     public function prepareElement(FormInterface $form)
     {
         $this->add(array(
-            'name' => 'login',
+            'name' => 'email',
             'options' => array(
-                'label' => 'Login',
+                'label' => 'Email address',
             ),
             'attributes' => array(
                 'type'  => 'text',
                 'class' => 'form-control',
-                'id'    => 'inputLogin'
+                'id'    => 'inputEmail'
             ),
         ));
         $this->add(array(
@@ -59,7 +59,7 @@ class SignIn extends Form
 
             //Логин
             $inputFilter->add($factory->createInput(array(
-                'name'     => 'login',
+                'name'     => 'email',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StringTrim'),
