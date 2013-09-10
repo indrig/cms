@@ -3,6 +3,8 @@ namespace Core\Table;
 
 use Core\Table\Element\AbstractElement,
     Core\Table\Element\Header,
+    Core\Table\Element\Row,
+    Core\Table\Element\Cell,
     Core\Table\Adapter\AdapterInterface,
     Zend\Http\Request,
     Zend\Http\Response;
@@ -11,7 +13,9 @@ class Table extends AbstractElement
 {
     const RENDER_HTML = 0;
     const RENDER_JSON = 1;
-    protected $headers = array();
+    protected $headers  = array();
+    protected $cells    = array();
+    protected $row      = null;
     protected $id;
     protected static $auto_id = 0;
     protected $renderType  = null;
@@ -56,6 +60,38 @@ class Table extends AbstractElement
     {
         return $this->headers;
     }
+
+    /**
+     * @param null|string $name
+     * @param null|Cell|array $headerOrElement
+     * @return $this
+     */
+    public function addCell($name  = null, $cellOrElement = null)
+    {
+        if(is_array($cellOrElement))
+        {
+            $cell = new Cell($name, $cellOrElement);
+            $this->cells[$name] = $cell;
+            return $this;
+        }
+
+        if($cellOrElement instanceof Cell)
+        {
+            $this->cells[$name] = $cellOrElement;
+            return $this;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCells()
+    {
+        return $this->cells;
+    }
+
 
 
     public function setId($id)
@@ -198,7 +234,14 @@ class Table extends AbstractElement
             $tmp = array();
             foreach($keys as $key)
             {
-                $tmp[] = $v->$key;
+                if(isset($this->cells[$key]))
+                {
+                    $tmp[] = $this->cells[$key]->render($v);
+                }
+                else
+                {
+                    $tmp[] = $v->$key;
+                }
             }
             $a[] = $tmp;
         }
@@ -207,7 +250,7 @@ class Table extends AbstractElement
             'data'              => $a,
             'total'             => $this->getAdapter()->getTotalItemCount(),
             'page'              => $this->getAdapter()->getCurrentPageNumber(),
-            'per_page'          =>$this->getAdapter()->getItemCountPerPage(),
+            'per_page'          => $this->getAdapter()->getItemCountPerPage(),
 
         )));
     }

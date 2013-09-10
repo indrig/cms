@@ -33,6 +33,12 @@ return array(
                                 'resource'  => 'User',
                                 'privilege' => 'setting'
                             ),
+                            array(
+                                'label'     => 'Edit',
+                                'route'     => 'user/admin/edit',
+                                'resource'  => 'User',
+                                'privilege' => 'setting'
+                            ),
                         )
                     )
                 )

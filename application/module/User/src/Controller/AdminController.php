@@ -2,12 +2,26 @@
 namespace User\Controller;
 
 use Core\Controller\AbstractController,
-    User\Table\UserList;
+    User\Table\UserList,
+    Zend\Mvc\MvcEvent;
 
 class AdminController extends AbstractController
 {
+    public function onDispatch(MvcEvent $e)
+    {
+        if(!$this->isAllowed('setting'))
+        {
+            return $this->notFoundAction();
+        }
+        return parent::onDispatch($e);
+    }
+
     public function indexAction()
     {
+        if(!$this->isAllowed('management'))
+        {
+            return $this->notFoundAction();
+        }
         /**
          * @var \Zend\Http\Request $request
          * @var \User\Model\UserTable $table
@@ -16,13 +30,12 @@ class AdminController extends AbstractController
         $table = $this->table('user');
         //$list = $userTable->select();
         $request = $this->getRequest();
-//var_dump($request->isXmlHttpRequest());
-       // $this->acceptableViewModelSelector()
+
         $list = new UserList($table, $request);
 
         if($list->isCustomRender())
         {
-            return $list->customRender($this->getResponse());
+            return $this->service('ViewHelperManager')->get('table')->renderContent($list, $this->getResponse());
         }
         else
         {
@@ -32,6 +45,22 @@ class AdminController extends AbstractController
 
     public function editAction()
     {
+        if(!$this->isAllowed('management'))
+        {
+            return $this->notFoundAction();
+        }
 
+        /**
+         * @var \Zend\Http\Request $request
+         */
+        $request = $this->getRequest();
+
+        $user = $this->table('user')->getById($this->params('id'));
+
+        if(!($user instanceof \User\Model\Entity\User))
+        {
+            return $this->notFoundAction();
+        }
+        return array('user' => $user);
     }
 }

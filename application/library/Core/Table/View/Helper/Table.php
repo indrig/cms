@@ -42,8 +42,6 @@ class Table extends AbstractHelper
         $tableContent .= '</tr>';
 
 
-        $data = $table->getData();
-
         return $this->openTag($table) . $tableContent . $this->closeTag($table);
     }
 
@@ -111,6 +109,59 @@ class Table extends AbstractHelper
         //Add JS and CSS
         $this->getView()->headLink()->appendStylesheet($this->getView()->basePath().'/assets/css/jquery.table.css');
         $this->getView()->headScript()->appendFile($this->getView()->basePath().'/assets/js/jquery.table.js');
+        return $content;
+    }
+
+    /**
+     * @param TableElement $table
+     * @param null|\Zend\Http\Response $response
+     * @return string
+     */
+    public function renderContent(TableElement $table, $response = null)
+    {
+        $type = $table->getRenderType();
+        /**
+         * @var \Zend\Paginator\Paginator $data
+         */
+
+        $data = $table->getData();
+        $a = array();
+
+        $keys = array_keys($table->getHeaders());
+        $cells = $table->getCells();
+
+
+        foreach($data as $row)
+        {
+            $tmp = array();
+            foreach($keys as $key)
+            {
+                if(isset($cells[$key]))
+                {
+                    $tmp[] = $this->getView()->tableCell()->renderContent($cells[$key], $row);
+                }
+                else
+                {
+                    $tmp[] = $row->$key;
+                }
+            }
+            $a[] = $tmp;
+        }
+
+        $content = json_encode(array(
+            'data'              => $a,
+            'total'             => $table->getAdapter()->getTotalItemCount(),
+            'page'              => $table->getAdapter()->getCurrentPageNumber(),
+            'per_page'          => $table->getAdapter()->getItemCountPerPage(),
+
+        ));
+
+
+        if($response !== null)
+        {
+            return $response->setContent($content);
+        }
+
         return $content;
     }
 }
