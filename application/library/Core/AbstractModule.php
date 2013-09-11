@@ -20,6 +20,7 @@ abstract class AbstractModule
      */
     protected $serviceManager = null;
 
+
     /**
      *
      */
@@ -76,7 +77,7 @@ abstract class AbstractModule
     }
 
     /**
-     * @return \Zend\ModuleManager\Feature\ViewHelperProviderInterface
+     * @return \Zend\View\HelperPluginManager
      */
     protected function getView()
     {
@@ -91,5 +92,10 @@ abstract class AbstractModule
     public function getModulePrivilege()
     {
         return array();
+    }
+
+    public function getViewModel()
+    {
+        return $this->event->getViewModel();
     }
 }

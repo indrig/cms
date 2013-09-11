@@ -4,7 +4,8 @@ return array(
         'invokables' => array(
             'Admin\Controller\Setting'  => 'Admin\Controller\SettingController',
             'Admin\Controller\Module'   => 'Admin\Controller\ModuleController',
-            'Admin\Controller\Index'   => 'Admin\Controller\IndexController'
+            'Admin\Controller\Index'    => 'Admin\Controller\IndexController',
+            'Admin\Controller\System'    => 'Admin\Controller\SystemController'
         ),
     ),
     //Пути

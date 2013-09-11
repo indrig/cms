@@ -4,11 +4,11 @@ namespace Admin\Controller;
 use Zend\Mvc\MvcEvent,
     Core\Controller\AbstractController;
 
-class IndexController extends AbstractController
+class SystemController extends AbstractController
 {
     public function onDispatch(MvcEvent $e)
     {
-        if(!$this->isAllowed('read'))
+        if(!$this->isAllowed('setting'))
         {
             return $this->notFoundAction();
         }

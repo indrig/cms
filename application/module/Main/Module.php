@@ -12,6 +12,7 @@ namespace Main;
 use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
+    Zend\Console\Console,
     Core\AbstractModule;
 
 class Module extends AbstractModule
@@ -70,11 +71,14 @@ class Module extends AbstractModule
         $moduleRouteListener->attach($eventManager);
 
         //Применение настроик
-        $this->setupView();
+        if(!Console::isConsole())
+        {
+            $this->setupView();
+        }
 //var_dump(get_class($e->getViewModel()));
         //
         ///////////////////////////////////////////////////////////////////////
-        $e->getViewModel()->setTemplate('default/template.phtml');
+
 
         //
         $eventManager->attach(MvcEvent::EVENT_FINISH,
@@ -103,7 +107,11 @@ class Module extends AbstractModule
          *  @var \Main\Model\SettingTable $setting
          */
         $setting = $this->table('setting');
+
         $viewHelper = $this->getView();
+
+        //  Установка шаблона страницы
+        $this->getViewModel()->setTemplate($setting->get('main', 'template', 'default').'/template.phtml');
 
         //  Установка параметров страницы
         $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle', ''));
