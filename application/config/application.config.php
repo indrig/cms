@@ -6,7 +6,8 @@ return array(
         //CMS Modules
         'Main',
         'User',
-        'Admin'
+        'Admin',
+        'Content'
     ),
 
 
