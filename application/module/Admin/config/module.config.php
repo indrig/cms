@@ -43,16 +43,7 @@ return array(
                                     )
                                 )
                             ),
-                            'module' => array(
-                                'type'    => 'Literal',
-                                'options' => array(
-                                    'route'    => '/module',
-                                    'defaults' => array(
-                                        'controller' => 'Admin\Controller\Module',
-                                        'action'        => 'index',
-                                    )
-                                )
-                            )
+
                         )
                     )
                 )
@@ -76,10 +67,6 @@ return array(
                         'privilege' => 'setting',
                         'route'    => 'admin/system',
                         'pages' => array(
-                            array(
-                                'label'     => 'Modules',
-                                'route'     => 'admin/system/module',
-                            ),
                             array(
                                 'label'     => 'Settings',
                                 'route'     => 'admin/system/settings',

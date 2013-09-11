@@ -111,7 +111,7 @@ class Module extends AbstractModule
         $viewHelper = $this->getView();
 
         //  Установка шаблона страницы
-        $this->getViewModel()->setTemplate($setting->get('main', 'template', 'default').'/template.phtml');
+        $this->getViewModel()->setTemplate($setting->get('main', 'template', 'default').'/layout/layout.phtml');
 
         //  Установка параметров страницы
         $viewHelper->get('headTitle')->set($setting->get('main', 'headTitle', ''));

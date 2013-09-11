@@ -1,11 +1,24 @@
 <?php
-/**
- * @var \Admin\Form\Setting $form
- */
+
 ?>
 <div class="container">
     <div class="page-header">
         <h1><?=$this->translate('System')?></h1>
     </div>
     <?=$this->navigation('Navigation')->breadcrumbs(); ?>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?=$this->translate('Tools')?>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="<?=$this->url('admin/system/settings')?>"><?=$this->translate('Settings')?></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
