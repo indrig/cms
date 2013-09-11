@@ -199,7 +199,6 @@ class PhpRenderer implements Renderer, TreeRendererInterface
         if (null === $this->__templateResolver) {
             $this->setResolver(new TemplatePathStack());
         }
-
         if (null !== $name) {
             return $this->__templateResolver->resolve($name, $this);
         }
@@ -446,6 +445,8 @@ class PhpRenderer implements Renderer, TreeRendererInterface
      */
     public function render($nameOrModel, $values = null)
     {
+       // var_dump($nameOrModel);
+       // exit;
         if ($nameOrModel instanceof Model) {
             $model       = $nameOrModel;
             $nameOrModel = $model->getTemplate();
@@ -492,8 +493,9 @@ class PhpRenderer implements Renderer, TreeRendererInterface
         }
         extract($__vars);
         unset($__vars); // remove $__vars from local scope
-
+//var_dump($this->__templates);
         while ($this->__template = array_pop($this->__templates)) {
+
             $this->__file = $this->resolver($this->__template);
             if (!$this->__file) {
                 throw new Exception\RuntimeException(sprintf(

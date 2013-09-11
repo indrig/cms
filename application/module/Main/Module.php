@@ -12,9 +12,7 @@ namespace Main;
 use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
-    Zend\ModuleManager\ModuleEvent,
-    Core\AbstractModule,
-    Zend\ModuleManager\ModuleManager;
+    Core\AbstractModule;
 
 class Module extends AbstractModule
 {
@@ -73,7 +71,12 @@ class Module extends AbstractModule
 
         //Применение настроик
         $this->setupView();
+//var_dump(get_class($e->getViewModel()));
+        //
+        ///////////////////////////////////////////////////////////////////////
+        $e->getViewModel()->setTemplate('default/template.phtml');
 
+        //
         $eventManager->attach(MvcEvent::EVENT_FINISH,
             function(MvcEvent $e)
             {
@@ -86,37 +89,6 @@ class Module extends AbstractModule
                     ));
                 }
             }, 500);
-
-        //Загрузка прочих модулей
-        ///////////////////////////////////////////////////////////////////////
-
-        /**
-         * @var \Zend\ModuleManager\ModuleManager $moduleManager
-         */
-      //  $moduleManager =$this->service('ModuleManager');
-
-       /* $activeModules = $moduleTable->getActive();
-        foreach($activeModules as $moduleName)
-        {
-            $moduleManager->loadModule($moduleName);
-        }*/
-
-        //$moduleManager->getEventManager()->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, array($this, 'onLoadModules'));
-
-        /**
-         * @var \Zend\ModuleManager\ModuleManager $moduleManager
-         */
-      //  $moduleManager =$this->service('ModuleManager');
-        /**
-         * @var \Main\Model\ModuleTable $moduleTable
-         */
-        //Вставка данных в дб
-        /*$moduleTable = $this->table('module');
-        $activeModules = $moduleTable->getActive();
-        foreach($activeModules as $moduleName)
-        {
-            $moduleManager->loadModule($moduleName);
-        }*/
     }
 
     /**
@@ -138,20 +110,6 @@ class Module extends AbstractModule
         $navigation = $viewHelper->get('navigation');
         $navigation->menu()->setPartial('partial/menu');
         $navigation->breadcrumbs()->setPartial('partial/breadcrumbs');
-
-        /**
-         * @var \Zend\Mvc\View\Http\DefaultRenderingStrategy $renderingStrategy
-         */
-        $renderingStrategy = $this->service('DefaultRenderingStrategy');
-        if(file_exists(__DIR__.'/view/layout/layout.phtml'))
-        {
-
-        }
-
-        //var_dump($renderingStrategy->getLayoutTemplate());
-       // $renderingStrategy->setLayoutTemplate(__DIR__.'/view/layout/layout2.phtml');
-      //  var_dump($renderingStrategy->getLayoutTemplate());
-//        $viewManager->getViewModel()->setTemplate();
 
     }
 

@@ -5,40 +5,32 @@ use User\Model\UserTable,
     Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\ServiceManager\ServiceLocatorInterface,
-    Zend\ModuleManager\ModuleEvent,
     Zend\ModuleManager\ModuleManagerInterface,
-    Core\AbstractModule;
+    Core\AbstractModule,
+    Zend\Console\Console;
 
 class Module extends AbstractModule
 {
-
     public function onBootstrap(MvcEvent $e)
     {
         parent::onBootstrap($e);
 
-        /**
-         * @var \User\Adapter\Authentication $Authentication
-         */
-        $Authentication = $this->service('Authentication');
-        $Authentication->initialize();
-
-        //Установка ролей для навигации
-        ///////////////////////////////////////////////////////////////////////
-        \Zend\View\Helper\Navigation\AbstractHelper::setDefaultAcl($this->service('Acl'));
-        if(($role = $Authentication->getRole()) !== false)
+        if(!Console::isConsole())
         {
-            \Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole($role);
+             /**
+             * @var \User\Adapter\Authentication $Authentication
+             */
+            $Authentication = $this->service('Authentication');
+            $Authentication->initialize();
+
+            //Установка ролей для навигации
+            ///////////////////////////////////////////////////////////////////////
+            \Zend\View\Helper\Navigation\AbstractHelper::setDefaultAcl($this->service('Acl'));
+            if(($role = $Authentication->getRole()) !== false)
+            {
+                \Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole($role);
+            }
         }
-
-    }
-
-    public function init(ModuleManagerInterface $moduleManager)
-    {
-        /**
-         * @var \User\Permissions\Acl $Acl
-         */
-
-
     }
 
     public function getConfig()
@@ -73,6 +65,7 @@ class Module extends AbstractModule
                 'table_role_privilege'      => 'User\Model\RolePrivilegeTable',
 			),
             'factories' => array(
+                //Авторизация
                 'User\Adapter\Authentication' => function(ServiceLocatorInterface $sm)
                 {
                     return new Adapter\Authentication($sm);
@@ -87,7 +80,8 @@ class Module extends AbstractModule
                 {
                     return new Permissions\Acl($sm);
                 },
-                //
+
+                //  Таблицы
                 ///////////////////////////////////////////////////////////////
                 'User\Model\UserTable' => function(ServiceLocatorInterface $sm)
                 {
