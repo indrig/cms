@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 
 use Zend\Mvc\MvcEvent,
-    Core\Controller\AbstractController,
+    Engine\Controller\AbstractController,
     Admin\Form\Setting;
 
 class SettingController extends AbstractController

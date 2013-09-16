@@ -1,5 +1,5 @@
 <?php
-use Core\SetupInterface,
+use Engine\SetupInterface,
     Zend\ServiceManager\ServiceLocatorInterface;
 
 

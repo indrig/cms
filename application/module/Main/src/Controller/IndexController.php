@@ -1,7 +1,7 @@
 <?php
 namespace Main\Controller;
 
-use Core\Controller\AbstractController;
+use Engine\Controller\AbstractController;
 
 /**
  *  @method \User\Adapter\Authentication user()

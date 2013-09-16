@@ -7,16 +7,16 @@
 return array(
     'view_helpers' => array(
         'invokables' => array(
-            'table'                => 'Core\Table\View\Helper\Table',
-            'tablecell'            => 'Core\Table\View\Helper\TableCell',
-            'tablerow'             => 'Core\Table\View\Helper\TableRow',
-            'tableheader'          => 'Core\Table\View\Helper\TableHeader',
+            'table'                => 'Engine\Table\View\Helper\Table',
+            'tablecell'            => 'Engine\Table\View\Helper\TableCell',
+            'tablerow'             => 'Engine\Table\View\Helper\TableRow',
+            'tableheader'          => 'Engine\Table\View\Helper\TableHeader',
 
             //Forms
 
-            'tbform'               => 'Core\Form\View\Helper\Form',
-            'tbformrow'            => 'Core\Form\View\Helper\FormRow',
-            'tbformcollection'     => 'Core\Form\View\Helper\FormCollection',
+            'tbform'               => 'Engine\Form\View\Helper\Form',
+            'tbformrow'            => 'Engine\Form\View\Helper\FormRow',
+            'tbformcollection'     => 'Engine\Form\View\Helper\FormCollection',
         )
     ),
 );

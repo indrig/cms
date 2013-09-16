@@ -13,7 +13,7 @@ use Zend\Mvc\ModuleRouteListener,
     Zend\Mvc\MvcEvent,
     Zend\Http\AbstractMessage,
     Zend\Console\Console,
-    Core\AbstractModule;
+    Engine\AbstractModule;
 
 class Module extends AbstractModule
 {

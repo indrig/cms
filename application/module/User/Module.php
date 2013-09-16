@@ -6,7 +6,7 @@ use User\Model\UserTable,
     Zend\Mvc\MvcEvent,
     Zend\ServiceManager\ServiceLocatorInterface,
     Zend\ModuleManager\ModuleManagerInterface,
-    Core\AbstractModule,
+    Engine\AbstractModule,
     Zend\Console\Console;
 
 class Module extends AbstractModule

@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Feed\Writer\Extension\DublinCore\Renderer;
+namespace Zend\Feed\Writer\Extension\DublinEngine\Renderer;
 
 use DOMDocument;
 use DOMElement;

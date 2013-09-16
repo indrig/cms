@@ -6,7 +6,7 @@
  */
 namespace SiteMap\Controller;
 
-use Core\Controller\AbstractController;
+use Engine\Controller\AbstractController;
 
 class IndexController extends AbstractController
 {

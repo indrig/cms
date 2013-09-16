@@ -1,7 +1,7 @@
 <?php
 namespace News;
 
-use Core\AbstractModule;
+use Engine\AbstractModule;
 
 class Module extends AbstractModule
 {

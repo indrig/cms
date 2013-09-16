@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Core\Controller\AbstractController,
+use Engine\Controller\AbstractController,
     User\Table\UserList,
     Zend\Mvc\MvcEvent;
 

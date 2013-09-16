@@ -7,7 +7,7 @@
 
 namespace Main\Model;
 
-use Core\Db\TableGateway,
+use Engine\Db\TableGateway,
     Zend\Db\Adapter\AdapterInterface,
     Zend\Db\ResultSet\ResultSet,
     Zend\Cache\Storage\StorageInterface,

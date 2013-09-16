@@ -47,7 +47,7 @@ class Rss extends AbstractEntry implements EntryInterface
 
         $manager    = Reader\Reader::getExtensionManager();
         $extensions = array(
-            'DublinCore\Entry',
+            'DublinEngine\Entry',
             'Content\Entry',
             'Atom\Entry',
             'WellFormedWeb\Entry',

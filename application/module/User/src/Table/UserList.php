@@ -1,8 +1,8 @@
 <?php
 namespace User\Table;
 
-use Core\Table\Table,
-    Core\Table\Adapter\DbTableGateway,
+use Engine\Table\Table,
+    Engine\Table\Adapter\DbTableGateway,
     Zend\Http\Request;
 class UserList extends Table
 {

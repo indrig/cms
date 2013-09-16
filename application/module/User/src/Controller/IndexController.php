@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Core\Controller\AbstractController,
+use Engine\Controller\AbstractController,
     Zend\Authentication\Result,
     User\Form\SignIn,
     User\Form\SignUp;

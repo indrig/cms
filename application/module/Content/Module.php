@@ -1,7 +1,7 @@
 <?php
 namespace Content;
 
-use Core\AbstractModule,
+use Engine\AbstractModule,
     Zend\Mvc\MvcEvent;
 
 class Module extends AbstractModule

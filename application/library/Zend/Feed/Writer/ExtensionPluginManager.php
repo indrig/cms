@@ -26,8 +26,8 @@ class ExtensionPluginManager extends AbstractPluginManager
     protected $invokableClasses = array(
         'atomrendererfeed'           => 'Zend\Feed\Writer\Extension\Atom\Renderer\Feed',
         'contentrendererentry'       => 'Zend\Feed\Writer\Extension\Content\Renderer\Entry',
-        'dublincorerendererentry'    => 'Zend\Feed\Writer\Extension\DublinCore\Renderer\Entry',
-        'dublincorerendererfeed'     => 'Zend\Feed\Writer\Extension\DublinCore\Renderer\Feed',
+        'dublincorerendererentry'    => 'Zend\Feed\Writer\Extension\DublinEngine\Renderer\Entry',
+        'dublincorerendererfeed'     => 'Zend\Feed\Writer\Extension\DublinEngine\Renderer\Feed',
         'itunesentry'                => 'Zend\Feed\Writer\Extension\ITunes\Entry',
         'itunesfeed'                 => 'Zend\Feed\Writer\Extension\ITunes\Feed',
         'itunesrendererentry'        => 'Zend\Feed\Writer\Extension\ITunes\Renderer\Entry',

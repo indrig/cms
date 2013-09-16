@@ -2,8 +2,8 @@
 namespace Admin\Controller;
 
 use Zend\Mvc\MvcEvent,
-    Core\Controller\AbstractController,
-    Core\SetupInterface;
+    Engine\Controller\AbstractController,
+    Engine\SetupInterface;
 
 class ModuleController extends AbstractController
 {
@@ -38,7 +38,7 @@ class ModuleController extends AbstractController
         foreach($availableModules as $moduleName => $modulePath)
         {
             /**
-             * @var \Core\SetupInterface $setup
+             * @var \Engine\SetupInterface $setup
              */
             $setup = include $modulePath.'/Setup.php';
             if($setup instanceof SetupInterface)

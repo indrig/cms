@@ -6,7 +6,7 @@
  */
 namespace User\Model\Entity;
 
-use Core\Db\RowGateway;
+use Engine\Db\RowGateway;
 
 class Role extends RowGateway
 {

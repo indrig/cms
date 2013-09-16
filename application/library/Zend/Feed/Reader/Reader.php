@@ -74,19 +74,19 @@ class Reader
 
     protected static $extensions = array(
         'feed' => array(
-            'DublinCore\Feed',
+            'DublinEngine\Feed',
             'Atom\Feed'
         ),
         'entry' => array(
             'Content\Entry',
-            'DublinCore\Entry',
+            'DublinEngine\Entry',
             'Atom\Entry'
         ),
         'core' => array(
-            'DublinCore\Feed',
+            'DublinEngine\Feed',
             'Atom\Feed',
             'Content\Entry',
-            'DublinCore\Entry',
+            'DublinEngine\Entry',
             'Atom\Entry'
         )
     );
@@ -619,19 +619,19 @@ class Reader
         static::$extensionManager   = null;
         static::$extensions         = array(
             'feed' => array(
-                'DublinCore\Feed',
+                'DublinEngine\Feed',
                 'Atom\Feed'
             ),
             'entry' => array(
                 'Content\Entry',
-                'DublinCore\Entry',
+                'DublinEngine\Entry',
                 'Atom\Entry'
             ),
             'core' => array(
-                'DublinCore\Feed',
+                'DublinEngine\Feed',
                 'Atom\Feed',
                 'Content\Entry',
-                'DublinCore\Entry',
+                'DublinEngine\Entry',
                 'Atom\Entry'
             )
         );

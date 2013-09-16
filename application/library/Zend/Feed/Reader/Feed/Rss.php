@@ -32,11 +32,11 @@ class Rss extends AbstractFeed
 
         $manager = Reader\Reader::getExtensionManager();
 
-        $feed = $manager->get('DublinCore\Feed');
+        $feed = $manager->get('DublinEngine\Feed');
         $feed->setDomDocument($dom);
         $feed->setType($this->data['type']);
         $feed->setXpath($this->xpath);
-        $this->extensions['DublinCore\Feed'] = $feed;
+        $this->extensions['DublinEngine\Feed'] = $feed;
 
         $feed = $manager->get('Atom\Feed');
         $feed->setDomDocument($dom);

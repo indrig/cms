@@ -34,11 +34,11 @@ class Atom extends AbstractFeed
         $atomFeed->setXpath($this->xpath);
         $this->extensions['Atom\\Feed'] = $atomFeed;
 
-        $atomFeed = $manager->get('DublinCore\Feed');
+        $atomFeed = $manager->get('DublinEngine\Feed');
         $atomFeed->setDomDocument($dom);
         $atomFeed->setType($this->data['type']);
         $atomFeed->setXpath($this->xpath);
-        $this->extensions['DublinCore\\Feed'] = $atomFeed;
+        $this->extensions['DublinEngine\\Feed'] = $atomFeed;
 
         foreach ($this->extensions as $extension) {
             $extension->setXpathPrefix('/atom:feed');
