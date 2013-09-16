@@ -13,7 +13,7 @@ Zend\Loader\AutoloaderFactory::factory(
 		'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf'   => true,
                 'namespaces'        => array(
-                    'Core'        => 'library/Core'
+                    'Engine'        => 'library/Engine'
                 )
         )
     )

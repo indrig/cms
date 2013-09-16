@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Engine;
 
 use Zend\Mvc\MvcEvent,
     Zend\ServiceManager\ServiceLocatorInterface;

@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Engine;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
